@@ -1,5 +1,5 @@
 {
-  "name": "payu/payu-mea-sdk-php",
+  "name": "payu-mea/payu-mea-sdk-php",
   "description": "PayU EMEA Secure Payments PHP SDK",
   "type": "library",
   "homepage": "https://payu.co.za/",
