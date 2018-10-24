@@ -182,10 +182,12 @@ function getBaseUrl()
         return "http://localhost" . $relativePath;
     }
     $protocol = 'http';
+
     if ($_SERVER['SERVER_PORT'] == 443 || (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on')) {
         $protocol .= 's';
     }
     $host = $_SERVER['HTTP_HOST'];
     $request = $_SERVER['PHP_SELF'];
+
     return dirname($protocol . '://' . $host . $request);
 }
