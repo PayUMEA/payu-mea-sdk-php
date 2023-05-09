@@ -1,22 +1,19 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: kenny
- * Date: 12/16/16
- * Time: 5:19 PM
+ * Copyright © 2023 PayU Financial Services. All rights reserved.
+ * See LICENSE for license details.
  */
 
-namespace PayU\Conversion;
+declare(strict_types=1);
+
+namespace PayU\Framework;
+
+use InvalidArgumentException;
 
 /**
  * Class Formatter
  *
- * @package PayU\Exception
- * @copyright  Copyright (c) 2016 PayU
- * @license    http://opensource.org/licenses/LGPL-3.0  Open Software License (LGPL 3.0)
- * @link http://www.payu.co.za
- * @link http://help.payu.co.za/developers
- * @author Kenneth Onah <kenneth@netcraft-devops.com>
+ * @package PayU\Framework
  */
 class Formatter
 {
@@ -27,7 +24,7 @@ class Formatter
      * @param $formatter
      * @return string
      */
-    public static function format($value, $formatter)
+    public static function format($value, $formatter): string
     {
         return sprintf($formatter, $value);
     }
@@ -37,17 +34,13 @@ class Formatter
      *
      * Defaults to no decimal places
      *
-     * @param     $value
+     * @param float $amount
      * @param int $decimals
-     * @return float|int|string|null
+     * @return int
      */
-    public static function formatToInteger($value, int $decimals = 2): float|int|string|null
+    public static function formatToInteger(float $amount, int $decimals = 2): int
     {
-        if (trim($value) != null) {
-            return number_format($value, $decimals, '.', '') * 100;
-        }
-
-        return null;
+        return (int)(number_format($amount, $decimals, '.', '') * 100);
     }
 
     /**
@@ -56,25 +49,29 @@ class Formatter
      * It covers the cases where certain currencies does not accept decimal values. We will be adding
      * any specific currency level rules as required here.
      *
-     * @param      $value
+     * @param float $amount
      * @param null $currency
-     * @return null|string
+     * @return ?string
      */
-    public static function formatToPrice($value, $currency = null)
+    public static function formatToPrice(float $amount, $currency = null): ?string
     {
         $decimals = 2;
-        $currencyDecimals = array('JPY' => 0, 'TWD' => 0);
+        $currencyDecimals = ['JPY' => 0, 'TWD' => 0];
+        $value = sprintf("%.3f", $amount);
+
         if ($currency && array_key_exists($currency, $currencyDecimals)) {
-            if (strpos($value, ".") !== false && (floor($value) != $value)) {
+            if (str_contains($value, ".") && (floor($amount) != $amount)) {
                 //throw exception if it has decimal values for JPY and TWD which does not ends with .00
-                throw new \InvalidArgumentException("value cannot have decimals for $currency currency");
+                throw new InvalidArgumentException("value cannot have decimals for $currency currency");
             }
+
             $decimals = $currencyDecimals[$currency];
-        } elseif (strpos($value, ".") === false) {
+        } elseif (!str_contains($value, ".")) {
             // Check if value has decimal values. If not no need to assign 2 decimals with .00 at the end
             $decimals = 0;
         }
-        return self::formatToDecimal($value, $decimals);
+
+        return self::formatToDecimal($amount, $decimals);
     }
 
     /**
@@ -82,15 +79,12 @@ class Formatter
      *
      * Defaults to 2 decimal places
      *
-     * @param     $value
+     * @param float $value
      * @param int $decimals
      * @return null|string
      */
-    public static function formatToDecimal($value, $decimals = 2)
+    public static function formatToDecimal(float $value, int $decimals = 2): ?string
     {
-        if (trim($value) != null) {
-            return number_format($value, $decimals, '.', '');
-        }
-        return null;
+        return number_format($value, $decimals, '.', '');
     }
 }

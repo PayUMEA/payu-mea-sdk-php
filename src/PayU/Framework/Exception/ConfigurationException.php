@@ -1,30 +1,27 @@
 <?php
 /**
- * PayU MEA PHP SDK
- *
- * @copyright  Copyright (c) 2016 PayU
- * @license    http://opensource.org/licenses/LGPL-3.0  Open Software License (LGPL 3.0)
- * @link http://www.payu.co.za
- * @link http://help.payu.co.za/developers
- * @author Kenneth Onah <kenneth@netcraft-devops.com>
+ * Copyright © 2023 PayU Financial Services. All rights reserved.
+ * See LICENSE for license details.
  */
 
-namespace PayU\Exception;
+declare(strict_types=1);
+
+namespace PayU\Framework\Exception;
 
 /**
  * Class ConfigurationException
  *
- * @package PayU\Exception
+ * @package PayU\Framework\Exception
  */
-class ConfigurationException extends PayUException
+class ConfigurationException extends \Exception
 {
     /**
      * Default Constructor
      *
-     * @param string|null $message
+     * @param ?string $message
      * @param int $code
      */
-    public function __construct($message = null, $code = 0)
+    public function __construct(?string $message = null, int $code = 0)
     {
         parent::__construct($message, $code);
     }

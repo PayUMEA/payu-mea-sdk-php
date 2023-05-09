@@ -9,11 +9,11 @@ declare(strict_types=1);
 namespace PayU\Framework\Exception;
 
 /**
- * Class MissingCredentialException
+ * Class InvalidCredentialException
  *
  * @package PayU\Framework\Exception
  */
-class MissingCredentialException extends \Exception
+class InvalidCredentialException extends \Exception
 {
     /**
      * Default Constructor
@@ -24,16 +24,5 @@ class MissingCredentialException extends \Exception
     public function __construct(?string $message = null, int $code = 0)
     {
         parent::__construct($message, $code);
-    }
-
-    /**
-     * prints error message
-     *
-     * @return string
-     */
-    public function errorMessage(): string
-    {
-        return 'Error in line ' . $this->getLine() . ' in ' . $this->getFile()
-            . ': <b>' . $this->getMessage() . '</b>';
     }
 }

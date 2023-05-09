@@ -6,15 +6,13 @@
 
 declare(strict_types=1);
 
-namespace PayU\Framework\Action;
+namespace PayU\Framework\Exception;
 
 /**
- * Class Refund
+ * Class LocalizedException
  *
- * Refund action.
- *
- * @package PayU\Framework\Action
+ * @package PayU\Framework\Exception
  */
-class Refund extends BaseAction
+class LocalizedException extends \RuntimeException
 {
 }

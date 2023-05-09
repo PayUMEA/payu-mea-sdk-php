@@ -18,13 +18,13 @@ use PayU\Framework\Authentication;
 use PayU\Framework\Exception\InvalidCredentialException;
 
 /**
- * Class ApiContext
+ * Class Context
  *
  * Call level parameters such as credentials, request-id etc
  *
  * @package PayU\Soap
  */
-class ApiContext
+class Context
 {
     const ENTERPRISE = 'enterprise';
     const REDIRECT = 'redirect';
@@ -59,7 +59,7 @@ class ApiContext
      *
      * @param ?Authentication $credential
      */
-    public function __construct(protected readonly ?Authentication $credential = null)
+    public function __construct(protected ?Authentication $credential = null)
     {
     }
 
@@ -73,7 +73,7 @@ class ApiContext
     public function getCredential(): ?Authentication
     {
         if (null == $this->credential) {
-            return CredentialManager::getInstance()->getCredentialObject();
+            $this->credential = CredentialManager::getInstance()->getCredentialObject();
         }
 
         return $this->credential;
@@ -113,7 +113,7 @@ class ApiContext
     /**
      * Resets the requestId that can be used to set the PayU-request-id
      * header used for idempotency. In cases where you need to make multiple create calls
-     * using the same ApiContext object, you need to reset request Id.
+     * using the same Context object, you need to reset request Id.
      *
      * @return ?string
      */
@@ -126,7 +126,7 @@ class ApiContext
 
     /**
      * Generates a unique per-request id that
-     * can be used to set the PayU-Request-Id header
+     * can be used to set the PayU-BuilderComposite-Id header
      * that is used for idempotency
      *
      * @return string
@@ -152,7 +152,7 @@ class ApiContext
     }
 
     /**
-     * Get the Request ID
+     * Get the BuilderComposite ID
      *
      * @return string|null
      */

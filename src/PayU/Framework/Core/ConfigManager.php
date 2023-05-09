@@ -6,15 +6,14 @@
 
 declare(strict_types=1);
 
-namespace PayU\Core;
+namespace PayU\Framework\Core;
 
 /**
  * class ConfigManager
  *
- * ConfigManager loads the SDK configuration file and
- * hands out appropriate config params to other classes
+ * ConfigManager loads the SDK configuration (in PHP ini format) file
  *
- * @package PayU\Core
+ * @package PayU\Framework\Core
  */
 class ConfigManager
 {
@@ -101,9 +100,9 @@ class ConfigManager
      * does a "contains" search on the key
      *
      * @param string $searchKey
-     * @return array|string
+     * @return array|string|bool
      */
-    public function get(string $searchKey): array|string
+    public function get(string $searchKey): array|string|bool
     {
         if (array_key_exists($searchKey, $this->configs)) {
             return $this->configs[$searchKey];

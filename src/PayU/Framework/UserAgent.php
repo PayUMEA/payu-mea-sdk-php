@@ -9,14 +9,14 @@
  * @author     Kenneth Onah <kenneth@netcraft-devops.com>
  */
 
-namespace PayU\Model;
+namespace PayU\Framework;
 
 /**
  * Class UserAgent
  *
- * UserAgent generates User Agent for curl requests
+ * Generates User Agent for curl requests
  *
- * @package PayU\Model
+ * @package PayU\Framework
  */
 class UserAgent
 {
@@ -33,7 +33,7 @@ class UserAgent
         $featureList = array(
             'platform-ver=' . PHP_VERSION,
             'bit=' . self::_getPHPBit(),
-            'os=' . str_replace(' ', '_', php_uname('s') . ' ' . php_uname('r')),
+            'os=' . str_replace(' ', '_', php_uname('s') . ' UserAgent.php' . php_uname('r')),
             'machine=' . php_uname('m')
         );
         if (extension_loaded('soap')) {
@@ -41,7 +41,7 @@ class UserAgent
             $featureList[] = 'soap=' . $soapVersion;
         }
 
-        return sprintf("PayUSDK/%s %s (%s)", $sdkName, $sdkVersion, implode('; ', $featureList));
+        return sprintf("PayU SDK/%s %s (%s)", $sdkName, $sdkVersion, implode('; ', $featureList));
     }
 
     /**

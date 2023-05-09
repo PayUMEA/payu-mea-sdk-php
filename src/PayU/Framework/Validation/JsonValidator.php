@@ -9,14 +9,14 @@
  * @author Kenneth Onah <kenneth@netcraft-devops.com>
  */
 
-namespace PayU\Validation;
+namespace PayU\Framework\Validation;
 
 use InvalidArgumentException;
 
 /**
  * Class JsonValidator
  *
- * @package PayU\Validation
+ * @package PayU\Framework\Validation
  */
 class JsonValidator
 {

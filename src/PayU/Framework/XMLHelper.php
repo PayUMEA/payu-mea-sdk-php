@@ -9,13 +9,13 @@
  * @author     Kenneth Onah <kenneth@netcraft-devops.com>
  */
 
-namespace PayU\Model;
+namespace PayU\Framework;
 
 use PayU\Validation\JsonValidator;
 
 /**
  * Class XmlHelper
- * @package PayU\Model
+ * @package PayU\Framework
  */
 class XMLHelper
 {
@@ -24,7 +24,7 @@ class XMLHelper
      *
      * @return array|bool
      */
-    public static function parseXMLToArray($xml)
+    public static function parseXMLToArray(string $xml): bool|array
     {
         if (empty($xml)) {
             return false;

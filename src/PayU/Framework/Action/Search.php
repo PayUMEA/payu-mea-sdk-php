@@ -14,13 +14,13 @@ use PayU\Framework\Exception\InvalidCredentialException;
 use SoapFault;
 
 /**
- * Class Capture
+ * Class Search
  *
- * A capture action.
+ * Search for a transaction on the payment gateway
  *
  * @package PayU\Framework\Action
  */
-class Capture extends BaseAction
+class Search extends BaseAction
 {
     /**
      * @param string $action
@@ -31,7 +31,7 @@ class Capture extends BaseAction
      */
     public function execute(string $action): ResponseInterface
     {
-        return $this->adapter->capture(
+        return $this->adapter->get(
             [
                 'subject' => $this,
                 'action' => $action,

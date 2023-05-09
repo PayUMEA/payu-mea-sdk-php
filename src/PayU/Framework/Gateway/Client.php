@@ -1,12 +1,14 @@
 <?php
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
- * See COPYING.txt for license details.
+ * See LICENSE for license details.
  */
 
-namespace PayU\Http;
+declare(strict_types=1);
 
-use PayU\Soap\ApiContext;
+namespace PayU\Framework\Gateway;
+
+use PayU\Framework\Soap\Context;
 use SoapClient;
 use SoapFault;
 use SOAPHeader;
@@ -15,14 +17,9 @@ use SoapVar;
 /**
  * Class SoapClient
  *
- * @package PayU\Client
- * @copyright  Copyright (c) 2016 PayU
- * @license    http://opensource.org/licenses/LGPL-3.0  Open Software License (LGPL 3.0)
- * @link http://www.payu.co.za
- * @link http://help.payu.co.za/developers
- * @author Kenneth Onah <kenneth@netcraft-devops.com>
+ * @package PayU\Framework\Gateway
  */
-class PayUSoapClient
+class Client
 {
     const API_VERSION = 'ONE_ZERO';
     const PAYU_NAMESPACE = 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd';
@@ -33,31 +30,21 @@ class PayUSoapClient
     private static ?SoapClient $soapClient = null;
 
     /**
-     * @var ApiContext
-     */
-    private ApiContext $apiContext;
-
-    /**
-     * @var Config
-     */
-    private Config $httpConfig;
-
-    /**
      * @var resource
      */
     private $streamContext;
 
     /**
-     * PayUSoapClient constructor.
+     * Client constructor.
      *
-     * @param ApiContext $apiContext
+     * @param Context $apiContext
      * @param Config $httpConfig
      * @throws SoapFault
      */
-    public function __construct(ApiContext $apiContext, Config $httpConfig)
-    {
-        $this->apiContext = $apiContext;
-        $this->httpConfig = $httpConfig;
+    public function __construct(
+        protected readonly Context $apiContext,
+        protected readonly Config  $httpConfig
+    ) {
         $this->streamContext = stream_context_create();
 
         // Create the stream_context and add it to the options
@@ -65,7 +52,7 @@ class PayUSoapClient
 
         // Create new SOAP client
         if (null === self::$soapClient) {
-            self::$soapClient = new SoapClient($httpConfig->getEndpointUrl(), $options);
+            self::$soapClient = new SoapClient($httpConfig->getGatewayUrl(), $options);
         }
 
         return $this;
@@ -78,15 +65,15 @@ class PayUSoapClient
      * @param array $payload the payment transaction details
      * @param array $httpHeaders
      *
-     * @return string
+     * @return array
      */
-    public function doAction(string $methodName, array $payload, array $httpHeaders): string
+    public function doAction(string $methodName, array $payload, array $httpHeaders): array
     {
         $this->setHttpHeader($httpHeaders);
         self::$soapClient->__setSoapHeaders($this->getAuthHeader());
         $response = self::$soapClient->$methodName($payload);
 
-        return json_encode($response);
+        return json_decode(json_encode($response), true);
     }
 
     /**
@@ -129,6 +116,9 @@ class PayUSoapClient
         return new SOAPHeader(self::PAYU_NAMESPACE, 'Security', $headerBody, true);
     }
 
+    /**
+     * @return string
+     */
     public function debugLog(): string
     {
         $string = "\n\n" . "SOAP CALL REQUEST HEADERS: " . self::$soapClient->__getLastRequestHeaders();

@@ -8,20 +8,37 @@ declare(strict_types=1);
 
 namespace PayU\Framework\Action;
 
+use PayU\Api\ActionInterface;
+use PayU\Api\AdapterInterface;
 use PayU\Api\ResponseInterface;
+use PayU\Framework\Data\DataObject;
+use PayU\Framework\Adapter;
 use PayU\Framework\Exception\ConfigurationException;
 use PayU\Framework\Exception\InvalidCredentialException;
 use SoapFault;
 
 /**
- * Class Capture
+ * Class BaseAction
  *
- * A capture action.
+ * Base class of all actions requested by the client
  *
- * @package PayU\Framework\Action
+ * @package PayU\Framework\Adapter
  */
-class Capture extends BaseAction
+abstract class BaseAction extends DataObject implements ActionInterface
 {
+    /**
+     * @param ?AdapterInterface $adapter
+     * @param array $data
+     */
+    public function __construct(
+        protected ?AdapterInterface $adapter = null,
+        array $data = []
+    ) {
+        $this->adapter = $this->adapter ?? new Adapter();
+
+        parent::__construct($data);
+    }
+
     /**
      * @param string $action
      * @return ResponseInterface
@@ -31,7 +48,7 @@ class Capture extends BaseAction
      */
     public function execute(string $action): ResponseInterface
     {
-        return $this->adapter->capture(
+        return $this->adapter->create(
             [
                 'subject' => $this,
                 'action' => $action,

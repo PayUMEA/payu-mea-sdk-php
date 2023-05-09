@@ -1,44 +1,20 @@
 <?php
 /**
- * PayU MEA PHP SDK
- *
- * @copyright  Copyright (c) 2016 PayU
- * @license    http://opensource.org/licenses/LGPL-3.0  Open Software License (LGPL 3.0)
- * @link http://www.payu.co.za
- * @link http://help.payu.co.za/developers
- * @author Kenneth Onah <kenneth@netcraft-devops.com>
+ * Copyright © 2023 PayU Financial Services. All rights reserved.
+ * See LICENSE for license details.
  */
 
-namespace PayU\Auth;
+declare(strict_types=1);
+
+namespace PayU\Framework;
 
 /**
- * Class BasicAuth
+ * Class Authentication
  *
  * @package PayU\Auth
  */
-class BasicAuth
+class Authentication
 {
-    /**
-     * Web service username as obtained from the safe shop portal
-     *
-     * @var string $username
-     */
-    private $username;
-
-    /**
-     * Web service password as obtained from the safe shop portal
-     *
-     * @var string $password
-     */
-    private $password;
-
-    /**
-     * Safe key as obtained from the safe shop portal
-     *
-     * @var string $safekey
-     */
-    private $safekey;
-
     /**
      * Construct
      *
@@ -46,11 +22,11 @@ class BasicAuth
      * @param string $password web service password obtained from the safe shop portal
      * @param string $safekey safe key obtained from the safe shop portal
      */
-    public function __construct($username, $password, $safekey)
-    {
-        $this->username = $username;
-        $this->password = $password;
-        $this->safekey = $safekey;
+    public function __construct(
+        protected string $username,
+        protected string $password,
+        protected string $safekey
+    ) {
     }
 
     /**
@@ -58,7 +34,7 @@ class BasicAuth
      *
      * @return string
      */
-    public function getUsername()
+    public function getUsername(): string
     {
         return $this->username;
     }
@@ -68,7 +44,7 @@ class BasicAuth
      *
      * @return string
      */
-    public function getPassword()
+    public function getPassword(): string
     {
         return $this->password;
     }
@@ -78,7 +54,7 @@ class BasicAuth
      *
      * @return string
      */
-    public function getSafekey()
+    public function getSafekey(): string
     {
         return $this->safekey;
     }

@@ -9,7 +9,7 @@
  * @author Kenneth Onah <kenneth@netcraft-devops.com>
  */
 
-namespace PayU\Validation;
+namespace PayU\Framework\Validation;
 
 use PayU\Exception\InvalidArgumentException;
 use PayU\Exception\RequiredArgumentException;
@@ -18,7 +18,7 @@ use PayU\Resource;
 /**
  * Class ParameterValidator
  *
- * @package PayU\Validation
+ * @package PayU\Framework\Validation
  */
 class ParameterValidator
 {

@@ -1,17 +1,14 @@
 <?php
 /**
- * PayU MEA PHP SDK
- *
- * @copyright  Copyright (c) 2016 PayU
- * @license    http://opensource.org/licenses/LGPL-3.0  Open Software License (LGPL 3.0)
- * @link       http://www.payu.co.za
- * @link       http://help.payu.co.za/developers
- * @author     Kenneth Onah <kenneth@netcraft-devops.com>
+ * Copyright © 2023 PayU Financial Services. All rights reserved.
+ * See LICENSE for license details.
  */
 
-namespace PayU\Http;
+declare(strict_types=1);
 
-use PayU\Exception\ConfigurationException;
+namespace PayU\Framework\Gateway;
+
+use PayU\Framework\Exception\ConfigurationException;
 
 /**
  * class Config
@@ -39,13 +36,15 @@ class Config
         'keep_alive' => false
     ];
 
+    /**
+     * @var array
+     */
     private array $headers = [];
 
+    /**
+     * @var array
+     */
     private array $soapOptions;
-
-    private ?string $endpointUrl;
-
-    private string $method;
 
     /***
      * Number of times to retry a failed HTTP call
@@ -55,15 +54,19 @@ class Config
     /**
      * Default Constructor
      *
-     * @param ?string $url
+     * @param ?string $gatewayUrl
      * @param string $method SOAP method (doTransaction, setTransaction etc) default doTransaction
      * @param array $configs All Configurations
      */
-    public function __construct(?string $url = null, string $method = 'doTransaction', array $configs = [])
-    {
-        $this->endpointUrl = $url;
-        $this->method = $method;
-        $this->soapOptions = $this->getHttpConstantsFromConfigs('http.', $configs) + $this->defaultSoapClientOptions;
+    public function __construct(
+        protected ?string $gatewayUrl = null,
+        protected string $method = 'doTransaction',
+        protected array $configs = []
+    ) {
+        $this->soapOptions = $this->getHttpConstantsFromConfigs(
+            'http.',
+            $configs
+            ) + $this->defaultSoapClientOptions;
     }
 
     /**
@@ -97,19 +100,19 @@ class Config
      *
      * @return ?string
      */
-    public function getEndpointUrl(): ?string
+    public function getGatewayUrl(): ?string
     {
-        return $this->endpointUrl;
+        return $this->gatewayUrl;
     }
 
     /**
      * Sets Url endpoint
      *
-     * @param string $endpointUrl
+     * @param string $gatewayUrl
      */
-    public function setEndpointUrl(string $endpointUrl): void
+    public function setGatewayUrl(string $gatewayUrl): void
     {
-        $this->endpointUrl = $endpointUrl;
+        $this->gatewayUrl = $gatewayUrl;
     }
 
     /**
@@ -127,7 +130,7 @@ class Config
      *
      * @return array
      */
-    public function getHeaders(): array
+    public function getHeaders()
     {
         return $this->headers;
     }
@@ -136,9 +139,8 @@ class Config
      * Set Headers
      *
      * @param array $headers
-     * @return void
      */
-    public function setHeaders(array $headers = array()): void
+    public function setHeaders(array $headers = array())
     {
         $this->headers = $headers;
     }
@@ -184,11 +186,11 @@ class Config
     }
 
     /**
-     * Gets all curl options
+     * Gets all SOAP options
      *
      * @return array
      */
-    public function getSoapOptions()
+    public function getSoapOptions(): array
     {
         return $this->soapOptions;
     }
@@ -196,11 +198,11 @@ class Config
     /**
      * Set SOAP Options. Overrides all SOAP options
      *
-     * @param $options
+     * @param array $options
      */
-    public function setSoapOptions($options)
+    public function setSoapOptions(array $options): void
     {
-        $this->curlOptions = $options;
+        $this->soapOptions = $options;
     }
 
     /**
@@ -209,7 +211,7 @@ class Config
      * @param string $name
      * @param mixed $value
      */
-    public function addSoapOption($name, $value)
+    public function addSoapOption(string $name, mixed $value): void
     {
         $this->soapOptions[$name] = $value;
     }
@@ -217,9 +219,9 @@ class Config
     /**
      * Removes a SOAP option from the list
      *
-     * @param $name
+     * @param string $name
      */
-    public function removeSoapOption($name)
+    public function removeSoapOption(string $name): void
     {
         unset($this->soapOptions[$name]);
     }
@@ -229,7 +231,7 @@ class Config
      *
      * @param string $userAgentString
      */
-    public function setUserAgent($userAgentString)
+    public function setUserAgent(string $userAgentString): void
     {
         $this->soapOptions['user_agent'] = $userAgentString;
     }
@@ -240,9 +242,10 @@ class Config
      * @param      $certPath
      * @param null $passPhrase
      */
-    public function setSSLCert($certPath, $passPhrase = null)
+    public function setSSLCert($certPath, $passPhrase = null): void
     {
         $this->soapOptions['local_cert'] = realpath($certPath);
+
         if (isset($passPhrase) && trim($passPhrase) != "") {
             $this->soapOptions['passphrase'] = $passPhrase;
         }
@@ -254,16 +257,20 @@ class Config
      * @param string $proxy format http://[username:password]@hostname[:port]
      * @throws ConfigurationException
      */
-    public function setHttpProxy($proxy)
+    public function setHttpProxy(string $proxy): void
     {
         $urlParts = parse_url($proxy);
-        if ($urlParts == false || !array_key_exists("host", $urlParts)) {
+
+        if (!$urlParts || !array_key_exists("host", $urlParts)) {
             throw new ConfigurationException("Invalid proxy configuration " . $proxy);
         }
+
         $this->soapOptions['proxy_host'] = $urlParts["host"];
+
         if (isset($urlParts["port"])) {
             $this->soapOptions['proxy_port'] = $urlParts["port"];
         }
+
         if (isset($urlParts["user"])) {
             $this->soapOptions['proxy_login'] = $urlParts["user"];
             $this->soapOptions['proxy_password'] = $urlParts["pass"];
@@ -275,7 +282,7 @@ class Config
      *
      * @param int $retryCount
      */
-    public function setHttpRetryCount($retryCount)
+    public function setHttpRetryCount(int $retryCount): void
     {
         $this->retryCount = $retryCount;
     }
@@ -285,7 +292,7 @@ class Config
      *
      * @return int
      */
-    public function getHttpRetryCount()
+    public function getHttpRetryCount(): int
     {
         return $this->retryCount;
     }

@@ -6,22 +6,17 @@
 
 declare(strict_types=1);
 
-namespace PayU\Core;
+namespace PayU\Framework\Core;
 
-use PayU\Log\PayUDefaultLogFactory;
+use PayU\Log\DefaultLogFactory;
 use Psr\Log\LoggerInterface;
 
 /**
  * Class LoggingManager
  *
- * Simple Logging Manager. This does an error_log for now
+ * Simple Logging Manager.
  *
- * @package PayU\Core
- * @copyright  Copyright (c) 2016 PayU
- * @license    http://opensource.org/licenses/LGPL-3.0  Open Software License (LGPL 3.0)
- * @link http://www.payu.co.za
- * @link http://help.payu.co.za/developers
- * @author Kenneth Onah <kenneth@netcraft-devops.com>
+ * @package PayU\Framework\Core
  */
 class LoggingManager
 {
@@ -57,9 +52,9 @@ class LoggingManager
         $factory = array_key_exists('log.adapter_factory', $config)
         && in_array('PayU\Log\PayULogFactory', (array)class_implements($config['log.adapter_factory']))
             ? $config['log.adapter_factory']
-            : '\PayU\Log\PayUDefaultLogFactory';
+            : '\PayU\Log\DefaultLogFactory';
 
-        /** @var PayUDefaultLogFactory $factoryInstance */
+        /** @var DefaultLogFactory $factoryInstance */
         $factoryInstance = new $factory();
         $this->logger = $factoryInstance->getLogger($loggerName);
         $this->loggerName = $loggerName;

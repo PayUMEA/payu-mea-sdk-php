@@ -9,12 +9,12 @@ declare(strict_types=1);
 namespace PayU\Framework\Action;
 
 /**
- * Class Refund
+ * Class Authorize
  *
- * Refund action.
+ * An authorization action with or without redirect to payment gateway.
  *
  * @package PayU\Framework\Action
  */
-class Refund extends BaseAction
+class Authorize extends BaseAction
 {
 }

@@ -9,12 +9,12 @@ declare(strict_types=1);
 namespace PayU\Framework\Action;
 
 /**
- * Class Refund
+ * Class VoidAuthorize
  *
- * Refund action.
+ * Void an authorize action.
  *
  * @package PayU\Framework\Action
  */
-class Refund extends BaseAction
+class VoidAuthorize extends BaseAction
 {
 }

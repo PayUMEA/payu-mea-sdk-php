@@ -1,45 +1,31 @@
 <?php
 /**
- * PayU MEA PHP SDK
- *
- * @copyright  Copyright (c) 2016 PayU
- * @license    http://opensource.org/licenses/LGPL-3.0  Open Software License (LGPL 3.0)
- * @link       http://www.payu.co.za
- * @link       http://help.payu.co.za/developers
- * @author     Kenneth Onah <kenneth@netcraft-devops.com>
+ * Copyright © 2023 PayU Financial Services. All rights reserved.
+ * See LICENSE for license details.
  */
 
 declare(strict_types=1);
 
-namespace PayU\Api;
+namespace PayU\Framework;
 
-use PayU\Framework\AbstractModel;
+use PayU\Api\Data\BasketInterface;
+use PayU\Api\Data\LookupDataInterface;
+use PayU\Api\Data\Secure3DInterface;
+use PayU\Api\ResponseInterface;
+use PayU\Model\Secure3D;
+use PayU\Model\Basket;
+use PayU\Model\LookupData;
+use PayU\Model\PaymentMethod;
+use PayU\Model\RecurringPayment;
 
 /**
  * Class Response
  *
  * Response class contains response from SOAP method call
  *
- * @package PayU\Api
- *
- * @property string displayMessage
- * @property string merchantReference
- * @property string payUReference
- * @property string resultCode
- * @property string resultMessage
- * @property boolean successful
- * @property string transactionType
- * @property string transactionState
- * @property \PayU\Api\Basket basket
- * @property \PayU\Api\Secure3D secure3D
- * @property \PayU\Api\CustomFields[] customFields
- * @property \PayU\Api\LookupData lookupData
- * @property \PayU\Api\PaymentMethod paymentMethodsUsed
- * @property \PayU\Api\RecurringPayment recurringDetails
- * @property \PayU\Api\BaseEft redirect
- * @property \PayU\Api\FraudService fraud
+ * @package PayU\Framework
  */
-class Response extends AbstractModel
+class Response extends AbstractModel implements ResponseInterface
 {
     /**
      * Checks if transaction is successful
@@ -48,17 +34,7 @@ class Response extends AbstractModel
      */
     public function getSuccessful(): bool
     {
-        return $this->successful;
-    }
-
-    /**
-     * Checks if transaction is successful
-     *
-     * @param bool $successful
-     */
-    public function setSuccessful(bool $successful)
-    {
-        $this->successful = $successful;
+        return $this->getData('successful');
     }
 
     /**
@@ -68,37 +44,17 @@ class Response extends AbstractModel
      */
     public function getDisplayMessage(): string
     {
-        return $this->displayMessage;
-    }
-
-    /**
-     * User friendly error display message
-     *
-     * @param string $displayMessage
-     */
-    public function setDisplayMessage(string $displayMessage)
-    {
-        $this->displayMessage = $displayMessage;
+        return $this->getData('displayMessage');
     }
 
     /**
      * PayU unique transaction identifier
      *
-     * @return string
+     * @return ?string
      */
-    public function getPayUReference(): string
+    public function getPayUReference(): ?string
     {
-        return $this->payUReference;
-    }
-
-    /**
-     * PayU unique transaction identifier
-     *
-     * @param $payUReference
-     */
-    public function setPayUReference($payUReference)
-    {
-        $this->payUReference = $payUReference;
+        return $this->getData('payUReference');
     }
 
     /**
@@ -108,20 +64,7 @@ class Response extends AbstractModel
      */
     public function getMerchantReference(): string
     {
-        return $this->merchantReference;
-    }
-
-    /**
-     * Merchant specified transaction identifier. Maybe unique or otherwise.
-     *
-     * @param string $merchantReference
-     * @return $this
-     */
-    public function setMerchantReference(string $merchantReference): static
-    {
-        $this->merchantReference = $merchantReference;
-
-        return $this;
+        return $this->getData('merchantReference');
     }
 
     /**
@@ -131,20 +74,7 @@ class Response extends AbstractModel
      */
     public function getResultCode(): string
     {
-        return $this->resultCode;
-    }
-
-    /**
-     * Result code of transaction
-     *
-     * @param string $resultCode
-     * @return $this
-     */
-    public function setResultCode(string $resultCode): static
-    {
-        $this->resultCode = $resultCode;
-
-        return $this;
+        return $this->getData('resultCode');
     }
 
     /**
@@ -154,20 +84,7 @@ class Response extends AbstractModel
      */
     public function getResultMessage(): string
     {
-        return $this->resultMessage;
-    }
-
-    /**
-     * Result message of transaction
-     *
-     * @param string $resultMessage
-     * @return $this
-     */
-    public function setResultMessage(string $resultMessage): static
-    {
-        $this->resultMessage = $resultMessage;
-
-        return $this;
+        return $this->getData('resultMessage');
     }
 
     /**
@@ -177,20 +94,7 @@ class Response extends AbstractModel
      */
     public function getTransactionType(): string
     {
-        return $this->transactionType;
-    }
-
-    /**
-     * Type of transaction
-     *
-     * @param string $transactionType
-     * @return $this
-     */
-    public function setTransactionType(string $transactionType): static
-    {
-        $this->transactionType = $transactionType;
-
-        return $this;
+        return $this->getData('transactionType');
     }
 
     /**
@@ -200,111 +104,55 @@ class Response extends AbstractModel
      */
     public function getTransactionState(): string
     {
-        return $this->transactionState;
-    }
-
-    /**
-     * Transaction state
-     *
-     * @param string $transactionState
-     * @return $this
-     */
-    public function setTransactionState(string $transactionState): static
-    {
-        $this->transactionState = $transactionState;
-
-        return $this;
+        return $this->getData('transactionState');
     }
 
     /**
      * Cart summary
      *
-     * @return \PayU\Api\Basket
+     * @return BasketInterface
      */
-    public function getBasket(): Basket
+    public function getBasket(): BasketInterface
     {
-        return $this->basket;
-    }
+        $basket = $this->getData('basket');
 
-    /**
-     * Cart summary
-     *
-     * @param Basket $basket
-     * @return $this
-     */
-    public function setBasket(Basket $basket): static
-    {
-        $this->basket = $basket;
-
-        return $this;
+        return new Basket($basket);
     }
 
     /**
      * Secure 3D
      *
-     * @return \PayU\Api\Secure3D
+     * @return Secure3DInterface
      */
-    public function getSecure3D(): Secure3D
+    public function getSecure3D(): Secure3DInterface
     {
-        return $this->secure3D;
-    }
+        $secure3d = $this->getData('secure3D');
 
-    /**
-     * Secure 3D
-     *
-     * @param Secure3D $secure3D
-     *
-     * @return $this
-     */
-    public function setSecure3D(Secure3D $secure3D): static
-    {
-        $this->secure3D = $secure3D;
-
-        return $this;
+        return new Secure3D($secure3d);
     }
 
     /**
      * Payment methods used by user to fund payment
      *
-     * @return \PayU\Api\PaymentMethod
+     * @return PaymentMethod
      */
     public function getPaymentMethodsUsed(): PaymentMethod
     {
-        return $this->paymentMethodsUsed;
-    }
+        $paymentMethodsUsed = $this->getData('paymentMethodsUsed');
 
-    /**
-     * Payment methods used by user to fund payment
-     *
-     * @param PaymentMethod $paymentMethodsUsed
-     *
-     * @return $this
-     */
-    public function setPaymentMethodsUsed(PaymentMethod $paymentMethodsUsed): static
-    {
-        $this->paymentMethodsUsed = $paymentMethodsUsed;
-
-        return $this;
+        return new PaymentMethod($paymentMethodsUsed);
     }
 
     /**
      * Debit order recurring payment details
      *
-     * @return \PayU\Api\RecurringPayment
+     * @return RecurringPayment
      */
     public function getRecurringDetails(): RecurringPayment
     {
-        return $this->recurringDetails;
-    }
+        $recurringDetails = $this->getData('recurringDetails');
 
-    /**
-     * Debit order recurring payment details
-     *
-     * @param $recurringDetails
-     */
-    public function setRecurringDetails($recurringDetails)
-    {
-        $this->recurringDetails = $recurringDetails;
+        return new RecurringPayment($recurringDetails);
     }
 
     /**
@@ -318,104 +166,34 @@ class Response extends AbstractModel
     }
 
     /**
-     * EFT funding instrument details
-     *
-     * @param $redirect
-     */
-    public function setRedirect($redirect)
-    {
-        $this->redirect = $redirect;
-    }
-
-    /**
      * Fraud management details.
      *
      * @return \PayU\Api\FraudService
      */
     public function getFraud(): FraudService
     {
-        return $this->fraud;
-    }
-
-    /**
-     * Fraud management details.
-     *
-     * @param $fraud
-     */
-    public function setFraud($fraud)
-    {
-        $this->fraud = $fraud;
-    }
-
-    /**
-     * Append CustomFields to the list.
-     *
-     * @param CustomFields $customFields
-     * @return $this
-     */
-    public function addCustomFields(CustomFields $customFields): static
-    {
-        if (!$this->getCustomFields()) {
-            return $this->setCustomFields(array($customFields));
-        } else {
-            return $this->setCustomFields(
-                array_merge($this->getCustomFields(), array($customFields))
-            );
-        }
+        return $this->getData('fraud');
     }
 
     /**
      * Custom key-value pair fields.
      *
-     * @return \PayU\Api\CustomFields[]
+     * @return array
      */
     public function getCustomFields(): array
     {
-        return $this->customFields;
-    }
-
-    /**
-     * Custom key-value pair fields.
-     *
-     * @param array $customFields
-     */
-    public function setCustomFields($customFields): static
-    {
-        $this->customFields = $customFields;
-
-        return $this;
-    }
-
-    /**
-     * Remove CustomFields from the list.
-     *
-     * @param CustomFields $customFields
-     * @return $this
-     */
-    public function removeCustomFields(CustomFields $customFields): static
-    {
-        return $this->setCustomFields(
-            array_diff($this->getCustomFields(), array($customFields))
-        );
+        return $this->getData('customFields');
     }
 
     /**
      * Key-value pair fields returned from a transaction lookup.
      *
-     * @return \PayU\Api\LookupData
+     * @return LookupDataInterface
      */
-    public function getLookupData(): LookupData
+    public function getLookupData(): LookupDataInterface
     {
-        return $this->lookupData;
-    }
+        $lookupData = $this->getData('lookupData');
 
-    /**
-     * Key-value pair fields returned from a transaction lookup.
-     *
-     * @param LookupData $lookupData
-     */
-    public function setLookupData(LookupData $lookupData)
-    {
-        $this->lookupData = $lookupData;
+        return new LookupData($lookupData);
     }
 }
