@@ -1,105 +1,63 @@
 <?php
 /**
- * PayU MEA PHP SDK
- *
- * @copyright  Copyright (c) 2016 PayU
- * @license    http://opensource.org/licenses/LGPL-3.0  Open Software License (LGPL 3.0)
- * @link http://www.payu.co.za
- * @link http://help.payu.co.za/developers
- * @author Kenneth Onah <kenneth@netcraft-devops.com>
+ * Copyright © 2023 PayU Financial Services. All rights reserved.
+ * See LICENSE for license details.
  */
 
-namespace PayU\Api;
+declare(strict_types=1);
 
-use PayU\Conversion\Formatter;
-use PayU\Model\PayUModel;
-use PayU\Validation\NumericValidator;
+namespace PayU\Model;
+
+use PayU\Api\Data\CurrencyInterface;
+use PayU\Api\Data\TotalInterface;
+use PayU\Framework\AbstractModel;
+use PayU\Framework\Formatter;
+use PayU\Framework\Validation\NumericValidator;
 
 /**
- * Class Amount
+ * Class Total
  *
- * Payment amount.
- *
- * @package PayU\Api
- *
- * @property string total
- * @property \PayU\Api\Currency $currency
- * @property \PayU\Api\Details details
+ * @package PayU\Model
  */
-class Amount extends PayUModel
+class Total extends AbstractModel implements TotalInterface
 {
     /**
-     * 3-letter [currency code].
-     *
-     * @param Currency $currency
-     *
-     * @return $this
+     * @return string
      */
-    public function setCurrency(Currency $currency): static
+    public function getAmount(): string
     {
-        $this->currency = $currency;
+        return $this->getData(TotalInterface::AMOUNT);
+    }
 
-        return $this;
+    /**
+     * @return CurrencyInterface
+     */
+    public function getCurrency(): CurrencyInterface
+    {
+        return $this->getData(TotalInterface::CURRENCY);
     }
 
     /**
      * Total amount charged from the payer to the payee. In case of a refund,
      * this is the refunded amount to the original payer from the payee.
-     * 10 characters max with support for integers.
      *
-     * @param float $total
-     *
+     * @param float $amount
      * @return $this
      */
-    public function setTotal(float $total): static
+    public function setAmount(float $amount): static
     {
-        NumericValidator::validate($total, "Total");
-        $total = Formatter::formatToPrice($total, $this->getCurrency()->getCode());
-        $this->total = $total;
+        NumericValidator::validate($amount, "Amount");
+        $amount = Formatter::formatToPrice($amount, $this->getCurrency()->getCode());
 
-        return $this;
+        return $this->setData(TotalInterface::AMOUNT, $amount);
     }
 
     /**
-     * 3-letter [currency code]. PayU supports ZAR, NGN currencies only.
-     *
-     * @return \PayU\Api\Currency
-     */
-    public function getCurrency(): Currency
-    {
-        return $this->currency;
-    }
-
-    /**
-     * Total amount charged from the customer to the merchant. In case of a refund,
-     * this is the refunded amount to the original customer from the merchant.
-     * 10 characters max with support for integers.
-     *
-     * @return float
-     */
-    public function getTotal(): float
-    {
-        return $this->total;
-    }
-
-    /**
-     * @param \PayU\Api\Details $details
+     * @param CurrencyInterface $currency
      * @return $this
      */
-    public function setDetails(Details $details): static
+    public function setCurrency(CurrencyInterface $currency): static
     {
-        $this->details = $details;
-
-        return $this;
-    }
-
-    /**
-     * Additional details of the payment amount.
-     *
-     * @return \PayU\Api\Details
-     */
-    public function getDetails(): Details
-    {
-        return $this->details;
+        return $this->setData(TotalInterface::CURRENCY, $currency);
     }
 }

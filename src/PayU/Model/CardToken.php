@@ -1,177 +1,88 @@
 <?php
 /**
- * PayU MEA PHP SDK
- *
- * @copyright  Copyright (c) 2016 PayU
- * @license    http://opensource.org/licenses/LGPL-3.0  Open Software License (LGPL 3.0)
- * @link       http://www.payu.co.za
- * @link       http://help.payu.co.za/developers
- * @author     Kenneth Onah <kenneth@netcraft-devops.com>
+ * Copyright © 2023 PayU Financial Services. All rights reserved.
+ * See LICENSE for license details.
  */
 
-namespace PayU\Api;
+declare(strict_types=1);
 
-use PayU\Model\PayUModel;
+namespace PayU\Model;
+
+use PayU\Api\Data\CardTokenInterface;
+use PayU\Framework\AbstractModel;
 
 /**
- * Class CreditCardToken
+ * Class CardToken
  *
- * A resource representing a credit card that can be used to fund a payment.
- *
- * @package PayPal\Api
- *
- * @property string last4
- * @property string type
- * @property string cvv2
- * @property int expireMonth
- * @property int expireYear
- * @property string creditCardId
+ * @package PayPal\Model
  */
-class CreditCardToken extends PayUModel
+class CardToken extends AbstractModel implements CardTokenInterface
 {
     /**
-     * Last four digits of the stored credit card number.
-     *
-     * @param string $last4
-     *
+     * @param string $id
      * @return $this
      */
-    public function setLast4(string $last4): static
+    public function setId(string $id): static
     {
-        $this->last4 = $last4;
-
-        return $this;
+        return $this->setData(CardTokenInterface::ID, $id);
     }
 
     /**
-     * Last four digits of the stored credit card number.
-     *
-     * @return string|null
+     * @param string $lastFour
+     * @return $this
      */
-    public function getLast4(): string|null
+    public function setLastFourDigits(string $lastFour): static
     {
-        return $this->last4;
+        return $this->setData(CardTokenInterface::LAST_FOUR, $lastFour);
     }
 
     /**
-     * Credit card type. Valid types are: ["VISA", "MASTERCARD"]
-     * Values are presented in lowercase and should not be used for display.
-     *
      * @param string $type
-     *
      * @return $this
      */
     public function setType(string $type): static
     {
-        $this->type = $type;
-
-        return $this;
+        return $this->setData(CardTokenInterface::TYPE, $type);
     }
 
     /**
-     * Credit card type. Valid types are: ["VISA", "MASTERCARD"]
-     * Values are presented in lowercase and should not be used for display.
-     *
-     * @return string|null
-     */
-    public function getType(): string|null
-    {
-        return $this->type;
-    }
-
-    /**
-     * The validation code for the card. Supported for payments but not for saving payment cards for future use.
-     *
-     * @param string $cvv2
-     *
+     * @param string $cvv
      * @return $this
      */
-    public function setCvv2(string $cvv2): static
+    public function setCvv(string $cvv): static
     {
-        $this->cvv2 = $cvv2;
-
-        return $this;
+        return $this->setData(CardTokenInterface::CVV, $cvv);
     }
 
     /**
-     * The validation code for the card. Supported for payments but not for saving payment cards for future use.
-     *
-     * @return string|null
+     * @return string
      */
-    public function getCvv2(): string|null
+    public function getId(): string
     {
-        return $this->cvv2;
+        return $this->getData(CardTokenInterface::ID);
     }
 
     /**
-     * Expiration month with no leading zero. Acceptable values are 1 through 12.
-     *
-     * @param int $expireMonth
-     *
-     * @return $this
+     * @return string
      */
-    public function setExpireMonth(int $expireMonth): static
+    public function getLastFourDigits(): string
     {
-        $this->expireMonth = $expireMonth;
-
-        return $this;
+        return $this->getData(CardTokenInterface::LAST_FOUR);
     }
 
     /**
-     * Expiration month with no leading zero. Acceptable values are 1 through 12.
-     *
-     * @return ?int
+     * @return string
      */
-    public function getExpireMonth(): ?int
+    public function getType(): string
     {
-        return $this->expireMonth;
+        return $this->getData(CardTokenInterface::TYPE);
     }
 
     /**
-     * 4-digit expiration year.
-     *
-     * @param int $expireYear
-     *
-     * @return $this
+     * @return string
      */
-    public function setExpireYear(int $expireYear): static
+    public function getCvv(): string
     {
-        $this->expireYear = $expireYear;
-
-        return $this;
-    }
-
-    /**
-     * 4-digit expiration year.
-     *
-     * @return ?int
-     */
-    public function getExpireYear(): ?int
-    {
-        return $this->expireYear;
-    }
-
-    /**
-     * ID of credit card previously stored using `storePaymentMethod` parameter set to `true`.
-     *
-     * @param string $creditCardId
-     *
-     * @return $this
-     */
-    public function setCreditCardId(string $creditCardId): static
-    {
-        $this->creditCardId = $creditCardId;
-
-        return $this;
-    }
-
-    /**
-     * ID of credit card previously stored using `storePaymentMethod` parameter set to `true`.
-     *
-     * @return string|null
-     */
-    public function getCreditCardId(): string|null
-    {
-        return $this->creditCardId;
+        return $this->getData(CardTokenInterface::CVV);
     }
 }

@@ -1,49 +1,38 @@
 <?php
 /**
- * PayU MEA PHP SDK
- *
- * @copyright  Copyright (c) 2016 PayU
- * @license    http://opensource.org/licenses/LGPL-3.0  Open Software License (LGPL 3.0)
- * @link       http://www.payu.co.za
- * @link       http://help.payu.co.za/developers
- * @author     Kenneth Onah <kenneth@netcraft-devops.com>
+ * Copyright © 2023 PayU Financial Services. All rights reserved.
+ * See LICENSE for license details.
  */
 
-namespace PayU\Api;
+declare(strict_types=1);
 
-use PayU\Model\PayUModel;
+namespace PayU\Model;
+
+use PayU\Api\Data\LookupDataEntryInterface;
+use PayU\Api\Data\LookupDataInterface;
+use PayU\Framework\AbstractModel;
 
 /**
  * Class LookupData
  *
- * LookupData class contains response from SOAP method call with various `LookupTransactionType`
- * for instance `PAYMENT_METHODS`
- *
  * @package PayU\Api
- *
- * @property \PayU\Api\LookupDataEntry entry
  */
-class LookupData extends PayUModel
+class LookupData extends AbstractModel implements LookupDataInterface
 {
     /**
-     * Array of lookup data
-     *
-     * @param \PayU\Api\LookupDataEntry $entry
+     * @param LookupDataEntryInterface $entry
      * @return $this
      */
-    public function setEntry($entry)
+    public function setEntry(LookupDataEntryInterface $entry): static
     {
-        $this->entry = $entry;
-        return $this;
+        return $this->setData(LookupDataInterface::ENTRY, $entry);
     }
 
     /**
-     * Array of lookup data
-     *
-     * @return \PayU\Api\LookupDataEntry
+     * @return LookupDataEntryInterface
      */
-    public function getEntry()
+    public function getEntry(): LookupDataEntryInterface
     {
-        return $this->entry;
+        return $this->getData(LookupDataInterface::ENTRY);
     }
 }

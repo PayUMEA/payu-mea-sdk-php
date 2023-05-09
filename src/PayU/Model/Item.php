@@ -1,130 +1,106 @@
 <?php
 /**
- * PayU MEA PHP SDK
- *
- * @copyright  Copyright (c) 2016 PayU
- * @license    http://opensource.org/licenses/LGPL-3.0  Open Software License (LGPL 3.0)
- * @link       http://www.payu.co.za
- * @link       http://help.payu.co.za/developers
- * @author     Kenneth Onah <kenneth@netcraft-devops.com>
+ * Copyright © 2023 PayU Financial Services. All rights reserved.
+ * See LICENSE for license details.
  */
 
-namespace PayU\Api;
+declare(strict_types=1);
 
-use PayU\Conversion\Formatter;
-use PayU\Model\PayUModel;
-use PayU\Validation\NumericValidator;
+namespace PayU\Model;
+
+use PayU\Api\Data\ItemInterface;
+use PayU\Framework\AbstractModel;
+use PayU\Framework\Formatter;
 
 /**
  * Class Item
  *
- * Item details.
- *
  * @package PayU\Api
- *
- * @property string sku
- * @property string name
- * @property string description
- * @property string quantity
- * @property string costPrice
- * @property \PayU\Api\Total amount
  */
-class Item extends PayUModel
+class Item extends AbstractModel implements ItemInterface
 {
     /**
-     * Stock keeping unit corresponding (SKU) to item.
-     *
-     * @param string $sku
-     *
-     * @return $this
-     */
-    public function setSku(string $sku): static
-    {
-        $this->sku = $sku;
-
-        return $this;
-    }
-
-    /**
-     * Stock keeping unit corresponding (SKU) to item.
-     *
-     * @return string
-     */
-    public function getSku(): string
-    {
-        return $this->sku;
-    }
-
-    /**
-     * Item name. 127 characters max.
-     *
-     * @param string $name
-     *
-     * @return $this
-     */
-    public function setName(string $name): static
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Item name. 127 characters max.
-     *
      * @return string
      */
     public function getName(): string
     {
-        return $this->name;
+        return $this->getData(ItemInterface::NAME);
     }
 
     /**
-     * Description of the item.
-     *
-     * @param string $description
-     *
-     * @return $this
-     */
-    public function setDescription(string $description): static
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Description of the item.
-     *
      * @return string
      */
-    public function getDescription(): string
+    public function getSku(): string
     {
-        return $this->description;
+        return $this->getData(ItemInterface::SKU);
     }
 
     /**
-     * Number of a particular item. 10 characters max.
-     *
-     * @param string $quantity
-     *
+     * @return int
+     */
+    public function getQuantity(): int
+    {
+        return $this->getData(ItemInterface::QUANTITY);
+    }
+
+    /**
+     * @return float
+     */
+    public function getPrice(): float
+    {
+        return $this->getData(ItemInterface::PRICE);
+    }
+
+    /**
+     * @return float
+     */
+    public function getCostPrice(): float
+    {
+        return $this->getData(ItemInterface::COST_PRICE);
+    }
+
+    /**
+     * @return float
+     */
+    public function getTotal(): float
+    {
+        return $this->getData(ItemInterface::TOTAL);
+    }
+
+    /**
+     * @param string $name
      * @return $this
      */
-    public function setQuantity(string $quantity): static
+    public function setName(string $name): static
     {
-        $this->quantity = $quantity;
-
-        return $this;
+        return $this->setData(ItemInterface::NAME, $name);
     }
 
     /**
-     * Number of a particular item. 10 characters max.
-     *
-     * @return string
+     * @param string $sku
+     * @return $this
      */
-    public function getQuantity(): string
+    public function setSku(string $sku): static
     {
-        return $this->quantity;
+        return $this->setData(ItemInterface::SKU, $sku);
+    }
+
+    /**
+     * @param int $quantity
+     * @return $this
+     */
+    public function setQuantity(int $quantity): static
+    {
+        return $this->setData(ItemInterface::QUANTITY, $quantity);
+    }
+
+    /**
+     * @param float $price
+     * @return $this
+     */
+    public function setPrice(float $price): static
+    {
+        return $this->setData(ItemInterface::PRICE, $price);
     }
 
     /**
@@ -133,41 +109,15 @@ class Item extends PayUModel
      */
     public function setCostPrice(float $costPrice): static
     {
-        NumericValidator::validate($costPrice, "CostPrice");
-        $costPrice = Formatter::formatToPrice($costPrice, $this->getCurrency()->getCode());
-        $this->costPrice = $costPrice;
-
-        return $this;
+        return $this->setData(ItemInterface::COST_PRICE, $costPrice);
     }
 
     /**
-     * @param Total $amount
+     * @param float $total
      * @return $this
      */
-    public function setAmount(Total $amount): static
+    public function setTotal(float $total): static
     {
-        $this->amount = $amount;
-
-        return $this;
-    }
-
-    /**
-     * Item cost. 10 characters max.
-     *
-     * @return string
-     */
-    public function getCostPrice(): string
-    {
-        return $this->costPrice;
-    }
-
-    /**
-     * Item amount. 10 characters max.
-     *
-     * @return \PayU\Api\Total
-     */
-    public function getAmount(): Total
-    {
-        return $this->amount;
+        return $this->setData(ItemInterface::TOTAL, $total);
     }
 }

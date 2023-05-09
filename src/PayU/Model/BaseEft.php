@@ -1,152 +1,95 @@
 <?php
 /**
- * PayU MEA PHP SDK
- *
- * @copyright  Copyright (c) 2016 PayU
- * @license    http://opensource.org/licenses/LGPL-3.0  Open Software License (LGPL 3.0)
- * @link http://www.payu.co.za
- * @link http://help.payu.co.za/developers
- * @author Kenneth Onah <kenneth@netcraft-devops.com>
+ * Copyright © 2023 PayU Financial Services. All rights reserved.
+ * See LICENSE for license details.
  */
 
-namespace PayU\Api;
+declare(strict_types=1);
 
-use PayU\Model\PayUModel;
+namespace PayU\Model;
+
+use PayU\Api\Data\CurrencyInterface;
+use PayU\Api\Data\EftInterface;
+use PayU\Api\Data\TotalInterface;
+use PayU\Framework\AbstractModel;
+use PayU\Framework\Formatter;
+use PayU\Framework\Validation\NumericValidator;
 
 /**
- * Class EFTBase
+ * Class BaseEft
  *
- * Lets you create, process and manage EFT based payments.
- *
- * @package PayU\Api
- *
- * @property string amount
- * @property string method
- * @property string type
- * @property string url
- * @property string bankName
+ * @package PayU\Amount
  */
-class EFTBase extends PayUModel
+class BaseEft extends AbstractModel implements EftInterface
 {
-    public const FNB = 'FNB';
-    public const ABSA = 'ABSA';
-    public const NEDBANK = 'NEDBANK';
-    public const STANDARD_BANK = 'STANDARD_BANK';
-
     /**
-     * Eft amounts to pay.
-     *
-     * @param string $amount
-     * @return $this
-     */
-    public function setAmount(string $amount): static
-    {
-        $this->amount = $amount;
-
-        return $this;
-    }
-
-    /**
-     * Eft amount to pay.
-     *
      * @return string
      */
     public function getAmount(): string
     {
-        return $this->amount;
+        return $this->getData(EftInterface::AMOUNT);
     }
 
     /**
-     * Indicates the HTTP method that needs to be implemented, i.e. HTTP GET or HTTP POST
-     *
-     * @param string $method
-     * @return $this
-     */
-    public function setMethod(string $method): static
-    {
-        $this->method = $method;
-
-        return $this;
-    }
-
-    /**
-     * Indicates the HTTP method that needs to be implemented, i.e. HTTP GET or HTTP POST
-     *
      * @return string
      */
-    public function getMethod(): string
+    public function getType(): string
     {
-        return $this->method;
+        return $this->getData(EftInterface::TYPE);
     }
 
     /**
-     * Type of payment
-     *
+     * @return string
+     */
+    public function getBankName(): string
+    {
+        return $this->getData(EftInterface::BANK_NAME);
+    }
+
+    /**
+     * @return CurrencyInterface
+     */
+    public function getCurrency(): CurrencyInterface
+    {
+        return $this->getData(TotalInterface::CURRENCY);
+    }
+
+    /**
+     * @param float $amount
+     * @return $this
+     */
+    public function setAmount(float $amount): static
+    {
+        NumericValidator::validate($amount, "Amount");
+        $amount = Formatter::formatToPrice($amount, $this->getCurrency()->getCode());
+
+        return $this->setData(EftInterface::AMOUNT, $amount);
+    }
+
+    /**
      * @param string $type
      * @return $this
      */
     public function setType(string $type): static
     {
-        $this->type = $type;
-
-        return $this;
+        return $this->setData(EftInterface::TYPE, $type);
     }
 
     /**
-     * Type of payment
-     *
-     * @return string
-     */
-    public function getType(): string
-    {
-        return $this->type;
-    }
-
-    /**
-     * Redirect url. Customer is directed to a web page that provides a list of banks that accepts the
-     * EFT Pro product as a payment method
-     *
-     * @param string $url
-     * @return $this
-     */
-    public function setUrl(string $url): static
-    {
-        $this->url = $url;
-
-        return $this;
-    }
-
-    /**
-     * Redirect url. Customer is directed to a web page that provides a list of banks that accepts the
-     * EFT Pro product as a payment method
-     *
-     * @return string
-     */
-    public function getUrl(): string
-    {
-        return $this->url;
-    }
-
-    /**
-     * Name of customer's bank
-     *
      * @param string $bankName
      * @return $this
      */
     public function setBankName(string $bankName): static
     {
-        $this->bankName = $bankName;
-
-        return $this;
+        return $this->setData(EftInterface::BANK_NAME, $bankName);
     }
 
     /**
-     * Name of customer's bank
-     *
-     * @return string
+     * @param CurrencyInterface $currency
+     * @return $this
      */
-    public function getBankName(): string
+    public function setCurrency(CurrencyInterface $currency): static
     {
-        return $this->bankName;
+        return $this->setData(TotalInterface::CURRENCY, $currency);
     }
 }

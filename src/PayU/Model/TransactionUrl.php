@@ -1,109 +1,81 @@
 <?php
 /**
- * PayU MEA PHP SDK
- *
- * @copyright  Copyright (c) 2016 PayU
- * @license    http://opensource.org/licenses/LGPL-3.0  Open Software License (LGPL 3.0)
- * @link       http://www.payu.co.za
- * @link       http://help.payu.co.za/developers
- * @author     Kenneth Onah <kenneth@netcraft-devops.com>
+ * Copyright © 2023 PayU Financial Services. All rights reserved.
+ * See LICENSE for license details.
  */
 
-namespace PayU\Api;
+declare(strict_types=1);
+
+namespace PayU\Model;
 
 use InvalidArgumentException;
-use PayU\Model\PayUModel;
-use PayU\Validation\UrlValidator;
+use PayU\Api\Data\TransactionUrlInterface;
+use PayU\Framework\AbstractModel;
+use PayU\Framework\Validation\UrlValidator;
 
 /**
- * Class RedirectUrls
+ * Class TransactionUrl
  *
- * Set of redirect URLs.
- *
- * @package PayU\Api
- *
- * @property string returnUrl
- * @property string cancelUrl
- * @property string notifyUrl
+ * @package PayU\Model
  */
-class RedirectUrls extends PayUModel
+class TransactionUrl extends AbstractModel implements TransactionUrlInterface
 {
     /**
-     * Url where the customer would be redirected to after approving the payment
-     * Required for Redirect Payment Page
-     *
-     * @param string $returnUrl
-     *
-     * @throws InvalidArgumentException
-     * @return $this
-     */
-    public function setReturnUrl($returnUrl)
-    {
-        UrlValidator::validate($returnUrl, "ReturnUrl");
-        $this->returnUrl = $returnUrl;
-        return $this;
-    }
-
-    /**
-     * Url where the customer would be redirected to after approving the payment
-     * Required for Redirect Payment Page
-     *
      * @return string
      */
-    public function getReturnUrl()
+    public function getResponseUrl(): string
     {
-        return $this->returnUrl;
+        return $this->getData(TransactionUrlInterface::RESPONSE_URL);
     }
 
     /**
-     * Url where the customer would be redirected to after canceling the payment.
-     * Required for Redirect Payment Page
-     *
-     * @param string $cancelUrl
-     *
-     * @throws InvalidArgumentException
+     * @return string
+     */
+    public function getCancelUrl(): string
+    {
+        return $this->getData(TransactionUrlInterface::CANCEL_URL);
+    }
+
+    /**
+     * @return string
+     */
+    public function getNotificationUrl(): string
+    {
+        return $this->getData(TransactionUrlInterface::NOTIFICATION_URL);
+    }
+
+    /**
+     * @param string $responseUrl
      * @return $this
      */
-    public function setCancelUrl($cancelUrl)
+    public function setResponseUrl(string $responseUrl): static
+    {
+        UrlValidator::validate($responseUrl, "ResponseUrl");
+
+        return $this->setData(TransactionUrlInterface::RESPONSE_URL, $responseUrl);
+    }
+
+    /**
+     * @param string $cancelUrl
+     * @return $this
+     * @throws InvalidArgumentException
+     */
+    public function setCancelUrl(string $cancelUrl): static
     {
         UrlValidator::validate($cancelUrl, "CancelUrl");
-        $this->cancelUrl = $cancelUrl;
-        return $this;
+
+        return $this->setData(TransactionUrlInterface::CANCEL_URL, $cancelUrl);
     }
 
     /**
-     * Url where the customer would be redirected to after canceling the payment
-     * Required for Redirect Payment Page
-     *
-     * @return string
-     */
-    public function getCancelUrl()
-    {
-        return $this->returnUrl;
-    }
-
-    /**
-     * Url where the Instant Payment Notification requests are sent.
-     *
-     * @param string $notifyUrl
-     *
-     * @throws InvalidArgumentException
+     * @param string $notificationUrl
      * @return $this
+     * @throws InvalidArgumentException
      */
-    public function setNotifyUrl($notifyUrl)
+    public function setNotificationUrl(string $notificationUrl): static
     {
-        UrlValidator::validate($notifyUrl, "NotifyUrl");
-        $this->notifyUrl = $notifyUrl;
-        return $this;
-    }
+        UrlValidator::validate($notificationUrl, "NotificationUrl");
 
-    /**
-     * Url where the Instant Payment Notification requests are sent.
-     *
-     * @return string
-     */
-    public function getNotifyUrl()
-    {
-        return $this->notifyUrl;
+        return $this->setData(TransactionUrlInterface::NOTIFICATION_URL, $notificationUrl);
     }
 }

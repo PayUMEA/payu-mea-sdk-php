@@ -1,48 +1,70 @@
 <?php
 /**
- * PayU EMEA PHP SDK
- *
- * @copyright  Copyright (c) 2016 PayU
- * @license    http://opensource.org/licenses/LGPL-3.0  Open Software License (LGPL 3.0)
- * @link       http://www.payu.co.za
- * @link       http://help.payu.co.za/developers
- * @author     Kenneth Onah <kenneth@netcraft-devops.com>
+ * Copyright © 2023 PayU Financial Services. All rights reserved.
+ * See LICENSE for license details.
  */
 
-namespace PayU\Api;
+declare(strict_types=1);
+
+namespace PayU\Model;
+
+use PayU\Api\Data\ShippingAddressInterface;
 
 /**
  * Class ShippingAddress
  *
- * Extended Address object used as shipping address in a payment.
- *
  * @package PayU\Api
- *
- * @property string recipientName
  */
-class ShippingAddress extends Address
+class ShippingAddress extends Address implements ShippingAddressInterface
 {
     /**
-     * Name of the recipient at this address.
-     *
-     * @param string $recipientName
-     *
-     * @return $this
-     */
-    public function setRecipientName(string $recipientName): static
-    {
-        $this->recipientName = $recipientName;
-
-        return $this;
-    }
-
-    /**
-     * Name of the recipient at this address.
-     *
      * @return string
      */
     public function getRecipientName(): string
     {
-        return $this->recipientName;
+        return $this->getData(ShippingAddressInterface::RECIPIENT_NAME);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getShippingId(): mixed
+    {
+        return $this->getData(ShippingAddressInterface::SHIPPING_ID);
+    }
+
+    /**
+     * @return string
+     */
+    public function getShippingMethod(): string
+    {
+        return $this->getData(ShippingAddressInterface::SHIPPING_METHOD);
+    }
+
+    /**
+     * @param string $recipientName
+     * @return $this
+     */
+    public function setRecipientName(string $recipientName): static
+    {
+        return $this->setData(ShippingAddressInterface::RECIPIENT_NAME, $recipientName);
+    }
+
+    /**
+     * @param int|string $shippingId
+     * @return $this
+     */
+    public function setShippingId(int|string $shippingId): static
+    {
+        return $this->setData(ShippingAddressInterface::RECIPIENT_NAME, $shippingId);
+    }
+
+    /**
+     * @param string $shippingMethod
+     * @return $this
+     */
+    public function setShippingMethod(string $shippingMethod): static
+    {
+        return $this->setData(ShippingAddressInterface::RECIPIENT_NAME, $shippingMethod);
     }
 }

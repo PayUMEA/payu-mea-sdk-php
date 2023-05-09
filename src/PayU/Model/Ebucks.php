@@ -1,297 +1,207 @@
 <?php
 /**
- * PayU MEA PHP SDK
- *
- * @copyright  Copyright (c) 2016 PayU
- * @license    http://opensource.org/licenses/LGPL-3.0  Open Software License (LGPL 3.0)
- * @link http://www.payu.co.za
- * @link http://help.payu.co.za/developers
- * @author Kenneth Onah <kenneth@netcraft-devops.com>
+ * Copyright © 2023 PayU Financial Services. All rights reserved.
+ * See LICENSE for license details.
  */
 
-namespace PayU\Api;
+declare(strict_types=1);
 
-use PayU\Model\ResourceModel;
+namespace PayU\Model;
+
+use PayU\Api\Data\EbucksInterface;
+use PayU\Framework\AbstractModel;
 
 /**
  * Class Ebucks
  *
- * Lets you create, process and manage ebucks payments.
- *
  * @package PayU\Api
- *
- * @property string action
- * @property string authenticateAccountType
- * @property string ebucksMemberIdentifier
- * @property string ebucksPin
- * @property string generateOTPType
- * @property string ebucksAmount
- * @property string resetPasswordType
- * @property string validateOTPType
- * @property string ebucksOtp
- * @property string ebucksAccountNumber
- * @property string ebucksDestination
  */
-class Ebucks extends ResourceModel
+class Ebucks extends AbstractModel implements EbucksInterface
 {
-    const PAYMENT = 'PAYMENT';
-    const VALIDATE_OTP = 'VALIDATE_OTP';
-    const GENERATE_OTP = 'GENERATE_OTP';
-    const RESET_PASSWORD = 'RESET_PASSWORD';
-    const AUTHENTICATE_ACCOUNT = 'AUTHENTICATE_ACCOUNT';
+    /**
+     * @return string
+     */
+    public function getAction(): string
+    {
+        return $this->getData(EbucksInterface::ACTION);
+    }
 
     /**
-     * The Type of action being performed.
-     * Valid types [AUTHENTICATE_ACCOUNT, GENERATE_OTP, RESET_PASSWORD, VALIDATE_OTP]
-     *
+     * @return string
+     */
+    public function getAuthenticateAccountType(): string
+    {
+        return $this->getData(EbucksInterface::AUTHENTICATE_ACCOUNT_TYPE);
+    }
+
+    /**
+     * @return string
+     */
+    public function getEbucksMemberIdentifier(): string
+    {
+        return $this->getData(EbucksInterface::EBUCKS_MEMBER_IDENTIFIER);
+    }
+
+    /**
+     * @return string
+     */
+    public function getEbucksPin(): string
+    {
+        return $this->getData(EbucksInterface::EBUCKS_PIN);
+    }
+
+    /**
+     * @return string
+     */
+    public function getGenerateOtpType(): string
+    {
+        return $this->getData(EbucksInterface::GENERATE_OTP_TYPE);
+    }
+
+    /**
+     * @return string
+     */
+    public function getEbucksAmount(): string
+    {
+        return $this->getData(EbucksInterface::EBUCKS_AMOUNT);
+    }
+
+    /**
+     * @return string
+     */
+    public function getResetPasswordType(): string
+    {
+        return $this->getData(EbucksInterface::RESET_PASSWORD_TYPE);
+    }
+
+    /**
+     * @return string
+     */
+    public function getValidateOtpType(): string
+    {
+        return $this->getData(EbucksInterface::VALIDATE_OTP_TYPE);
+    }
+
+    /**
+     * @return string
+     */
+    public function getEbucksOtp(): string
+    {
+        return $this->getData(EbucksInterface::EBUCKS_OTP);
+    }
+
+    /**
+     * @return string
+     */
+    public function getEbucksAccountNumber(): string
+    {
+        return $this->getData(EbucksInterface::EBUCKS_ACCOUNT_NUMBER);
+    }
+
+    /**
+     * @return string
+     */
+    public function getEbucksDestination(): string
+    {
+        return $this->getData(EbucksInterface::EBUCKS_DESTINATION);
+    }
+
+    /**
      * @param string $action
      * @return $this
      */
     public function setAction(string $action): static
     {
-        $this->action = $action;
-
-        return $this;
+        return $this->setData(EbucksInterface::ACTION, $action);
     }
 
     /**
-     * The Type of action being performed.
-     * Valid types [AUTHENTICATE_ACCOUNT, GENERATE_OTP, RESET_PASSWORD, VALIDATE_OTP]
-     *
-     * @return string
-     */
-    public function getAction(): string
-    {
-        return $this->action;
-    }
-
-    /**
-     * Metadata for identifying the type of action performed.
-     *
      * @param string $authenticateAccountType
      * @return $this
      */
     public function setAuthenticateAccountType(string $authenticateAccountType): static
     {
-        $this->authenticateAccountType = $authenticateAccountType;
-
-        return $this;
+        return $this->setData(EbucksInterface::AUTHENTICATE_ACCOUNT_TYPE, $authenticateAccountType);
     }
 
     /**
-     * Metadata for identifying the type of action performed.
-     *
-     * @return string
-     */
-    public function getAuthenticateAccountType(): string
-    {
-        return $this->authenticateAccountType;
-    }
-
-    /**
-     * eBucks member's card number/Identification.
-     *
      * @param string $ebucksMemberIdentifier
      * @return $this
      */
     public function setEbucksMemberIdentifier(string $ebucksMemberIdentifier): static
     {
-        $this->ebucksMemberIdentifier = $ebucksMemberIdentifier;
-
-        return $this;
+        return $this->setData(EbucksInterface::EBUCKS_MEMBER_IDENTIFIER, $ebucksMemberIdentifier);
     }
 
     /**
-     * eBucks member's card number/Identification.
-     *
-     * @return string
-     */
-    public function getEbucksMemberIdentifier(): string
-    {
-        return $this->ebucksMemberIdentifier;
-    }
-
-    /**
-     * PIN for the eBucks member login.
-     *
      * @param string $ebucksPin
      * @return $this
      */
     public function setEbucksPin(string $ebucksPin): static
     {
-        $this->ebucksPin = $ebucksPin;
-
-        return $this;
+        return $this->setData(EbucksInterface::EBUCKS_PIN, $ebucksPin);
     }
 
     /**
-     * PIN for the eBucks member login.
-     *
-     * @return string
-     */
-    public function getEbucksPin(): string
-    {
-        return $this->ebucksPin;
-    }
-
-    /**
-     * Metadata for identifying the type of action performed.
-     *
-     * @param string $generateOTPType
+     * @param string $generateOtpType
      * @return $this
      */
-    public function setGenerateOTPType(string $generateOTPType): static
+    public function setGenerateOTPType(string $generateOtpType): static
     {
-        $this->generateOTPType = $generateOTPType;
-
-        return $this;
+        return $this->setData(EbucksInterface::GENERATE_OTP_TYPE, $generateOtpType);
     }
 
     /**
-     * Metadata for identifying the type of action performed.
-     *
-     * @return string
-     */
-    public function getGenerateOTPType(): string
-    {
-        return $this->generateOTPType;
-    }
-
-    /**
-     * Amounts in eBucks.
-     *
      * @param string $ebucksAmount
      * @return $this
      */
     public function setEbucksAmount(string $ebucksAmount): static
     {
-        $this->ebucksAmount = $ebucksAmount;
-
-        return $this;
+        return $this->setData(EbucksInterface::EBUCKS_AMOUNT, $ebucksAmount);
     }
 
     /**
-     * Amount in eBucks.
-     *
-     * @return string
-     */
-    public function getEbucksAmount(): string
-    {
-        return $this->ebucksAmount;
-    }
-
-    /**
-     * Metadata for identifying the type of action performed.
-     *
      * @param string $resetPasswordType
      * @return $this
      */
     public function setResetPasswordType(string $resetPasswordType): static
     {
-        $this->resetPasswordType = $resetPasswordType;
-
-        return $this;
+        return $this->setData(EbucksInterface::RESET_PASSWORD_TYPE, $resetPasswordType);
     }
 
     /**
-     * Metadata for identifying the type of action performed.
-     *
-     * @return string
-     */
-    public function getResetPasswordType(): string
-    {
-        return $this->resetPasswordType;
-    }
-
-    /**
-     * Metadata for identifying the type of action performed.
-     *
-     * @param string $validateOTPType
+     * @param string $validateOtpType
      * @return $this
      */
-    public function setValidateOTPType(string $validateOTPType): static
+    public function setValidateOTPType(string $validateOtpType): static
     {
-        $this->validateOTPType = $validateOTPType;
-
-        return $this;
+        return $this->setData(EbucksInterface::VALIDATE_OTP_TYPE, $validateOtpType);
     }
 
     /**
-     * Metadata for identifying the type of action performed.
-     *
-     * @return string
-     */
-    public function getValidateOTPType(): string
-    {
-        return $this->validateOTPType;
-    }
-
-    /**
-     * OTP provided by the customer.
-     *
      * @param string $ebucksOtp
      * @return $this
      */
     public function setEbucksOTP(string $ebucksOtp): static
     {
-        $this->ebucksOtp = $ebucksOtp;
-
-        return $this;
+        return $this->setData(EbucksInterface::EBUCKS_OTP, $ebucksOtp);
     }
 
     /**
-     * OTP provided by the customer.
-     *
-     * @return string
-     */
-    public function getEbucksOTP(): string
-    {
-        return $this->ebucksOtp;
-    }
-
-    /**
-     * eBucks account number
-     *
      * @param string $ebucksAccountNumber
      * @return $this
      */
     public function setEbucksAccountNumber(string $ebucksAccountNumber): static
     {
-        $this->ebucksAccountNumber = $ebucksAccountNumber;
-
-        return $this;
+        return $this->setData(EbucksInterface::EBUCKS_ACCOUNT_NUMBER, $ebucksAccountNumber);
     }
 
     /**
-     * eBucks account number.
-     *
-     * @return string
-     */
-    public function getEbucksAccountNumber(): string
-    {
-        return $this->ebucksAccountNumber;
-    }
-
-    /**
-     * eBucks destination account number
-     *
      * @param string $ebucksDestination
      * @return $this
      */
     public function setEbucksDestination(string $ebucksDestination): static
     {
-        $this->ebucksDestination = $ebucksDestination;
-
-        return $this;
-    }
-
-    /**
-     * eBucks destination account number.
-     *
-     * @return string
-     */
-    public function getEbucksDestination(): string
-    {
-        return $this->ebucksDestination;
+        return $this->setData(EbucksInterface::EBUCKS_DESTINATION, $ebucksDestination);
     }
 }

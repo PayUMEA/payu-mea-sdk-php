@@ -9,86 +9,53 @@
  * @author     Kenneth Onah <kenneth@netcraft-devops.com>
  */
 
-namespace PayU\Api;
+namespace PayU\Model;
 
-use PayU\Model\PayUModel;
+use PayU\Api\Data\CartInterface;
+use PayU\Api\Data\ShippingAddressInterface;
+use PayU\Api\Data\TotalInterface;
+use PayU\Framework\AbstractModel;
 
 /**
- * Class Basket
+ * Class Cart
  *
- * Basket class contains summary of the cart
- *
- * @package PayU\Api
- *
- * @property int amountInCents
- * @property string currencyCode
- * @property string description
+ * @package PayU\Model
  */
-class Basket extends PayUModel
+class Cart extends AbstractModel implements CartInterface
 {
     /**
-     * Basket amount in cents converted to integer
-     *
-     * @param int $amountInCents
-     * @return $this
+     * @return float
      */
-    public function setAmountInCents($amountInCents)
+    public function getTotal(): float
     {
-        $this->amountInCents = $amountInCents;
-        return $this;
+        return $this->getData(CartInterface::TOTAL);
+    }
+
+    /**
+     * @return ItemList
+     */
+    public function getItems(): ItemList
+    {
+        return $this->getData(CartInterface::ITEMS);
     }
 
     /**
      * Basket amount in cents converted to integer
      *
-     * @return int
-     */
-    public function getAmountInCents()
-    {
-        return $this->amountInCents;
-    }
-
-    /**
-     * 3-letter [currency code]
-     *
-     * @param string $code
+     * @param float $total
      * @return $this
      */
-    public function setCurrencyCode($code)
+    public function setTotal(float $total): static
     {
-        $this->currencyCode = $code;
-        return $this;
+        return $this->setData(CartInterface::TOTAL, $total);
     }
 
     /**
-     * 3-letter [currency code]
-     *
-     * @return string
-     */
-    public function getCurrencyCode()
-    {
-        return $this->currencyCode;
-    }
-
-    /**
-     * Basket description
-     *
-     * @param string $description
+     * @param ItemList $items
      * @return $this
      */
-    public function setDescription($description)
+    public function setItems(ItemList $items): static
     {
-        $this->description = $description;
-        return $this;
-    }
-
-    /**
-     * Basket description
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
+        return $this->setData(CartInterface::ITEMS, $items);
     }
 }

@@ -1,223 +1,142 @@
 <?php
 /**
- * PayU EMEA PHP SDK
- *
- * @copyright  Copyright (c) 2016 PayU
- * @license    http://opensource.org/licenses/LGPL-3.0  Open Software License (LGPL 3.0)
- * @link       http://www.payu.co.za
- * @link       http://help.payu.co.za/developers
- * @author     Kenneth Onah <kenneth@netcraft-devops.com>
+ * Copyright © 2023 PayU Financial Services. All rights reserved.
+ * See LICENSE for license details.
  */
 
-namespace PayU\Api;
+declare(strict_types=1);
 
-use PayU\Model\PayUModel;
+namespace PayU\Model;
+
+use PayU\Api\Data\AddressInterface;
+use PayU\Api\Data\CustomerDetailInterface;
+use PayU\Api\Data\PhoneInterface;
+use PayU\Framework\AbstractModel;
 
 /**
- * Class CustomerInfo
+ * Class CustomerDetail
  *
- * A resource representing a information about Customer.
- *
- * @package PayU\Api
- *
- * @property string email
- * @property string firstName
- * @property string lastName
- * @property string customerId
- * @property string phone
- * @property string countryCode
- * @property string countryOfResidence
- * @property \PayU\Api\Address billingAddress
+ * @package PayU\Model
  */
-class CustomerInfo extends PayUModel
+class CustomerDetail extends AbstractModel implements CustomerDetailInterface
 {
     /**
-     * Email address representing the customer. 127 characters max.
-     *
+     * @return string
+     */
+    public function getEmail(): string
+    {
+        return $this->getData(CustomerDetailInterface::EMAIL);
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getFirstName(): string
+    {
+        return $this->getData(CustomerDetailInterface::FIRST_NAME);
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastName(): string
+    {
+        return $this->getData(CustomerDetailInterface::LAST_NAME);
+    }
+
+    /**
+     * @return string
+     */
+    public function getCustomerId(): string
+    {
+        return $this->getData(CustomerDetailInterface::CUSTOMER_ID);
+    }
+
+    /**
+     * @return PhoneInterface
+     */
+    public function getPhone(): PhoneInterface
+    {
+        return $this->getData(CustomerDetailInterface::PHONE);
+    }
+
+    /**
+     * @return string
+     */
+    public function getIpAddress(): string
+    {
+        return $this->getData(CustomerDetailInterface::IP_ADDRESS);
+    }
+
+    /**
+     * @return AddressInterface
+     */
+    public function getAddress(): AddressInterface
+    {
+        return $this->getData(CustomerDetailInterface::ADDRESS);
+    }
+
+    /**
      * @param string $email
-     *
      * @return $this
      */
-    public function setEmail($email)
+    public function setEmail(string $email): static
     {
-        $this->email = $email;
-        return $this;
+        return $this->setData(CustomerDetailInterface::EMAIL, $email);
     }
 
     /**
-     * Email address representing the customer. 127 characters max.
-     *
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * First name of the customer.
-     *
      * @param string $firstName
-     *
      * @return $this
      */
-    public function setFirstName($firstName)
+    public function setFirstName(string $firstName): static
     {
-        $this->firstName = $firstName;
-        return $this;
+        return $this->setData(CustomerDetailInterface::FIRST_NAME, $firstName);
     }
 
     /**
-     * First name of the customer.
-     *
-     * @return string
-     */
-    public function getFirstName()
-    {
-        return $this->firstName;
-    }
-
-    /**
-     * Last name of the payer.
-     *
      * @param string $lastName
-     *
      * @return $this
      */
-    public function setLastName($lastName)
+    public function setLastName(string $lastName): static
     {
-        $this->lastName = $lastName;
-        return $this;
+        return $this->setData(CustomerDetailInterface::LAST_NAME, $lastName);
     }
 
     /**
-     * Last name of the payer.
-     *
-     * @return string
-     */
-    public function getLastName()
-    {
-        return $this->lastName;
-    }
-
-
-    /**
-     * PayU assigned ID.
-     *
      * @param string $customerId
-     *
      * @return $this
      */
-    public function setCustomerId($customerId)
+    public function setCustomerId(string $customerId): static
     {
-        $this->customerId = $customerId;
-        return $this;
+        return $this->setData(CustomerDetailInterface::CUSTOMER_ID, $customerId);
     }
 
     /**
-     * PayU assigned ID.
-     *
-     * @return string
-     */
-    public function getCustomerId()
-    {
-        return $this->customerId;
-    }
-
-    /**
-     * Phone number representing the Customer 20 characters max.
-     *
-     * @param string $phone
-     *
+     * @param PhoneInterface $phone
      * @return $this
      */
-    public function setPhone($phone)
+    public function setPhone(PhoneInterface $phone): static
     {
-        $this->phone = $phone;
-        return $this;
+        return $this->setData(CustomerDetailInterface::PHONE, $phone);
     }
 
     /**
-     * Phone number representing the Customer. 20 characters max.
-     *
-     * @return string
-     */
-    public function getPhone()
-    {
-        return $this->phone;
-    }
-
-    /**
-     * Registered phone country code of the customer.
-     * @see https://countrycode.org
-     *
-     * @param string $countryCode
-     *
+     * @param string $ipAddress
      * @return $this
      */
-    public function setCountryCode($countryCode)
+    public function setIpAddress(string $ipAddress): static
     {
-        $this->countryCode = $countryCode;
-        return $this;
+        return $this->setData(CustomerDetailInterface::IP_ADDRESS, $ipAddress);
     }
 
     /**
-     * Registered phone country code of the customer.
-     * @see https://countrycode.org
-     *
-     * @return string
-     */
-    public function getCountryCode()
-    {
-        return $this->countryCode;
-    }
-
-    /**
-     * Two-letter registered country of residence code of the customer.
-     * @see https://countrycode.org
-     *
-     * @param string $countryOfResidence
-     *
+     * @param AddressInterface $address
      * @return $this
      */
-    public function setCountryOfResidence($countryOfResidence)
+    public function setAddress(AddressInterface $address): static
     {
-        $this->countryOfResidence = $countryOfResidence;
-        return $this;
-    }
-
-    /**
-     * Two-letter registered country of residence code of the customer.
-     * @see https://countrycode.org
-     *
-     * @return string
-     */
-    public function getCountryOfResidence()
-    {
-        return $this->countryOfResidence;
-    }
-
-    /**
-     * Billing address of the Customer.
-     *
-     * @param Address $billingAddress
-     *
-     * @return $this
-     */
-    public function setBillingAddress(Address $billingAddress): static
-    {
-        $this->billingAddress = $billingAddress;
-
-        return $this;
-    }
-
-    /**
-     * Billing address of the Customer.
-     *
-     * @return \PayU\Api\Address
-     */
-    public function getBillingAddress(): Address
-    {
-        return $this->billingAddress;
+        return $this->setData(CustomerDetailInterface::ADDRESS, $address);
     }
 }
