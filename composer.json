@@ -1,5 +1,5 @@
 {
-  "name": "payu-mea/payu-mea-sdk-php",
+  "name": "onahkenneth/payu-mea-sdk-php",
   "description": "PayU MEA Secure Payments PHP SDK",
   "type": "library",
   "homepage": "https://southafrica.payu.com/",
@@ -20,10 +20,9 @@
     "version": "2.0.0",
     "require": {
     "php": "^8.0",
-    "ext-openssl": "*",
     "ext-soap": "*",
     "ext-json": "*",
-    "ext-mbstring": "*",
+    "ext-xml": "*",
     "psr/log": "^1.0.0"
   },
   "require-dev": {
