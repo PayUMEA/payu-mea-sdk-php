@@ -5,50 +5,55 @@
 // This sample code demonstrate how you can process
 // a redirect payment.
 
-use PayU\Api\Amount;
-use PayU\Api\Customer;
-use PayU\Api\CustomerInfo;
-use PayU\Api\Redirect;
-use PayU\Api\Transaction;
+use PayU\Framework\Action\Redirect;
+use PayU\Model\Currency;
+use PayU\Model\Customer;
+use PayU\Model\CustomerDetail;
+use PayU\Model\Phone;
+use PayU\Model\Total;
+use PayU\Model\Transaction;
 
-// ### CustomerInfo
+// ### CustomerDetail
 // A resource representing a customer detailed information
-$ci = new CustomerInfo();
+$phone = new Phone();
+$phone->setNationalNumber('0748523695')
+    ->setCountryCode('27');
+
+$ci = new CustomerDetail();
 $ci->setFirstName('Test')
     ->setLastName('Customer')
     ->setEmail('test.customer@example.com')
-    ->setCountryCode('27')
-    ->setCountryOfResidence('ZA')
-    ->setPhone('0748523695')
-    ->setCustomerId('854');
+    ->setPhone($phone)
+    ->setCustomerId('854')
+    ->setIpAddress('127.0.0.1');
 
 // ### Customer
 // A resource representing a Customer that funds a payment.
 $customer = new Customer();
-$customer->setCustomerInfo($ci)
-    ->setIPAddress('127.0.0.1');
+$customer->setCustomerDetail($ci);
 
 // ### Amount
 // Lets you specify a payment amount.
 // You can also specify additional details
 // such as shipping, tax.
-$amount = new Amount();
-$amount->setCurrency("ZAR")
-    ->setTotal(200.00);
+$currency = new Currency(['code' => 'ZAR']);
+$total = new Total();
+$total->setCurrency($currency)
+    ->setAmount(200.00);
 
 // ### Transaction
 // A transaction defines the contract of a
 // payment - what is the payment for and who
 // is fulfilling it.
 $transaction = new Transaction();
-$transaction->setAmount($amount)
+$transaction->setTotal($total)
     ->setDescription("Payment description");
 
 // ### Redirect
 // A Redirect Payment Resource; create one using
 // the above types and intent set to sale 'payment'
 $redirect = new Redirect();
-$redirect->setIntent(Transaction::TYPE_FINALIZE)
+$redirect->setTransactionType(Transaction::TYPE_FINALIZE)
     ->setCustomer($customer)
     ->setTransaction($transaction);
 
