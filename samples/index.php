@@ -2,26 +2,28 @@
 <?php
 if (PHP_SAPI == 'cli') {
     // If the index.php is called using console, we would try to host
-    // the built in PHP Server
-    if (version_compare(phpversion(), '5.4.0', '>=') === true) {
+    // the built-in PHP Server
+    if (version_compare(phpversion(), '8.1', '>=') === true) {
         //exec('php -S -t ' . __DIR__ . '/');
         $cmd = "php -S localhost:5500 -t " . __DIR__;
-        $descriptors = array(
-            0 => array("pipe", "r"),
+        $descriptors = [
+            0 => ["pipe", "r"],
             1 => STDOUT,
             2 => STDERR,
-        );
+        ];
         $process = proc_open($cmd, $descriptors, $pipes);
+
         if ($process === false) {
-            fprintf(STDERR,
-                "Unable to launch PHP's built-in web server.\n");
+            fprintf(STDERR, "Unable to launch PHP's built-in web server.\n");
+
             exit(2);
         }
+
         fclose($pipes[0]);
         $exit = proc_close($process);
         exit($exit);
     } else {
-        echo "You must be running PHP version less than 5.4. You would have to manually host the website on your local web server.\n";
+        echo "You must be running PHP version 8.1+. You would have to manually host the website on your local web server.\n";
         exit(2);
     }
 } ?>
@@ -180,7 +182,7 @@ if (PHP_SAPI == 'cli') {
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-3 pull-left img-div">
-                <img src="https://static.payu.co.za/sites/all/themes/regionwithwalletNew/public/images/global/payu@2x.png"
+                <img src="https://southafrica.payu.com/wp-content/themes/global-website/assets/src/images/payu-logo.svg"
                      class="logo img-responsive"/>
             </div>
             <div class="col-md-9 pull-right">
@@ -192,15 +194,15 @@ if (PHP_SAPI == 'cli') {
                 <div class="footer-div">
                     <ul class="footer-links">
                         <li>
-                            <a href="http://github.com/netcraft-devops/payu-sdk-php/" target="_blank"><i
+                            <a href="https://github.com/PayUMEA/payu-mea-sdk-php" target="_blank"><i
                                         class="fa fa-github"></i>
                                 PayU PHP SDK</a></li>
                         <li>
-                            <a href="http://help.payu.co.za/display/developers" target="_blank"><i
+                            <a href="https://payusahelp.atlassian.net/wiki/spaces/general/overview?mode=global" target="_blank"><i
                                         class="fa fa-book"></i> API documentation</a>
                         </li>
                         <li>
-                            <a href="http://github.com/netcraft-devops/payu-sdk-php/issues" target="_blank"><i
+                            <a href="https://github.com/PayUMEA/payu-mea-sdk-php/issues" target="_blank"><i
                                         class="fa fa-exclamation-triangle"></i> Report Issues </a>
                         </li>
 
@@ -602,15 +604,15 @@ if (PHP_SAPI == 'cli') {
         <div class="footer-div">
             <ul class="footer-links">
                 <li>
-                    <a href="http://github.com/netcraft-devops/payu-sdk-php/" target="_blank"><i
+                    <a href="https://github.com/PayUMEA/payu-mea-sdk-php" target="_blank"><i
                                 class="fa fa-github"></i>
                         PayU PHP SDK</a></li>
                 <li>
-                    <a href="https://help.payu.co.za/developers" target="_blank"><i
+                    <a href="https://payusahelp.atlassian.net/wiki/spaces/general/overview?mode=global" target="_blank"><i
                                 class="fa fa-book"></i> API Documentation</a>
                 </li>
                 <li>
-                    <a href="http://github.com/netcraft-devops/payu-sdk-php/issues" target="_blank"><i
+                    <a href="https://github.com/PayUMEA/payu-mea-sdk-php/issues" target="_blank"><i
                                 class="fa fa-exclamation-triangle"></i> Report Issues </a>
                 </li>
             </ul>

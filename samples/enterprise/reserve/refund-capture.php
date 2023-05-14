@@ -2,49 +2,57 @@
 // # Authorize Payment
 // This sample code demonstrates how you can authorize a payment and get it's details.
 
-$capture = require __DIR__ . '/../../safestore/create-finalize.php';
-$captureId = $capture->getId();
+$response = require __DIR__ . '/../../safestore/create-finalize.php';
+$reference = $response->getPayUReference();
 
-use PayU\Api\Amount;
-use PayU\Api\Transaction;
-use PayU\Soap\ApiContext;
+use PayU\Api\Data\TransactionInterface;
+use PayU\Framework\Action\Refund;
+use PayU\Framework\Processor;
+use PayU\Framework\Soap\Context;
+use PayU\Model\Currency;
+use PayU\Model\Total;
+use PayU\Model\Transaction;
 
 // ### Amount
 // Lets you specify a payment amount.
 // You can also specify additional details
 // such as shipping, tax.
-$amount = new Amount();
-$amount->setCurrency("ZAR")
-    ->setTotal(175.50);
+$currency = new Currency();
+$currency->setCode('ZAR');
+
+$total = new Total();
+$total->setCurrency($currency)
+    ->setAmount(175.50);
 
 // ### Transaction
 // A transaction defines the contract of a
 // payment - what is the payment for and who
 // is fulfilling it.
 $transaction = new Transaction();
-$transaction->setAmount($amount);
-
-$capture->setIntent(Transaction::TYPE_CREDIT)
-    ->setTransaction($transaction);
+$transaction->setTotal($total);
 
 // Setting integration will alter the way the API behaves.
-$apiContext[0]->setAccountId('acct1')
-    ->setIntegration(ApiContext::ENTERPRISE);
+$apiContext[0]->setAccountId('account1')
+    ->setIntegration(Context::ENTERPRISE);
 
-// For Sample Purposes Only.
-$request = clone $capture;
+$refund = new Refund();
+$refund->setContext($apiContext[0])
+    ->setTransactionType(TransactionInterface::TYPE_CREDIT)
+    ->setTransaction($transaction)
+    ->setPayUReference($reference)
+    ->setMerchantReference($response->getMerchantReference());
 
 // You can refund a payment amount by invoking the `refund` method
-// with a valid ApiContext (See bootstrap.php for more on <code>ApiContext</code>).
+// with a valid Context (See bootstrap.php for more on <code>Context</code>).
 try {
-    $refund = $capture->refund($apiContext[0]);
+    $response = Processor::processAction('refund', $refund);
 } catch (Exception $ex) {
     // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
-    ResultPrinter::printError('Refund Captured/Finalized Payment', 'Refund', null, $request, $ex);
+    ResultPrinter::printError('Refund Captured/Finalized Payment', 'Refund', null, $refund, $ex);
     exit(1);
 }
 
 // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
-ResultPrinter::printResult('Refund Captured/Finalized Payment', 'Refund', $captureId, $request, $refund);
+ResultPrinter::printResult('Refund Captured/Finalized Payment', 'Refund', $reference, $refund, $response);
 
-return $refund;
+return $response;

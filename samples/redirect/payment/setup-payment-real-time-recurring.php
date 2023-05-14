@@ -5,86 +5,90 @@
 // This sample code demonstrate how you can process
 // a direct credit card payment.
 
-$card = require __DIR__ . '/../../safestore/setup-real-time-recurring-credit-card.php';
+list($request, $response) = require dirname(__DIR__, 2) . '/safestore/setup-real-time-recurring-credit-card.php';
 
-$reference = $card->getReturn()->getMerchantReference();
-$pmId = $card->getReturn()->getPaymentMethodsUsed()->getId();
-$userId = $card->getCustomer()->getCustomerInfo()->getCustomerId();
+$reference = $response->getMerchantReference();
+$pmId = $response->getPaymentMethodsUsed()->getId();
+$userId = $request->getCustomer()->getCustomerDetail()->getCustomerId();
 
-use PayU\Api\Amount;
-use PayU\Api\CreditCardToken;
-use PayU\Api\Customer;
-use PayU\Api\CustomerInfo;
-use PayU\Api\FundingInstrument;
-use PayU\Api\Payment;
-use PayU\Api\PaymentMethod;
-use PayU\Api\Transaction;
-use PayU\Soap\ApiContext;
+use PayU\Api\Data\TransactionInterface;
+use PayU\Framework\Processor;
+use PayU\Model\Currency;
+use PayU\Model\Total;
+use PayU\Model\CardToken;
+use PayU\Model\Customer;
+use PayU\Model\CustomerDetail;
+use PayU\Model\FundingInstrument;
+use PayU\Framework\Action\Sale;
+use PayU\Model\PaymentMethod;
+use PayU\Model\Transaction;
+use PayU\Framework\Soap\Context;
 
-// ### CreditCardToken
+// ### CardToken
 // Saved credit card id from a previous call to
 // create-credit-card.php
-$creditCardToken = new CreditCardToken();
-$creditCardToken->setCreditCardId($pmId)
-    ->setCvv2('123');
+$cardToken = new CardToken();
+$cardToken->setId($pmId)
+    ->setCvv('123');
 
 // ### FundingInstrument
 // A resource representing a Customer's funding instrument.
-// For stored credit card payments, set the CreditCardToken
+// For stored credit card payments, set the CardToken
 // field on this object.
-$fi = new FundingInstrument();
-$fi->setCreditCardToken($creditCardToken);
+$funding = new FundingInstrument();
+$funding->setCardToken($cardToken);
 
-$ci = new CustomerInfo();
-$ci->setCustomerId($userId);
+$customerDetail = new CustomerDetail();
+$customerDetail->setCustomerId($userId);
 
 // ### Customer
 // A resource representing a Customer that funds a payment
 // For stored credit card payments, set payment method to 'credit_card'.
 $customer = new Customer();
 $customer->setPaymentMethod(PaymentMethod::TYPE_REAL_TIME_RECURRING)
-    ->setCustomerInfo($ci)
-    ->setFundingInstrument($fi);
+    ->setCustomerDetail($customerDetail)
+    ->setFundingInstrument($funding);
 
 // ### Amount
 // Lets you specify a payment amount.
 // You can also specify additional details
 // such as shipping, tax.
-$amount = new Amount();
-$amount->setCurrency("ZAR")
-    ->setTotal(100.00);
+$currency = new Currency();
+$currency->setCode('ZAR');
+
+$total = new Total();
+$total->setCurrency($currency)
+    ->setAmount(100.00);
 
 // ### Transaction
 // A transaction defines the contract of a
 // payment - what is the payment for and who
 // is fulfilling it.
 $transaction = new Transaction();
-$transaction->setAmount($amount)
+$transaction->setTotal($total)
     ->setDescription("Payment description")
-    ->setInvoiceNumber($reference);
+    ->setReference($reference);
+
+// Setting integration will alter the way the API behaves.
+$apiContext[0]->setAccountId('account1')
+    ->setIntegration(Context::ENTERPRISE);
 
 // ### Payment
 // A Payment Resource; create one using
 // the above types and intent set to 'sale'
-$payment = new Payment();
-$payment->setIntent(Transaction::TYPE_PAYMENT)
+$sale = new Sale();
+$sale->setContext($apiContext[0])
+    ->setTransactionType(TransactionInterface::TYPE_PAYMENT)
     ->setCustomer($customer)
     ->setTransaction($transaction);
-
-// Setting integration will alter the way the API behaves.
-$apiContext[0]->setAccountId('acct1')
-    ->setIntegration(ApiContext::ENTERPRISE);
-
-// For Sample Purposes Only.
-$request = clone $payment;
 
 // ###Create Payment
 // Create a payment by calling the 'callDoTransaction' method
 // passing it a valid apiContext.
-// (See bootstrap.php for more on `ApiContext`)
+// (See bootstrap.php for more on `Context`)
 // The return object contains the state.
 try {
-    $payment->create($apiContext[0]);
+    $response = Processor::processAction('sales', $sale);
 } catch (Exception $ex) {
     // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
     ResultPrinter::printError("Create Real-Time Recurring Payment with token (pmId).", "Payment", null, $request, $ex);
@@ -92,6 +96,6 @@ try {
 }
 
 // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
-ResultPrinter::printResult("Create Real-Time Recurring Payment with token (pmId).", "Payment", $payment->getReturn()->getPayUReference(), $request, $payment);
+ResultPrinter::printResult("Create Real-Time Recurring Payment with token (pmId).", "Payment", $response->getPayUReference(), $request, $response);
 
-return $payment;
+return $response;

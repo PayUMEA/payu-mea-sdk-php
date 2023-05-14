@@ -7,24 +7,29 @@
 
 require __DIR__ . '/../../bootstrap.php';
 
-use PayU\Api\Address;
-use PayU\Api\Amount;
-use PayU\Api\CreditCard;
-use PayU\Api\Customer;
-use PayU\Api\CustomerInfo;
-use PayU\Api\FundingInstrument;
-use PayU\Api\Payment;
-use PayU\Api\PaymentCard;
-use PayU\Api\PaymentMethod;
-use PayU\Api\RedirectUrls;
-use PayU\Api\Transaction;
-use PayU\Api\TransactionRecord;
-use PayU\Soap\ApiContext;
+use PayU\Api\Data\CardInterface;
+use PayU\Api\Data\TransactionInterface;
+use PayU\Framework\Action\Sale;
+use PayU\Framework\Processor;
+use PayU\Framework\Soap\Context;
+use PayU\Model\Address;
+use PayU\Model\BillingAddress;
+use PayU\Model\CreditCard;
+use PayU\Model\Currency;
+use PayU\Model\Customer;
+use PayU\Model\CustomerDetail;
+use PayU\Model\FundingInstrument;
+use PayU\Model\PaymentMethod;
+use PayU\Model\Phone;
+use PayU\Model\Total;
+use PayU\Model\Transaction;
+use PayU\Model\TransactionRecord;
+use PayU\Model\TransactionUrl;
 
 // ### Address
 // A resource representing a customer shipping/billing address information
-$addr = new Address();
-$addr->setLine1("21 Main Road")
+$address = new Address();
+$address->setLine1("21 Main Road")
     ->setLine2("Cape Town")
     ->setCity("Cape Town")
     ->setState("WC")
@@ -35,97 +40,102 @@ $addr->setLine1("21 Main Road")
 // A resource representing a payment card that can be
 // used to fund a payment.
 $card = new CreditCard();
-$card->setType(PaymentCard::TYPE_VISA)
+$card->setType(CardInterface::TYPE_VISA)
     ->setNumber("4000015372250142")
-    ->setExpireMonth("11")
-    ->setExpireYear("2019")
-    ->setCvv2("123")
-    ->setFirstName("John")
-    ->setLastName("Snow")
-    ->setBillingAddress($addr)
-    ->setBillingCountry("ZA");
+    ->setExpiryMonth("11")
+    ->setExpiryYear("2026")
+    ->setCvv("123")
+    ->setNameOnCard("John Snow")
+    ->setBudget(false)
+    ->setSecure3d(true)
+    ->setBillingAddress(new BillingAddress($address->toArray()));
 
 // ### FundingInstrument
 // A resource representing a Customer's funding instrument.
 // For direct credit card payments, set the CreditCard
 // field on this object.
-$fi = new FundingInstrument();
-$fi->setPaymentCard($card);
+$funding = new FundingInstrument();
+$funding->setCreditCard($card);
 
-// ### CustomerInfo
+// ### CustomerDetail
 // A resource representing a customer detailed information
-$ci = new CustomerInfo();
-$ci->setFirstName('Test')
+$phone = new Phone();
+$phone->setNationalNumber('0748523695')
+    ->setCountryCode('27');
+
+$customerDetail = new CustomerDetail();
+$customerDetail->setFirstName('Test')
     ->setLastName('Customer')
     ->setEmail('test.customer@gmail.com')
-    ->setCountryCode('27')
-    ->setCountryOfResidence('ZA')
-    ->setPhone('0748523695')
+    ->setPhone($phone)
     ->setCustomerId('858')
-    ->setBillingAddress($addr);
+    ->setAddress($address)
+    ->setIpAddress('127.0.0.1');
 
 // ### Customer
 // A resource representing a Customer that funds a payment.
 $customer = new Customer();
 $customer->setPaymentMethod(PaymentMethod::TYPE_CREDITCARD)
-    ->setCustomerInfo($ci)
-    ->setIpAddress('127.0.0.1')
-    ->setFundingInstrument($fi);
+    ->setCustomerDetail($customerDetail)
+    ->setFundingInstrument($funding);
 
 // ### Amount
 // Lets you specify a payment amount.
 // You can also specify additional details
 // such as shipping, tax.
-$amount = new Amount();
-$amount->setCurrency("ZAR")
-    ->setTotal(200.00);
+$currency = new Currency(['code' => 'ZAR']);
+$total = new Total();
+$total->setCurrency($currency)
+    ->setAmount(200.00);
 
 // ### Transaction
 // A transaction defines the contract of a
 // payment - what is the payment for and who
 // is fulfilling it.
 $transaction = new Transaction();
-$transaction->setAmount($amount)
+$transaction->setTotal($total)
     ->setDescription("Payment description")
-    ->setInvoiceNumber(uniqid('payu'));
+    ->setReference(uniqid('payu'));
 
 // A transaction record defines the debit order transaction details.
 $transactionRecord = new TransactionRecord();
 $transactionRecord->setRecurrences(6)
-    ->setStartDate('2014/07/26')
+    ->setStartDate('2023/05/01')
     ->setStatementDescription('Subscription')
     ->setManagedBy('MERCHANT')
     ->setFrequency('W')
-    ->setAnonymousUser(true)
-    ->setCallCenterRepIds(array('25', '56'));
+    ->setAnonymousUser(false)
+    ->setCallCenterRepIds(['25', '56']);
 
 $baseUrl = getBaseUrl();
-$redirectUrls = new RedirectUrls();
-$redirectUrls->setNotifyUrl("$baseUrl/process-return.php");
+$transactionUrl = new TransactionUrl();
+$transactionUrl->setNotificationUrl('http://example.com/return')
+    ->setResponseUrl("$baseUrl/process-return.php?apiContext=3")
+    ->setCancelUrl("$baseUrl/process-return.php?cancel=true&apiContext=3");
 
+// Redirect API integration.
+$apiContext[3]->setAccountId('account4')
+    ->setIntegration(Context::ENTERPRISE);
 
 // ### Redirect
 // A Redirect Payment Resource; create with intent set to 'debit_order'
-$payment = new Payment();
-$payment->setIntent(Transaction::TYPE_DEBIT_ORDER)
+$payment = new Sale();
+$payment->setContext($apiContext[3])
+    ->setTransactionType(TransactionInterface::TYPE_DEBIT_ORDER)
     ->setCustomer($customer)
     ->setTransaction($transaction)
-    ->setRedirectUrls($redirectUrls)
+    ->setTransactionUrl($transactionUrl)
     ->setTransactionRecord($transactionRecord);
-
-// Redirect API integration.
-$apiContext[3]->setAccountId('acct4')
-    ->setIntegration(ApiContext::ENTERPRISE);
 
 // For Sample Purposes Only.
 $request = clone $payment;
 
 // ### Setup Redirect Debit Order
 // Setup redirect by calling the redirect->setup() method
-// with a valid ApiContext (See bootstrap.php for more on `ApiContext`)
+// with a valid Context (See bootstrap.php for more on `Context`)
 // `getPayURedirectUrl` will return the url for redirection.
 try {
-    $payment->create($apiContext[3]);
+    $response = Processor::processAction('sale', $payment);
 } catch (Exception $ex) {
     // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
     ResultPrinter::printError('Create Debit Order Payment. If 500 Exception, check response for details', 'Redirect', null, $request, $ex);
@@ -133,7 +143,7 @@ try {
 }
 
 // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
-ResultPrinter::printResult("Create Debit Order Payment.", "Redirect", $payment->getId(), $request, $payment);
+ResultPrinter::printResult("Create Debit Order Payment.", "Redirect", $response->getPayUReference(), $request, $response);
 
 
 return $payment;

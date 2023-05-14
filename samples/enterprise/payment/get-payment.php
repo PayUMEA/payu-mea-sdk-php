@@ -4,20 +4,25 @@
 // retrieve details of a Payment resource
 // you've created using the SOAP API.
 
-/** @var Payment $createdPayment */
+/** @var Sale $createdPayment */
 $createdPayment = require __DIR__ . '/../../safestore/create-payment.php';
 
-use PayU\Api\Payment;
+use PayU\Framework\Action\Search;
+use PayU\Framework\Action\Sale;
+use PayU\Framework\Processor;
 
-$paymentId = $createdPayment->getId();
+$paymentId = $createdPayment->getPayUReference();
 
+$search = new Search();
+$search->setPayUReference($paymentId)
+    ->setContext($apiContext[6]);
 // ### Retrieve payment
 // Retrieve details of a payment object by calling the
 // static `get` method
 // on the Payment class by passing a valid PayU reference ID
-// (See bootstrap.php for more on `ApiContext`)
+// (See bootstrap.php for more on `Context`)
 try {
-    $resource = Payment::get($paymentId, $apiContext[6]);
+    $response = Processor::processAction('search', $search);
 } catch (Exception $ex) {
     // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
     ResultPrinter::printError("Get Payment details", "Payment", null, null, $ex);
@@ -25,6 +30,6 @@ try {
 }
 
 // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
-ResultPrinter::printResult("Get Payment details", "Payment", $payment->getId(), $createdPayment, $resource);
+ResultPrinter::printResult("Get Payment details", "Payment", $response->getPayUReference(), $createdPayment, $response);
 
-return $resource;
+return $response;
