@@ -2,34 +2,49 @@
 // # Void Authorize
 // This sample code demonstrates how you can authorize a payment and get it's details.
 
-$reserve = require __DIR__ . '/../../safestore/create-reserve.php';
-$reserveId = $reserve->getId();
+$response = require __DIR__ . '/../../safestore/create-reserve.php';
 
-use PayU\Api\Transaction;
-use PayU\Soap\ApiContext;
+use PayU\Api\Data\TransactionInterface;
+use PayU\Framework\Action\VoidAuthorize;
+use PayU\Framework\Processor;
+use PayU\Framework\Soap\Context;
+use PayU\Model\Currency;
+use PayU\Model\Total;
+use PayU\Model\Transaction;
+
+$currency = new Currency(['code' => 'ZAR']);
+$total = new Total();
+$total->setCurrency($currency)
+    ->setAmount(175.50);
+
+$transaction = new Transaction();
+$transaction->setTotal($total)
+    ->setDescription('Void transaction');
 
 // Setting integration to `redirect` will alter the way the API behaves.
-$apiContext[0]->setAccountId('acct1')
-    ->setIntegration(ApiContext::ENTERPRISE);
+$apiContext[0]->setAccountId('account1')
+    ->setIntegration(Context::ENTERPRISE);
 
-// For Sample Purposes Only.
-$request = clone $reserve;
-
-$reserve->setIntent(Transaction::TYPE_RESERVE_CANCEL);
+$void = new VoidAuthorize();
+$void->setTransactionType(TransactionInterface::TYPE_RESERVE_CANCEL)
+    ->setContext($apiContext[0])
+    ->setTransaction($transaction)
+    ->setPayUReference($response->getPayUReference())
+    ->setMerchantReference($response->getMerchantReference());;
 
 
 // You can retrieve info about an Authorization (Reserve)
 // by invoking the Reserve::get method
-// with a valid ApiContext (See bootstrap.php for more on <code>ApiContext</code>).
+// with a valid Context (See bootstrap.php for more on <code>Context</code>).
 try {
-    $resource = $reserve->void($apiContext[0]);
+    $response = Processor::processAction('void', $void);
 } catch (Exception $ex) {
     // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
-    ResultPrinter::printError('Void/Cancel Authorized/Reserved Payment', 'Reserve', null, $request, $ex);
+    ResultPrinter::printError('Void/Cancel Authorized/Reserved Payment', 'Reserve', null, $void, $ex);
     exit(1);
 }
 
 // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
-ResultPrinter::printResult('Void/Cancel Authorized/Reserved Payment', 'Reserve', $reserveId, $request, $resource);
+ResultPrinter::printResult('Void/Cancel Authorized/Reserved Payment', 'Reserve', $response->getPayUReference(), $void, $response);
 
-return $resource;
+return $response;

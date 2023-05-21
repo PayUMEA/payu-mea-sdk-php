@@ -2,56 +2,55 @@
 // # Capture Payment
 // This sample code demonstrates how you can capture a payment.
 
-$createdReserve = require 'create-reserve.php';
+$reserveResponse = require 'create-reserve.php';
 
-use PayU\Api\Amount;
-use PayU\Api\Customer;
-use PayU\Api\PaymentMethod;
-use PayU\Api\Reserve;
-use PayU\Api\Transaction;
-use PayU\Soap\ApiContext;
+use PayU\Framework\Processor;
+use PayU\Model\Total;
+use PayU\Model\Currency;
+use PayU\Model\Customer;
+use PayU\Model\PaymentMethod;
+use PayU\Framework\Action\Authorize;
+use PayU\Model\Transaction;
+use PayU\Framework\Soap\Context;
 
 
 $customer = new Customer();
 $customer->setPaymentMethod(PaymentMethod::TYPE_CREDITCARD);
 
-$amount = new Amount();
-$amount->setCurrency("ZAR")
-    ->setTotal(175.50);
+$currency = new Currency(['code' => 'ZAR']);
+$total = new Total();
+$total->setCurrency($currency)
+    ->setAmount(175.50);
 
 $transaction = new Transaction();
-$transaction->setAmount($amount);
-
-$reserve = new Reserve();
-$response = $createdReserve->getReturn();
-// Setting intent to finalize captures the authorized payment.
-$reserve->setIntent(Transaction::TYPE_FINALIZE)
-    ->setCustomer($customer)
-    ->setTransaction($transaction)
-    ->setPayUReference($response->getPayUReference())
-    ->setMerchantReference($response->getMerchantReference());
+$transaction->setTotal($total);
 
 // Setting integration to `redirect` will alter the way the API behaves.
-$apiContext[0]->setAccountId('acct1')
-    ->setIntegration(ApiContext::ENTERPRISE);
+$apiContext[0]->setAccountId('account1')
+    ->setIntegration(Context::ENTERPRISE);
 
-// For Sample Purposes Only.
-$request = clone $reserve;
+// Setting intent to finalize captures the authorized payment.
+$authorize = new Authorize();
+$authorize->setContext($apiContext[0])
+    ->setTransactionType(Transaction::TYPE_FINALIZE)
+    ->setCustomer($customer)
+    ->setTransaction($transaction)
+    ->setPayUReference($reserveResponse->getPayUReference())
+    ->setMerchantReference($reserveResponse->getMerchantReference());
 
 // ### Capture Payment
 // Capture a payment by calling the reserve->capture() method
-// with a valid ApiContext (See bootstrap.php for more on `ApiContext`)
+// with a valid Context (See bootstrap.php for more on `Context`)
 // The response object retrieved by calling `getReturn()` on the payment resource contains the state.
 try {
-    $capture = $reserve->capture($apiContext[0]);
-
+    $response = Processor::processAction('capture', $authorize);
 } catch (Exception $ex) {
     // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
-    ResultPrinter::printError('Capture/Finalize Reserved Payment', 'Reserve', $reserve->getId(), $reserve, $ex);
+    ResultPrinter::printError('Capture/Finalize Reserved Payment', 'Reserve', $response ? $response->getPayUReference() : '', $authorize, $ex);
     exit(1);
 }
 
 // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
-ResultPrinter::printResult('Capture/Finalize Reserved Payment', 'Reserve', $capture->getId(), $request, $capture);
+ResultPrinter::printResult('Capture/Finalize Reserved Payment', 'Reserve', $response->getPayUReference(), $authorize, $response);
 
-return $capture;
+return $response;
