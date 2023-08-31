@@ -62,18 +62,19 @@ class FraudServiceDataHandler implements BuilderInterface
             $shippingInfo = $transaction->getShippingInfo();
 
             if ($shippingInfo) {
+                list($firstname, $lastname) = explode(' ', $shippingInfo->getRecipientName());
                 $shipping = [
-                    'shippingId' => $shippingInfo->getId(),
-                    'shippingFirstName' => $shippingInfo->getFirstName(),
-                    'shippingLastName' => $shippingInfo->getLastName(),
+                    'shippingId' => $shippingInfo->getShippingId(),
+                    'shippingFirstName' => $firstname,
+                    'shippingLastName' => $lastname,
                     'shippingEmail' => $shippingInfo->getEmail(),
                     'shippingAddress1' => $shippingInfo->getLine1(),
                     'shippingAddress2' => $shippingInfo->getLine2(),
                     'shippingAddressCity' => $shippingInfo->getCity(),
                     'shippingCountryCode' => $shippingInfo->getCountryCode(),
                     'shippingPostCode' => $shippingInfo->getPostalCode(),
-                    'shippingMethod' => $shippingInfo->getMethod(),
-                    //'shippingPhone' => $shippingInfo->getPhone()
+                    'shippingMethod' => $shippingInfo->getShippingMethod(),
+                    'shippingPhone' => $shippingInfo->getPhone()->getNationalNumber()
                 ];
             }
 

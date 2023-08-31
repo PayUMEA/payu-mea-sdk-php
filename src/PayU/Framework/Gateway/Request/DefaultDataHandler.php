@@ -36,6 +36,7 @@ class DefaultDataHandler implements BuilderInterface
             $data = [
                 'TransactionType' => $buildSubject['subject']->getTransactionType(),
                 'AdditionalInformation' => [
+                    'demoMode' => $transaction->getDemo(),
                     'merchantReference' => $transaction->getReference()
                 ],
                 'Basket' => [

@@ -12,11 +12,13 @@ use PayU\Api\Data\BasketInterface;
 use PayU\Api\Data\LookupDataInterface;
 use PayU\Api\Data\Secure3DInterface;
 use PayU\Api\ResponseInterface;
-use PayU\Model\Secure3D;
+use PayU\Model\BaseEft;
 use PayU\Model\Basket;
+use PayU\Model\FraudService;
 use PayU\Model\LookupData;
 use PayU\Model\PaymentMethod;
 use PayU\Model\RecurringPayment;
+use PayU\Model\Secure3D;
 
 /**
  * Class Response
@@ -30,9 +32,9 @@ class Response extends AbstractModel implements ResponseInterface
     /**
      * Checks if transaction is successful
      *
-     * @return bool
+     * @return ?bool
      */
-    public function getSuccessful(): bool
+    public function getSuccessful(): ?bool
     {
         return $this->getData('successful');
     }
@@ -40,9 +42,9 @@ class Response extends AbstractModel implements ResponseInterface
     /**
      * User friendly error display message
      *
-     * @return string
+     * @return ?string
      */
-    public function getDisplayMessage(): string
+    public function getDisplayMessage(): ?string
     {
         return $this->getData('displayMessage');
     }
@@ -60,9 +62,9 @@ class Response extends AbstractModel implements ResponseInterface
     /**
      * Merchant specified transaction identifier. Maybe unique or otherwise.
      *
-     * @return string
+     * @return ?string
      */
-    public function getMerchantReference(): string
+    public function getMerchantReference(): ?string
     {
         return $this->getData('merchantReference');
     }
@@ -70,9 +72,9 @@ class Response extends AbstractModel implements ResponseInterface
     /**
      * Result code of transaction
      *
-     * @return string
+     * @return ?string
      */
-    public function getResultCode(): string
+    public function getResultCode(): ?string
     {
         return $this->getData('resultCode');
     }
@@ -80,9 +82,9 @@ class Response extends AbstractModel implements ResponseInterface
     /**
      * Result message of transaction
      *
-     * @return string
+     * @return ?string
      */
-    public function getResultMessage(): string
+    public function getResultMessage(): ?string
     {
         return $this->getData('resultMessage');
     }
@@ -90,9 +92,9 @@ class Response extends AbstractModel implements ResponseInterface
     /**
      * Type of transaction
      *
-     * @return string
+     * @return ?string
      */
-    public function getTransactionType(): string
+    public function getTransactionType(): ?string
     {
         return $this->getData('transactionType');
     }
@@ -100,9 +102,9 @@ class Response extends AbstractModel implements ResponseInterface
     /**
      * Transaction state
      *
-     * @return string
+     * @return ?string
      */
-    public function getTransactionState(): string
+    public function getTransactionState(): ?string
     {
         return $this->getData('transactionState');
     }
@@ -114,7 +116,7 @@ class Response extends AbstractModel implements ResponseInterface
      */
     public function getBasket(): BasketInterface
     {
-        $basket = $this->getData('basket');
+        $basket = $this->getData('basket') ?? [];
 
         return new Basket($basket);
     }
@@ -126,7 +128,7 @@ class Response extends AbstractModel implements ResponseInterface
      */
     public function getSecure3D(): Secure3DInterface
     {
-        $secure3d = $this->getData('secure3D');
+        $secure3d = $this->getData('secure3D') ?? [];
 
         return new Secure3D($secure3d);
     }
@@ -138,7 +140,7 @@ class Response extends AbstractModel implements ResponseInterface
      */
     public function getPaymentMethodsUsed(): PaymentMethod
     {
-        $paymentMethodsUsed = $this->getData('paymentMethodsUsed');
+        $paymentMethodsUsed = $this->getData('paymentMethodsUsed') ?? [];
 
         return new PaymentMethod($paymentMethodsUsed);
     }
@@ -150,7 +152,7 @@ class Response extends AbstractModel implements ResponseInterface
      */
     public function getRecurringDetails(): RecurringPayment
     {
-        $recurringDetails = $this->getData('recurringDetails');
+        $recurringDetails = $this->getData('recurringDetails') ?? [];
 
         return new RecurringPayment($recurringDetails);
     }
@@ -158,21 +160,23 @@ class Response extends AbstractModel implements ResponseInterface
     /**
      * EFT funding instrument details.
      *
-     * @return \PayU\Api\BaseEft
+     * @return BaseEft
      */
     public function getRedirect(): BaseEft
     {
-        return $this->redirect;
+        $eft = $this->getData('eft') ?? [];
+
+        return new BaseEft($eft);
     }
 
     /**
      * Fraud management details.
      *
-     * @return \PayU\Api\FraudService
+     * @return FraudService
      */
     public function getFraud(): FraudService
     {
-        return $this->getData('fraud');
+        return $this->getData('fraud') ?? [];
     }
 
     /**
@@ -182,7 +186,7 @@ class Response extends AbstractModel implements ResponseInterface
      */
     public function getCustomFields(): array
     {
-        return $this->getData('customFields');
+        return $this->getData('customFields') ?? [];
     }
 
     /**
@@ -192,8 +196,16 @@ class Response extends AbstractModel implements ResponseInterface
      */
     public function getLookupData(): LookupDataInterface
     {
-        $lookupData = $this->getData('lookupData');
+        $lookupData = $this->getData('lookupData') ?? [];
 
         return new LookupData($lookupData);
+    }
+
+    /**
+     * @return array
+     */
+    public function getPaymentData(): array
+    {
+        return self::toFlatArray($this->toArray());
     }
 }

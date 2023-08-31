@@ -26,6 +26,14 @@ class Transaction extends AbstractModel implements TransactionInterface
     /**
      * @return string
      */
+    public function getDemo(): string
+    {
+        return $this->getData(TransactionInterface::DEMO);
+    }
+
+    /**
+     * @return string
+     */
     public function getReference(): string
     {
         return $this->getData(TransactionInterface::REFERENCE);
@@ -77,6 +85,15 @@ class Transaction extends AbstractModel implements TransactionInterface
     public function getRecurringPayment(): ?RecurringPaymentInterface
     {
         return $this->getData(TransactionInterface::RECURRING_PAYMENT);
+    }
+
+    /**
+     * @param string $demo
+     * @return $this
+     */
+    public function setDemo(string $demo): static
+    {
+        return $this->setData(TransactionInterface::DEMO, $demo);
     }
 
     /**

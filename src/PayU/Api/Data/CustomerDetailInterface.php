@@ -48,6 +48,10 @@ interface CustomerDetailInterface
      * Address.
      */
     const ADDRESS = 'address';
+    /*
+     * Address.
+     */
+    const REGIONAL_ID = 'regional_id';
 
     /**
      * @return string Customer email
@@ -83,6 +87,11 @@ interface CustomerDetailInterface
      * @return AddressInterface Customer address
      */
     public function getAddress(): AddressInterface;
+
+    /**
+     * @return string Customer government issued identification
+     */
+    public function getRegionalId(): ?string;
 
     /**
      * @param string $email
@@ -125,4 +134,10 @@ interface CustomerDetailInterface
      * @return $this
      */
     public function setAddress(AddressInterface $address): static;
+
+    /**
+     * @param string $identification
+     * @return $this
+     */
+    public function setRegionalId(string $identification): static;
 }

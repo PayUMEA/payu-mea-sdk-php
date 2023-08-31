@@ -56,7 +56,7 @@ class ShippingAddress extends Address implements ShippingAddressInterface
      */
     public function setShippingId(int|string $shippingId): static
     {
-        return $this->setData(ShippingAddressInterface::RECIPIENT_NAME, $shippingId);
+        return $this->setData(ShippingAddressInterface::SHIPPING_ID, $shippingId);
     }
 
     /**
@@ -65,6 +65,6 @@ class ShippingAddress extends Address implements ShippingAddressInterface
      */
     public function setShippingMethod(string $shippingMethod): static
     {
-        return $this->setData(ShippingAddressInterface::RECIPIENT_NAME, $shippingMethod);
+        return $this->setData(ShippingAddressInterface::SHIPPING_METHOD, $shippingMethod);
     }
 }

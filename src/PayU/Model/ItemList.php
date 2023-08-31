@@ -39,9 +39,9 @@ class ItemList extends AbstractModel
     /**
      * List of items.
      *
-     * @return array
+     * @return ?array
      */
-    public function getItems(): array
+    public function getItems(): ?array
     {
         return $this->getData('items');
     }

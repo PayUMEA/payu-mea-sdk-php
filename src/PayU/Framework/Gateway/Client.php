@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace PayU\Framework\Gateway;
 
 use PayU\Framework\Soap\Context;
+use PayU\Framework\XMLHelper;
 use SoapClient;
 use SoapFault;
 use SOAPHeader;
@@ -121,11 +122,20 @@ class Client
      */
     public function debugLog(): string
     {
-        $string = "\n\n" . "SOAP CALL REQUEST HEADERS: " . self::$soapClient->__getLastRequestHeaders();
-        $string .= "\n\n" . "SOAP CALL REQUEST: " . self::$soapClient->__getLastRequest();
-        $string .= "\n\n" . "SOAP CALL RESPONSE HEADERS: " . self::$soapClient->__getLastResponseHeaders();
-        $string .= "\n\n" . "SOAP CALL RESPONSE: " . self::$soapClient->__getLastResponse();
+        $string = "\n\n" . "SOAP CALL REQUEST HEADERS: \n" . $this->prettyPrintXml(self::$soapClient->__getLastRequestHeaders());
+        $string .= "\n\n" . "SOAP CALL REQUEST: \n" . $this->prettyPrintXml(self::$soapClient->__getLastRequest());
+        $string .= "\n\n" . "SOAP CALL RESPONSE HEADERS: \n" . $this->prettyPrintXml(self::$soapClient->__getLastResponseHeaders());
+        $string .= "\n\n" . "SOAP CALL RESPONSE: \n" . $this->prettyPrintXml(self::$soapClient->__getLastResponse());
+        $string .= "\n\n";
 
         return $string;
+    }
+
+    /**
+     * @param string $xml
+     * @return array|string|string[]|null
+     */
+    private function prettyPrintXml(string $xml) {
+        return (new XMLHelper())->prettyPrint($xml);
     }
 }

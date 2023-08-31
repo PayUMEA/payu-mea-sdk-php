@@ -320,6 +320,24 @@ class DataObject implements ArrayAccess
     }
 
     /**
+     * Convert nested array into flat array.
+     *
+     * @param array $data
+     * @return array
+     */
+    public static function toFlatArray($data = [])
+    {
+        foreach ($data as $key => $value) {
+            if (is_array($value)) {
+                $value = self::toFlatArray($value);
+                unset($data[$key]);
+                $data = array_merge($data, $value);
+            }
+        }
+        return $data;
+    }
+
+    /**
      * Convert object data to JSON
      *
      * @param array $keys array of required keys

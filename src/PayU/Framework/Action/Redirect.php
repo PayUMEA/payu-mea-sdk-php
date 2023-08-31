@@ -44,7 +44,7 @@ class Redirect extends BaseAction
             ]
         );
 
-        $this->setResponse($response);
+        $response->setPayURedirectUrl($this->getPayURedirectUrl($response));
 
         return $response;
     }
@@ -52,12 +52,13 @@ class Redirect extends BaseAction
     /**
      * PayU redirect url. Customer is redirected to PayU to capture payment details.
      *
+     * @param $response
      * @return string|null
      */
-    public function getPayURedirectUrl(): ?string
+    public function getPayURedirectUrl($response): ?string
     {
         $mode = $this->getContext()->get('mode');
-        $reference = $this->getResponse()->getPayUReference();
+        $reference = $response->getPayUReference();
 
         if (!$mode || !$reference) {
             return null;

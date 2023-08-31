@@ -30,9 +30,15 @@ interface TransactionInterface
     const TYPE_ONCE_OFF_PAYMENT_AND_DEBIT_ORDER = 'ONCE_OFF_PAYMENT_AND_DEBIT_ORDER'; // debit order with payment
     const TYPE_ONCE_OFF_RESERVE_AND_DEBIT_ORDER = 'ONCE_OFF_RESERVE_AND_DEBIT_ORDER'; // debit order with reserve
 
+    public const STATE_EXPIRED = 'EXPIRED';
+
     /**#@+
      * Constants for keys of data array. Identical to the name of the getter in snake case.
      */
+    /*
+     * Transaction reference id.
+     */
+    const DEMO = 'demo';
     /*
      * Transaction reference id.
      */
@@ -61,6 +67,12 @@ interface TransactionInterface
      * Recurring payment details.
      */
     const RECURRING_PAYMENT = 'recurring_payment';
+
+    /**
+     * @return string Demo transaction
+     * @package PayU\Api\Data
+     */
+    public function getDemo(): string;
 
     /**
      * @return string Transaction reference
@@ -97,6 +109,12 @@ interface TransactionInterface
      * @return ?RecurringPaymentInterface Recurring payment data
      */
     public function getRecurringPayment(): ?RecurringPaymentInterface;
+
+    /**
+     * @param string $demo
+     * @return $this
+     */
+    public function setDemo(string $demo): static;
 
     /**
      * @param string $reference

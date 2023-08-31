@@ -40,6 +40,10 @@ class CustomerDataHandler implements BuilderInterface
             ];
         }
 
+        if ($customerDetail->getRegionalId()) {
+            $data['Customer']['regionalId'] = $customerDetail->getRegionalId();
+        }
+
         return $data;
     }
 }

@@ -78,6 +78,14 @@ class CustomerDetail extends AbstractModel implements CustomerDetailInterface
     }
 
     /**
+     * @return string
+     */
+    public function getRegionalId(): ?string
+    {
+        return $this->getData(CustomerDetailInterface::REGIONAL_ID);
+    }
+
+    /**
      * @param string $email
      * @return $this
      */
@@ -138,5 +146,14 @@ class CustomerDetail extends AbstractModel implements CustomerDetailInterface
     public function setAddress(AddressInterface $address): static
     {
         return $this->setData(CustomerDetailInterface::ADDRESS, $address);
+    }
+
+    /**
+     * @param AddressInterface $address
+     * @return $this
+     */
+    public function setRegionalId(string $identification): static
+    {
+        return $this->setData(CustomerDetailInterface::REGIONAL_ID, $identification);
     }
 }

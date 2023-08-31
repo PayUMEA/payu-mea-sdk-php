@@ -39,18 +39,17 @@ class Sale extends BaseAction implements ActionInterface
                 'context' => $this->getContext()
             ]
         );
-        $this->setResponse($response);
+        $response->setEftProUrl($this->getEftProUrl($response));
 
         return $response;
     }
 
     /**
+     * @param $response
      * @return string
      */
-    public function getEftProUrl(): string
+    protected function getEftProUrl($response): string
     {
-        $response = $this->getResponse();
-
         return isset($response['redirect']) ? $response['redirect']['url'] : '';
     }
 }
