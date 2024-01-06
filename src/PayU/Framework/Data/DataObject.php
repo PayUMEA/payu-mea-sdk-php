@@ -6,12 +6,12 @@
 
 declare(strict_types=1);
 
-namespace PayU\Framework\Data;
+namespace PayUSdk\Framework\Data;
 
 use ArrayAccess;
 use InvalidArgumentException;
-use PayU\Framework\Exception\LocalizedException;
-use PayU\Framework\Serialize\JsonConverter;
+use PayUSdk\Framework\Exception\LocalizedException;
+use PayUSdk\Framework\Serialize\JsonConverter;
 
 /**
  * Universal data container with array access implementation

@@ -8,7 +8,7 @@
 
 namespace PayU\Test\Api;
 
-use PayU\Api\Basket;
+use PayUSdk\Api\Basket;
 
 class BasketTest extends \PHPUnit_Framework_TestCase
 {

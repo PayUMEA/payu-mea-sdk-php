@@ -6,13 +6,13 @@
 
 declare(strict_types=1);
 
-namespace PayU\Framework\Action;
+namespace PayUSdk\Framework\Action;
 
-use PayU\Api\ResponseInterface;
-use PayU\Framework\Exception\ConfigurationException;
-use PayU\Framework\Exception\InvalidCredentialException;
-use PayU\Framework\Soap\Context;
-use PayU\Framework\Gateway\Command;
+use PayUSdk\Api\ResponseInterface;
+use PayUSdk\Framework\Exception\ConfigurationException;
+use PayUSdk\Framework\Exception\InvalidCredentialException;
+use PayUSdk\Framework\Soap\Context;
+use PayUSdk\Framework\Gateway\Command;
 use ReflectionException;
 use SoapFault;
 
@@ -21,7 +21,7 @@ use SoapFault;
  *
  * Payment with redirect action.
  *
- * @package PayU\Framework\Action
+ * @package PayUSdk\Framework\Action
  */
 class Redirect extends BaseAction
 {

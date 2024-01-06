@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace PayU\Framework\Core;
+namespace PayUSdk\Framework\Core;
 
-use PayU\Log\DefaultLogFactory;
+use PayUSdk\Log\DefaultLogFactory;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -16,7 +16,7 @@ use Psr\Log\LoggerInterface;
  *
  * Simple Logging Manager.
  *
- * @package PayU\Framework\Core
+ * @package PayUSdk\Framework\Core
  */
 class LoggingManager
 {
@@ -50,9 +50,9 @@ class LoggingManager
 
         // Checks if custom factory defined, and is it an implementation of @PayULogFactory
         $factory = array_key_exists('log.adapter_factory', $config)
-        && in_array('PayU\Log\PayULogFactory', (array)class_implements($config['log.adapter_factory']))
+        && in_array('PayUSdk\Log\PayULogFactory', (array)class_implements($config['log.adapter_factory']))
             ? $config['log.adapter_factory']
-            : '\PayU\Log\DefaultLogFactory';
+            : '\PayUSdk\Log\DefaultLogFactory';
 
         /** @var DefaultLogFactory $factoryInstance */
         $factoryInstance = new $factory();

@@ -6,10 +6,10 @@
 
 declare(strict_types=1);
 
-namespace PayU\Framework\Gateway;
+namespace PayUSdk\Framework\Gateway;
 
-use PayU\Framework\Soap\Context;
-use PayU\Framework\XMLHelper;
+use PayUSdk\Framework\Soap\Context;
+use PayUSdk\Framework\XMLHelper;
 use SoapClient;
 use SoapFault;
 use SOAPHeader;
@@ -18,7 +18,7 @@ use SoapVar;
 /**
  * Class SoapClient
  *
- * @package PayU\Framework\Gateway
+ * @package PayUSdk\Framework\Gateway
  */
 class Client
 {

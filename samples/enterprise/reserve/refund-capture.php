@@ -5,13 +5,13 @@
 $response = require __DIR__ . '/../../safestore/create-finalize.php';
 $reference = $response->getPayUReference();
 
-use PayU\Api\Data\TransactionInterface;
-use PayU\Framework\Action\Refund;
-use PayU\Framework\Processor;
-use PayU\Framework\Soap\Context;
-use PayU\Model\Currency;
-use PayU\Model\Total;
-use PayU\Model\Transaction;
+use PayUSdk\Api\Data\TransactionInterface;
+use PayUSdk\Framework\Action\Refund;
+use PayUSdk\Framework\Processor;
+use PayUSdk\Framework\Soap\Context;
+use PayUSdk\Model\Currency;
+use PayUSdk\Model\Total;
+use PayUSdk\Model\Transaction;
 
 // ### Amount
 // Lets you specify a payment amount.

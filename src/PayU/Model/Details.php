@@ -6,19 +6,19 @@
 
 declare(strict_types=1);
 
-namespace PayU\Model;
+namespace PayUSdk\Model;
 
-use PayU\Api\Data\DetailsInterface;
-use PayU\Framework\Formatter;
-use PayU\Framework\AbstractModel;
-use PayU\Framework\Validation\NumericValidator;
+use PayUSdk\Api\Data\DetailsInterface;
+use PayUSdk\Framework\Formatter;
+use PayUSdk\Framework\AbstractModel;
+use PayUSdk\Framework\Validation\NumericValidator;
 
 /**
  * Class Details
  *
  * Additional details of the lookup data entry value.
  *
- * @package PayU\Model
+ * @package PayUSdk\Model
  *
  * @property string subtotal
  * @property string shipping

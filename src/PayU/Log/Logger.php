@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace PayU\Log;
+namespace PayUSdk\Log;
 
-use PayU\Framework\Core\ConfigManager;
+use PayUSdk\Framework\Core\ConfigManager;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 
@@ -17,7 +17,7 @@ use Psr\Log\LogLevel;
  *
  * Default logger.
  *
- * @package PayU\Log
+ * @package PayUSdk\Log
  */
 class Logger implements LoggerInterface
 {

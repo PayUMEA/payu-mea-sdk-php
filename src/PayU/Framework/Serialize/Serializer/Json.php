@@ -6,10 +6,10 @@
 
 declare(strict_types=1);
 
-namespace PayU\Framework\Serialize\Serializer;
+namespace PayUSdk\Framework\Serialize\Serializer;
 
 use InvalidArgumentException;
-use PayU\Framework\Serialize\SerializerInterface;
+use PayUSdk\Framework\Serialize\SerializerInterface;
 
 /**
  * Serialize data to JSON, unserialize JSON encoded data

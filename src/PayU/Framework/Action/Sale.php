@@ -6,12 +6,12 @@
 
 declare(strict_types=1);
 
-namespace PayU\Framework\Action;
+namespace PayUSdk\Framework\Action;
 
-use PayU\Api\ActionInterface;
-use PayU\Api\ResponseInterface;
-use PayU\Framework\Exception\ConfigurationException;
-use PayU\Framework\Exception\InvalidCredentialException;
+use PayUSdk\Api\ActionInterface;
+use PayUSdk\Api\ResponseInterface;
+use PayUSdk\Framework\Exception\ConfigurationException;
+use PayUSdk\Framework\Exception\InvalidCredentialException;
 use SoapFault;
 
 /**
@@ -19,7 +19,7 @@ use SoapFault;
  *
  * Payment/Sale action.
  *
- * @package PayU\Framework\Action
+ * @package PayUSdk\Framework\Action
  */
 class Sale extends BaseAction implements ActionInterface
 {

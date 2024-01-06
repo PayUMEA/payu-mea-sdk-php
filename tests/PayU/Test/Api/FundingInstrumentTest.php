@@ -8,7 +8,7 @@
 
 namespace PayU\Test\Api;
 
-use PayU\Api\FundingInstrument;
+use PayUSdk\Api\FundingInstrument;
 
 class FundingInstrumentTest extends \PHPUnit_Framework_TestCase
 {

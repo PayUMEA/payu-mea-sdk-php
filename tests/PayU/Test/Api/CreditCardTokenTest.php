@@ -8,7 +8,7 @@
 
 namespace PayU\Test\Api;
 
-use PayU\Api\CreditCardToken;
+use PayUSdk\Api\CreditCardToken;
 
 class CreditCardTokenTest extends \PHPUnit_Framework_TestCase
 {

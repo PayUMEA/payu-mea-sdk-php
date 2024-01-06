@@ -6,19 +6,19 @@
 
 declare(strict_types=1);
 
-namespace PayU\Model;
+namespace PayUSdk\Model;
 
-use PayU\Api\Data\CardTokenInterface;
-use PayU\Api\Data\CreditCardInterface;
-use PayU\Api\Data\EbucksInterface;
-use PayU\Api\Data\EftInterface;
-use PayU\Api\Data\FundingInstrumentInterface;
-use PayU\Framework\AbstractModel;
+use PayUSdk\Api\Data\CardTokenInterface;
+use PayUSdk\Api\Data\CreditCardInterface;
+use PayUSdk\Api\Data\EbucksInterface;
+use PayUSdk\Api\Data\EftInterface;
+use PayUSdk\Api\Data\FundingInstrumentInterface;
+use PayUSdk\Framework\AbstractModel;
 
 /**
  * Class FundingInstrument
  *
- * @package PayU\Api
+ * @package PayUSdk\Api
  */
 class FundingInstrument extends AbstractModel implements FundingInstrumentInterface
 {

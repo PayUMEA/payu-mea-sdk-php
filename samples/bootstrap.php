@@ -22,9 +22,9 @@ if (!file_exists($composerAutoload)) {
 require $composerAutoload;
 require __DIR__ . '/util.php';
 
-use PayU\Framework\Core\CredentialManager;
-use PayU\Framework\Authentication;
-use PayU\Framework\Soap\Context;
+use PayUSdk\Framework\Core\CredentialManager;
+use PayUSdk\Framework\Authentication;
+use PayUSdk\Framework\Soap\Context;
 
 // Suppress DateTime warnings, if not set already
 date_default_timezone_set(@date_default_timezone_get());
@@ -151,7 +151,7 @@ function getApiContext(array $usernames, array $passwords, array $safeKeys, arra
             'cache.enabled' => true,
             'account1.payment_methods' => $apiContextEnterprise->get('account1.payment_methods'),
             'http.connect_timeout' => 1800,
-            'log.adapter_factory' => '\PayU\Log\DefaultLogFactory' // Factory class implementing \PayU\Log\PayULogFactory
+            'log.adapter_factory' => '\PayUSdk\Log\DefaultLogFactory' // Factory class implementing \PayUSdk\Log\PayULogFactory
         ]
     );
 
@@ -164,7 +164,7 @@ function getApiContext(array $usernames, array $passwords, array $safeKeys, arra
             'cache.enabled' => true,
             'account2.payment_methods' => $apiContextEnterprise->get('account2.payment_methods'),
             'http.connect_timeout' => 30,
-            'log.adapter_factory' => '\PayU\Log\DefaultLogFactory' // Factory class implementing \PayU\Log\PayULogFactory
+            'log.adapter_factory' => '\PayUSdk\Log\DefaultLogFactory' // Factory class implementing \PayUSdk\Log\PayULogFactory
         ]
     );
 
@@ -177,7 +177,7 @@ function getApiContext(array $usernames, array $passwords, array $safeKeys, arra
             'cache.enabled' => true,
             'account3.payment_methods' => $apiContextEnterprise->get('account3.payment_methods'),
             'http.connect_timeout' => 30,
-            'log.adapter_factory' => '\PayU\Log\DefaultLogFactory' // Factory class implementing \PayU\Log\PayULogFactory
+            'log.adapter_factory' => '\PayUSdk\Log\DefaultLogFactory' // Factory class implementing \PayUSdk\Log\PayULogFactory
         ]
     );
 
@@ -190,7 +190,7 @@ function getApiContext(array $usernames, array $passwords, array $safeKeys, arra
             'cache.enabled' => true,
             'account4.payment_methods' => $apiContextEnterprise->get('account4.payment_methods'),
             'http.connect_timeout' => 30,
-            'log.adapter_factory' => '\PayU\Log\DefaultLogFactory' // Factory class implementing \PayU\Log\PayULogFactory
+            'log.adapter_factory' => '\PayUSdk\Log\DefaultLogFactory' // Factory class implementing \PayUSdk\Log\PayULogFactory
         ]
     );
 
@@ -203,7 +203,7 @@ function getApiContext(array $usernames, array $passwords, array $safeKeys, arra
             'cache.enabled' => true,
             'account5.payment_methods' => $apiContextEnterprise->get('account5.payment_methods'),
             'http.connect_timeout' => 30,
-            'log.adapter_factory' => '\PayU\Log\DefaultLogFactory' // Factory class implementing \PayU\Log\PayULogFactory
+            'log.adapter_factory' => '\PayUSdk\Log\DefaultLogFactory' // Factory class implementing \PayUSdk\Log\PayULogFactory
         ]
     );
 
@@ -216,7 +216,7 @@ function getApiContext(array $usernames, array $passwords, array $safeKeys, arra
             'cache.enabled' => true,
             'account6.payment_methods' => $paymentMethods[0],
             'http.connect_timeout' => 30,
-            'log.adapter_factory' => '\PayU\Log\DefaultLogFactory' // Factory class implementing \PayU\Log\PayULogFactory
+            'log.adapter_factory' => '\PayUSdk\Log\DefaultLogFactory' // Factory class implementing \PayUSdk\Log\PayULogFactory
         ]
     );
 
@@ -229,7 +229,7 @@ function getApiContext(array $usernames, array $passwords, array $safeKeys, arra
             'cache.enabled' => true,
             'account6.payment_methods' => $paymentMethods[1],
             'http.connect_timeout' => 30,
-            'log.adapter_factory' => '\PayU\Log\DefaultLogFactory' // Factory class implementing \PayU\Log\PayULogFactory
+            'log.adapter_factory' => '\PayUSdk\Log\DefaultLogFactory' // Factory class implementing \PayUSdk\Log\PayULogFactory
         ]
     );
 

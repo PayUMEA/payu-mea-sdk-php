@@ -6,14 +6,14 @@
 
 declare(strict_types=1);
 
-namespace PayU\Model;
+namespace PayUSdk\Model;
 
 /**
  * Class SmartEFT
  *
  * Create Smart EFT payments.
  *
- * @package PayU\Api
+ * @package PayUSdk\Api
  */
 class SmartEFT extends BaseEft
 {

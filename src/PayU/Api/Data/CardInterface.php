@@ -6,14 +6,14 @@
 
 declare(strict_types=1);
 
-namespace PayU\Api\Data;
+namespace PayUSdk\Api\Data;
 
 /**
  * Interface CardInterface
  *
  * A card that is used to pay for a payment transaction.
  *
- * @package PayU\Api\Data
+ * @package PayUSdk\Api\Data
  */
 interface CardInterface
 {

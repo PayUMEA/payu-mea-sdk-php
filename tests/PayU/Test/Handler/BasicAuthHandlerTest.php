@@ -3,7 +3,7 @@
 namespace PayU\Test\Handler;
 
 use PayU\Auth\BasicAuth;
-use PayU\Handler\BasicAuthHandler;
+use PayUSdk\Handler\BasicAuthHandler;
 use PayU\Http\Config;
 use PayU\Soap\ApiContext;
 

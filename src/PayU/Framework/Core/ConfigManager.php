@@ -6,14 +6,14 @@
 
 declare(strict_types=1);
 
-namespace PayU\Framework\Core;
+namespace PayUSdk\Framework\Core;
 
 /**
  * class ConfigManager
  *
  * ConfigManager loads the SDK configuration (in PHP ini format) file
  *
- * @package PayU\Framework\Core
+ * @package PayUSdk\Framework\Core
  */
 class ConfigManager
 {

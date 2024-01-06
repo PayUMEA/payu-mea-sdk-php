@@ -6,19 +6,19 @@
 
 declare(strict_types=1);
 
-namespace PayU\Handler;
+namespace PayUSdk\Handler;
 
-use PayU\Api\HandlerInterface;
-use PayU\Framework\Constants;
-use PayU\Framework\Exception\ConfigurationException;
-use PayU\Framework\Gateway\Config;
-use PayU\Framework\Soap\Context;
-use PayU\Framework\UserAgent;
+use PayUSdk\Api\HandlerInterface;
+use PayUSdk\Framework\Constants;
+use PayUSdk\Framework\Exception\ConfigurationException;
+use PayUSdk\Framework\Gateway\Config;
+use PayUSdk\Framework\Soap\Context;
+use PayUSdk\Framework\UserAgent;
 
 /**
  * Class GatewayConfigHandler
  *
- * @package PayU\Handler
+ * @package PayUSdk\Handler
  */
 class GatewayConfigHandler implements HandlerInterface
 {

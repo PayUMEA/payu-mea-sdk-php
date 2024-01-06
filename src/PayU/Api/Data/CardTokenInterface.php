@@ -6,14 +6,14 @@
 
 declare(strict_types=1);
 
-namespace PayU\Api\Data;
+namespace PayUSdk\Api\Data;
 
 /**
  * Interface CardTokenInterface
  *
  * A token representing a saved card.
  *
- * @package PayU\Api\Data
+ * @package PayUSdk\Api\Data
  */
 interface CardTokenInterface
 {

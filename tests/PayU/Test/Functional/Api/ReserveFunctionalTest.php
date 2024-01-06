@@ -2,10 +2,10 @@
 
 namespace PayU\Test\Functional\Api;
 
-use PayU\Api\Capture;
-use PayU\Api\Reserve;
-use PayU\Api\Transaction;
-use PayU\Model\ResourceModel;
+use PayUSdk\Api\Capture;
+use PayUSdk\Api\Reserve;
+use PayUSdk\Api\Transaction;
+use PayUSdk\Model\ResourceModel;
 use PayU\Test\Functional\Setup;
 
 /**

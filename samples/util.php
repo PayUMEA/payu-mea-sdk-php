@@ -4,8 +4,8 @@
     Helper functions used across samples
 */
 
-use PayU\Framework\Exception\NetworkException;
-use PayU\Framework\Validation\JsonValidator;
+use PayUSdk\Framework\Exception\NetworkException;
+use PayUSdk\Framework\Validation\JsonValidator;
 
 /**
  * Helper Class for Printing Results
@@ -132,7 +132,7 @@ class ResultPrinter
         }
 
         if ($object) {
-            if (is_a($object, 'PayU\Framework\Data\DataObject')) {
+            if (is_a($object, 'PayUSdk\Framework\Data\DataObject')) {
                 echo $object->toJSON();
             } elseif (is_string($object) && JsonValidator::validate($object, true)) {
                 echo str_replace('\\/', '/', json_encode(json_decode($object), 128));
@@ -160,7 +160,7 @@ class ResultPrinter
         }
 
         if ($object) {
-            if (is_a($object, 'PayU\Framework\Data\DataObject')) {
+            if (is_a($object, 'PayUSdk\Framework\Data\DataObject')) {
                 echo '<pre class="prettyprint ' . ($error ? 'error' : '') . '">' . $object->toJSON() . "</pre>";
             } elseif (is_string($object) && JsonValidator::validate($object, true)) {
                 echo '<pre class="prettyprint ' . ($error ? 'error' : '') . '">' . str_replace('\\/', '/', json_encode(json_decode($object), 128)) . "</pre>";

@@ -7,8 +7,8 @@
 
 list($request,) = require dirname(__DIR__) . '/safestore/create-credit-card.php';
 
-use PayU\Framework\Action\Lookup;
-use PayU\Framework\Processor;
+use PayUSdk\Framework\Action\Lookup;
+use PayUSdk\Framework\Processor;
 
 $lookup = new Lookup();
 $lookup->setCustomerId($request->getCustomer()->getCustomerDetail()->getCustomerId())

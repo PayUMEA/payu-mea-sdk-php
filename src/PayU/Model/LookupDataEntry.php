@@ -6,16 +6,16 @@
 
 declare(strict_types=1);
 
-namespace PayU\Model;
+namespace PayUSdk\Model;
 
-use PayU\Api\Data\DetailsInterface;
-use PayU\Api\Data\LookupDataEntryInterface;
-use PayU\Framework\AbstractModel;
+use PayUSdk\Api\Data\DetailsInterface;
+use PayUSdk\Api\Data\LookupDataEntryInterface;
+use PayUSdk\Framework\AbstractModel;
 
 /**
  * Class LookupDataEntry
  *
- * @package PayU\Model
+ * @package PayUSdk\Model
  */
 class LookupDataEntry extends AbstractModel implements LookupDataEntryInterface
 {

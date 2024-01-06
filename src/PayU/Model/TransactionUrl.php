@@ -6,17 +6,17 @@
 
 declare(strict_types=1);
 
-namespace PayU\Model;
+namespace PayUSdk\Model;
 
 use InvalidArgumentException;
-use PayU\Api\Data\TransactionUrlInterface;
-use PayU\Framework\AbstractModel;
-use PayU\Framework\Validation\UrlValidator;
+use PayUSdk\Api\Data\TransactionUrlInterface;
+use PayUSdk\Framework\AbstractModel;
+use PayUSdk\Framework\Validation\UrlValidator;
 
 /**
  * Class TransactionUrl
  *
- * @package PayU\Model
+ * @package PayUSdk\Model
  */
 class TransactionUrl extends AbstractModel implements TransactionUrlInterface
 {

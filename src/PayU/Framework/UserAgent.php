@@ -9,14 +9,14 @@
  * @author     Kenneth Onah <kenneth@netcraft-devops.com>
  */
 
-namespace PayU\Framework;
+namespace PayUSdk\Framework;
 
 /**
  * Class UserAgent
  *
  * Generates User Agent for curl requests
  *
- * @package PayU\Framework
+ * @package PayUSdk\Framework
  */
 class UserAgent
 {

@@ -2,10 +2,10 @@
 
 require __DIR__ . '/../../bootstrap.php';
 
-use PayU\Framework\Action\Search;
-use PayU\Framework\Processor;
-use PayU\Framework\Soap\Context;
-use PayU\Framework\XMLHelper;
+use PayUSdk\Framework\Action\Search;
+use PayUSdk\Framework\Processor;
+use PayUSdk\Framework\Soap\Context;
+use PayUSdk\Framework\XMLHelper;
 
 $payuReference = $_GET['PayUReference'] ?? '';
 

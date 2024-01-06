@@ -6,14 +6,14 @@
 
 declare(strict_types=1);
 
-namespace PayU\Api\Data;
+namespace PayUSdk\Api\Data;
 
 /**
  * Interface BasketInterface
  *
  * A basket of items
  *
- * @package PayU\Api\Data
+ * @package PayUSdk\Api\Data
  * @api
  */
 interface BasketInterface

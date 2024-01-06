@@ -8,7 +8,7 @@
 
 namespace PayU\Test\Api;
 
-use PayU\Api\Refund;
+use PayUSdk\Api\Refund;
 
 class RefundTest extends \PHPUnit_Framework_TestCase
 {

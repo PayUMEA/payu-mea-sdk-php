@@ -6,15 +6,15 @@
 
 declare(strict_types=1);
 
-namespace PayU\Model;
+namespace PayUSdk\Model;
 
-use PayU\Api\Data\Secure3DInterface;
-use PayU\Framework\AbstractModel;
+use PayUSdk\Api\Data\Secure3DInterface;
+use PayUSdk\Framework\AbstractModel;
 
 /**
  * Class Secure3D
  *
- * @package PayU\Api
+ * @package PayUSdk\Api
  */
 class Secure3D extends AbstractModel implements Secure3DInterface
 {

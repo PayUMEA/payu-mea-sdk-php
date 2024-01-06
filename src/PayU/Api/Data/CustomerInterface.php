@@ -6,14 +6,14 @@
 
 declare(strict_types=1);
 
-namespace PayU\Api\Data;
+namespace PayUSdk\Api\Data;
 
 /**
  * Class CustomerInterface
  *
  * Customer who funds a payment transaction.
  *
- * @package PayU\Model
+ * @package PayUSdk\Model
  */
 interface CustomerInterface
 {

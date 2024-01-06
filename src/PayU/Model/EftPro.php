@@ -6,14 +6,14 @@
 
 declare(strict_types=1);
 
-namespace PayU\Model;
+namespace PayUSdk\Model;
 
 /**
  * Class ProEft
  *
  * Create EFT Pro payments.
  *
- * @package PayU\Api
+ * @package PayUSdk\Api
  */
 class EftPro extends BaseEft
 {

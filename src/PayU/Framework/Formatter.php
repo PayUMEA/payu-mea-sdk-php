@@ -6,14 +6,14 @@
 
 declare(strict_types=1);
 
-namespace PayU\Framework;
+namespace PayUSdk\Framework;
 
 use InvalidArgumentException;
 
 /**
  * Class Formatter
  *
- * @package PayU\Framework
+ * @package PayUSdk\Framework
  */
 class Formatter
 {

@@ -8,7 +8,7 @@
 
 namespace PayU\Test\Api;
 
-use PayU\Api\Phone;
+use PayUSdk\Api\Phone;
 
 class PhoneTest extends \PHPUnit_Framework_TestCase
 {

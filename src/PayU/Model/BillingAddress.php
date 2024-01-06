@@ -6,12 +6,12 @@
 
 declare(strict_types=1);
 
-namespace PayU\Model;
+namespace PayUSdk\Model;
 
 /**
  * Class BillingAddress
  *
- * @package PayU\Model
+ * @package PayUSdk\Model
  */
 class BillingAddress extends Address
 {

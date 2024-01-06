@@ -8,7 +8,7 @@
 
 namespace PayU\Test\Api;
 
-use PayU\Api\Details;
+use PayUSdk\Api\Details;
 
 
 class DetailsTest extends \PHPUnit_Framework_TestCase

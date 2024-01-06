@@ -6,14 +6,14 @@
 
 declare(strict_types=1);
 
-namespace PayU\Api\Data;
+namespace PayUSdk\Api\Data;
 
 /**
  * Interface AddressInterface
  *
  * Address used as billing address in a payment or extended for shipping address.
  *
- * @package PayU\Api\Data
+ * @package PayUSdk\Api\Data
  */
 interface AddressInterface
 {

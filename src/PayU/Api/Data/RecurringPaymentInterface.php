@@ -6,14 +6,14 @@
 
 declare(strict_types=1);
 
-namespace PayU\Api\Data;
+namespace PayUSdk\Api\Data;
 
 /**
  * Interface RecurringPaymentInterface
  *
  * The details of Debit Order payment setup on the customer account
  *
- * @package PayU\Api\Data
+ * @package PayUSdk\Api\Data
  */
 interface RecurringPaymentInterface
 {

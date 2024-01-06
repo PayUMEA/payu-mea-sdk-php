@@ -6,10 +6,10 @@
 
 declare(strict_types=1);
 
-namespace PayU\Model;
+namespace PayUSdk\Model;
 
-use PayU\Api\Data\CardTokenInterface;
-use PayU\Framework\AbstractModel;
+use PayUSdk\Api\Data\CardTokenInterface;
+use PayUSdk\Framework\AbstractModel;
 
 /**
  * Class CardToken

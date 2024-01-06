@@ -6,16 +6,16 @@
 
 declare(strict_types=1);
 
-namespace PayU\Api\Data;
+namespace PayUSdk\Api\Data;
 
-use PayU\Model\ItemList;
+use PayUSdk\Model\ItemList;
 
 /**
  * Interface CartInterface
  *
  * A summary of shopping cart
  *
- * @package PayU\Api\Data
+ * @package PayUSdk\Api\Data
  */
 interface CartInterface
 {

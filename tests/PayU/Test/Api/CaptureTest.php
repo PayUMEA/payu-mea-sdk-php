@@ -8,7 +8,7 @@
 
 namespace PayU\Test\Api;
 
-use PayU\Api\Capture;
+use PayUSdk\Api\Capture;
 
 class CaptureTest extends \PHPUnit_Framework_TestCase
 {

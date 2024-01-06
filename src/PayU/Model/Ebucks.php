@@ -6,15 +6,15 @@
 
 declare(strict_types=1);
 
-namespace PayU\Model;
+namespace PayUSdk\Model;
 
-use PayU\Api\Data\EbucksInterface;
-use PayU\Framework\AbstractModel;
+use PayUSdk\Api\Data\EbucksInterface;
+use PayUSdk\Framework\AbstractModel;
 
 /**
  * Class Ebucks
  *
- * @package PayU\Api
+ * @package PayUSdk\Api
  */
 class Ebucks extends AbstractModel implements EbucksInterface
 {

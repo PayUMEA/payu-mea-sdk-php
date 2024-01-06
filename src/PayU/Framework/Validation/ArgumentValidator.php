@@ -9,12 +9,12 @@
  * @author Kenneth Onah <kenneth@netcraft-devops.com>
  */
 
-namespace PayU\Framework\Validation;
+namespace PayUSdk\Framework\Validation;
 
 /**
  * Class ArgumentValidator
  *
- * @package PayU\Framework\Validation
+ * @package PayUSdk\Framework\Validation
  */
 class ArgumentValidator
 {

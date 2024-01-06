@@ -6,16 +6,16 @@
 
 declare(strict_types=1);
 
-namespace PayU\Model;
+namespace PayUSdk\Model;
 
-use PayU\Api\Data\ItemInterface;
-use PayU\Framework\AbstractModel;
-use PayU\Framework\Formatter;
+use PayUSdk\Api\Data\ItemInterface;
+use PayUSdk\Framework\AbstractModel;
+use PayUSdk\Framework\Formatter;
 
 /**
  * Class Item
  *
- * @package PayU\Api
+ * @package PayUSdk\Api
  */
 class Item extends AbstractModel implements ItemInterface
 {

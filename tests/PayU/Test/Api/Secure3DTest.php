@@ -8,7 +8,7 @@
 
 namespace PayU\Test\Api;
 
-use PayU\Api\Secure3D;
+use PayUSdk\Api\Secure3D;
 
 class Secure3DTest extends \PHPUnit_Framework_TestCase
 {

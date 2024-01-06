@@ -8,7 +8,7 @@
 
 namespace PayU\Test\Api;
 
-use PayU\Api\EFTBase;
+use PayUSdk\Api\EFTBase;
 
 class EFTBaseTest extends \PHPUnit_Framework_TestCase
 {

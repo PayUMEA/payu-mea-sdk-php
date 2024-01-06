@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace PayU\Framework\Serialize;
+namespace PayUSdk\Framework\Serialize;
 
 use InvalidArgumentException;
 

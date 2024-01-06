@@ -6,14 +6,14 @@
 
 declare(strict_types=1);
 
-namespace PayU\Api\Data;
+namespace PayUSdk\Api\Data;
 
 /**
  * Interface TransactionUrlInterface
  *
  * Set of payment transaction URLs.
  *
- * @package PayU\Api\Data
+ * @package PayUSdk\Api\Data
  */
 interface TransactionUrlInterface
 {

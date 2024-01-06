@@ -7,9 +7,9 @@
 /** @var Sale $createdPayment */
 $createdPayment = require __DIR__ . '/../../safestore/create-payment.php';
 
-use PayU\Framework\Action\Search;
-use PayU\Framework\Action\Sale;
-use PayU\Framework\Processor;
+use PayUSdk\Framework\Action\Search;
+use PayUSdk\Framework\Action\Sale;
+use PayUSdk\Framework\Processor;
 
 $paymentId = $createdPayment->getPayUReference();
 

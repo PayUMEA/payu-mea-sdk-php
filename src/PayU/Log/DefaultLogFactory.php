@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace PayU\Log;
+namespace PayUSdk\Log;
 
 use Psr\Log\LoggerInterface;
 
@@ -15,7 +15,7 @@ use Psr\Log\LoggerInterface;
  *
  * This factory is the default implementation of Log factory.
  *
- * @package PayU\Log
+ * @package PayUSdk\Log
  */
 class DefaultLogFactory
 {

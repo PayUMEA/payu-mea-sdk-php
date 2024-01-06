@@ -7,22 +7,22 @@
 
 require __DIR__ . '/../bootstrap.php';
 
-use PayU\Api\Data\EftInterface;
-use PayU\Api\Data\TransactionInterface;
-use PayU\Framework\Processor;
-use PayU\Model\Address;
-use PayU\Model\Currency;
-use PayU\Model\Phone;
-use PayU\Model\Total;
-use PayU\Model\Customer;
-use PayU\Model\CustomerDetail;
-use PayU\Model\FundingInstrument;
-use PayU\Framework\Action\Sale;
-use PayU\Model\PaymentMethod;
-use PayU\Model\TransactionUrl;
-use PayU\Model\SmartEFT;
-use PayU\Model\Transaction;
-use PayU\Framework\Soap\Context;
+use PayUSdk\Api\Data\EftInterface;
+use PayUSdk\Api\Data\TransactionInterface;
+use PayUSdk\Framework\Processor;
+use PayUSdk\Model\Address;
+use PayUSdk\Model\Currency;
+use PayUSdk\Model\Phone;
+use PayUSdk\Model\Total;
+use PayUSdk\Model\Customer;
+use PayUSdk\Model\CustomerDetail;
+use PayUSdk\Model\FundingInstrument;
+use PayUSdk\Framework\Action\Sale;
+use PayUSdk\Model\PaymentMethod;
+use PayUSdk\Model\TransactionUrl;
+use PayUSdk\Model\SmartEFT;
+use PayUSdk\Model\Transaction;
+use PayUSdk\Framework\Soap\Context;
 
 $address = new Address();
 $address->setLine1("80 Main Road")

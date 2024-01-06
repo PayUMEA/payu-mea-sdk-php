@@ -6,15 +6,15 @@
 
 declare(strict_types=1);
 
-namespace PayU\Framework\Action;
+namespace PayUSdk\Framework\Action;
 
-use PayU\Api\ActionInterface;
-use PayU\Api\AdapterInterface;
-use PayU\Api\ResponseInterface;
-use PayU\Framework\Data\DataObject;
-use PayU\Framework\Adapter;
-use PayU\Framework\Exception\ConfigurationException;
-use PayU\Framework\Exception\InvalidCredentialException;
+use PayUSdk\Api\ActionInterface;
+use PayUSdk\Api\AdapterInterface;
+use PayUSdk\Api\ResponseInterface;
+use PayUSdk\Framework\Data\DataObject;
+use PayUSdk\Framework\Adapter;
+use PayUSdk\Framework\Exception\ConfigurationException;
+use PayUSdk\Framework\Exception\InvalidCredentialException;
 use SoapFault;
 
 /**
@@ -22,7 +22,7 @@ use SoapFault;
  *
  * Base class of all actions requested by the client
  *
- * @package PayU\Framework\Adapter
+ * @package PayUSdk\Framework\Adapter
  */
 abstract class BaseAction extends DataObject implements ActionInterface
 {

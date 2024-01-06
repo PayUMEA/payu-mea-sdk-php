@@ -9,13 +9,13 @@
  * @author     Kenneth Onah <kenneth@netcraft-devops.com>
  */
 
-namespace PayU\Framework;
+namespace PayUSdk\Framework;
 
 use PayU\Validation\JsonValidator;
 
 /**
  * Class XmlHelper
- * @package PayU\Framework
+ * @package PayUSdk\Framework
  */
 class XMLHelper
 {

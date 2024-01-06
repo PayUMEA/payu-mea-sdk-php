@@ -6,14 +6,14 @@
 
 declare(strict_types=1);
 
-namespace PayU\Model;
+namespace PayUSdk\Model;
 
-use PayU\Api\Data\ShippingAddressInterface;
+use PayUSdk\Api\Data\ShippingAddressInterface;
 
 /**
  * Class ShippingAddress
  *
- * @package PayU\Api
+ * @package PayUSdk\Api
  */
 class ShippingAddress extends Address implements ShippingAddressInterface
 {

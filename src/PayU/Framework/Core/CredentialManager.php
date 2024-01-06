@@ -6,19 +6,19 @@
 
 declare(strict_types=1);
 
-namespace PayU\Framework\Core;
+namespace PayUSdk\Framework\Core;
 
 use Exception;
 use JetBrains\PhpStorm\NoReturn;
-use PayU\Framework\Authentication;
-use PayU\Framework\Exception\InvalidCredentialException;
+use PayUSdk\Framework\Authentication;
+use PayUSdk\Framework\Exception\InvalidCredentialException;
 
 /**
  * class CredentialManager
  *
  * CredentialManager holds all the credential information in one place.
  *
- * @package PayU\Framework\Core
+ * @package PayUSdk\Framework\Core
  */
 class CredentialManager
 {

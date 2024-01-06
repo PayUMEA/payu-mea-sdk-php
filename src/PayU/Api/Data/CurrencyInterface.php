@@ -6,14 +6,14 @@
 
 declare(strict_types=1);
 
-namespace PayU\Api\Data;
+namespace PayUSdk\Api\Data;
 
 /**
  * Interface CurrencyInterface
  *
  * Currency in which payments are made
  *
- * @package PayU\Api\Data
+ * @package PayUSdk\Api\Data
  */
 interface CurrencyInterface
 {

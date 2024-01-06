@@ -6,14 +6,14 @@
 
 declare(strict_types=1);
 
-namespace PayU\Model;
+namespace PayUSdk\Model;
 
-use PayU\Framework\AbstractModel;
+use PayUSdk\Framework\AbstractModel;
 
 /**
  * Class PaymentMethod
  *
- * @package PayU\Model
+ * @package PayUSdk\Model
  */
 class PaymentMethod extends AbstractModel
 {

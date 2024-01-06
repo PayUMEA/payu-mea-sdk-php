@@ -4,14 +4,14 @@
 
 $reserveResponse = require 'create-reserve.php';
 
-use PayU\Framework\Processor;
-use PayU\Model\Total;
-use PayU\Model\Currency;
-use PayU\Model\Customer;
-use PayU\Model\PaymentMethod;
-use PayU\Framework\Action\Authorize;
-use PayU\Model\Transaction;
-use PayU\Framework\Soap\Context;
+use PayUSdk\Framework\Processor;
+use PayUSdk\Model\Total;
+use PayUSdk\Model\Currency;
+use PayUSdk\Model\Customer;
+use PayUSdk\Model\PaymentMethod;
+use PayUSdk\Framework\Action\Authorize;
+use PayUSdk\Model\Transaction;
+use PayUSdk\Framework\Soap\Context;
 
 
 $customer = new Customer();

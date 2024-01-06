@@ -6,14 +6,14 @@
 
 declare(strict_types=1);
 
-namespace PayU\Api;
+namespace PayUSdk\Api;
 
 /**
  * Interface ResponseInterface
  *
  * Payment gateway transaction response.
  *
- * @package PayU\Api
+ * @package PayUSdk\Api
  */
 interface ResponseInterface
 {

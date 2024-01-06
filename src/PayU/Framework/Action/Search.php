@@ -6,11 +6,11 @@
 
 declare(strict_types=1);
 
-namespace PayU\Framework\Action;
+namespace PayUSdk\Framework\Action;
 
-use PayU\Api\ResponseInterface;
-use PayU\Framework\Exception\ConfigurationException;
-use PayU\Framework\Exception\InvalidCredentialException;
+use PayUSdk\Api\ResponseInterface;
+use PayUSdk\Framework\Exception\ConfigurationException;
+use PayUSdk\Framework\Exception\InvalidCredentialException;
 use SoapFault;
 
 /**
@@ -18,7 +18,7 @@ use SoapFault;
  *
  * Search for a transaction on the payment gateway
  *
- * @package PayU\Framework\Action
+ * @package PayUSdk\Framework\Action
  */
 class Search extends BaseAction
 {

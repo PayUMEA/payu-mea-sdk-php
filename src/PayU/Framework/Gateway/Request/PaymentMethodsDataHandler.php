@@ -6,17 +6,17 @@
 
 declare(strict_types=1);
 
-namespace PayU\Framework\Gateway\Request;
+namespace PayUSdk\Framework\Gateway\Request;
 
-use PayU\Api\BuilderInterface;
-use PayU\Framework\Soap\Context;
+use PayUSdk\Api\BuilderInterface;
+use PayUSdk\Framework\Soap\Context;
 
 /**
  * Class PaymentMethodsDataHandler
  *
  * Supported payment methods data builder
  *
- * @package PayU\Framework\Gateway\Request
+ * @package PayUSdk\Framework\Gateway\Request
  */
 class PaymentMethodsDataHandler implements BuilderInterface
 {

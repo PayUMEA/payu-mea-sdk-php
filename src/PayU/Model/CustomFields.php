@@ -9,10 +9,10 @@
  * @author     Kenneth Onah <kenneth@netcraft-devops.com>
  */
 
-namespace PayU\Api;
+namespace PayUSdk\Api;
 
 use PayU\Exception\InvalidArgumentException;
-use PayU\Model\PayUModel;
+use PayUSdk\Model\PayUModel;
 use PayU\Validation\JsonValidator;
 
 /**
@@ -20,7 +20,7 @@ use PayU\Validation\JsonValidator;
  *
  * CustomFields class contains key-value pair details,
  *
- * @package PayU\Api
+ * @package PayUSdk\Api
  *
  * @property string key
  * @property string value

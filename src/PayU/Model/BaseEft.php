@@ -6,14 +6,14 @@
 
 declare(strict_types=1);
 
-namespace PayU\Model;
+namespace PayUSdk\Model;
 
-use PayU\Api\Data\CurrencyInterface;
-use PayU\Api\Data\EftInterface;
-use PayU\Api\Data\TotalInterface;
-use PayU\Framework\AbstractModel;
-use PayU\Framework\Formatter;
-use PayU\Framework\Validation\NumericValidator;
+use PayUSdk\Api\Data\CurrencyInterface;
+use PayUSdk\Api\Data\EftInterface;
+use PayUSdk\Api\Data\TotalInterface;
+use PayUSdk\Framework\AbstractModel;
+use PayUSdk\Framework\Formatter;
+use PayUSdk\Framework\Validation\NumericValidator;
 
 /**
  * Class BaseEft

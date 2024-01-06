@@ -6,11 +6,11 @@
 
 declare(strict_types=1);
 
-namespace PayU\Framework;
+namespace PayUSdk\Framework;
 
-use PayU\Api\ActionInterface;
-use PayU\Api\ProcessorInterface;
-use PayU\Api\ResponseInterface;
+use PayUSdk\Api\ActionInterface;
+use PayUSdk\Api\ProcessorInterface;
+use PayUSdk\Api\ResponseInterface;
 
 /**
  * Class Payment

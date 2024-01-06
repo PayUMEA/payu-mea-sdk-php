@@ -6,14 +6,14 @@
 
 declare(strict_types=1);
 
-namespace PayU\Api\Data;
+namespace PayUSdk\Api\Data;
 
 /**
  * Interface Secure3DInterface
  *
  * Secure3d details
  *
- * @package PayU\Api\Data
+ * @package PayUSdk\Api\Data
  */
 interface Secure3DInterface
 {

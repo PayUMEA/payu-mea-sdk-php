@@ -10,17 +10,17 @@ list($request, $response) = require dirname(__DIR__, 2) . '/safestore/setup-real
 $reference = $response->getMerchantReference();
 $pmId = $response->getPaymentMethodsUsed()['pmId'];
 
-use PayU\Api\Data\TransactionInterface;
-use PayU\Framework\Action\Sale;
-use PayU\Framework\Processor;
-use PayU\Framework\Soap\Context;
-use PayU\Model\CardToken;
-use PayU\Model\Currency;
-use PayU\Model\FundingInstrument;
-use PayU\Model\PaymentMethod;
-use PayU\Model\Total;
-use PayU\Model\Transaction;
-use PayU\Model\TransactionUrl;
+use PayUSdk\Api\Data\TransactionInterface;
+use PayUSdk\Framework\Action\Sale;
+use PayUSdk\Framework\Processor;
+use PayUSdk\Framework\Soap\Context;
+use PayUSdk\Model\CardToken;
+use PayUSdk\Model\Currency;
+use PayUSdk\Model\FundingInstrument;
+use PayUSdk\Model\PaymentMethod;
+use PayUSdk\Model\Total;
+use PayUSdk\Model\Transaction;
+use PayUSdk\Model\TransactionUrl;
 
 // ### CardToken
 // Saved credit card id from a previous call to

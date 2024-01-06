@@ -6,17 +6,17 @@
 
 declare(strict_types=1);
 
-namespace PayU\Model;
+namespace PayUSdk\Model;
 
-use PayU\Api\Data\FraudServiceInterface;
-use PayU\Framework\AbstractModel;
+use PayUSdk\Api\Data\FraudServiceInterface;
+use PayUSdk\Framework\AbstractModel;
 
 /**
  * Class FraudService
  *
  * Details of Fraud Management (FM).
  *
- * @package PayU\Api
+ * @package PayUSdk\Api
  *
  * @property string checkFraudOverride
  * @property string merchantWebsite

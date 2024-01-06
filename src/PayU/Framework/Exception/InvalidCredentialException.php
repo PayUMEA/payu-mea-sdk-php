@@ -6,12 +6,12 @@
 
 declare(strict_types=1);
 
-namespace PayU\Framework\Exception;
+namespace PayUSdk\Framework\Exception;
 
 /**
  * Class InvalidCredentialException
  *
- * @package PayU\Framework\Exception
+ * @package PayUSdk\Framework\Exception
  */
 class InvalidCredentialException extends \Exception
 {

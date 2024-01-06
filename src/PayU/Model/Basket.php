@@ -6,15 +6,15 @@
 
 declare(strict_types=1);
 
-namespace PayU\Model;
+namespace PayUSdk\Model;
 
-use PayU\Api\Data\BasketInterface;
-use PayU\Framework\AbstractModel;
+use PayUSdk\Api\Data\BasketInterface;
+use PayUSdk\Framework\AbstractModel;
 
 /**
  * Class Tax
  *
- * @package PayU\Model
+ * @package PayUSdk\Model
  */
 class Basket extends AbstractModel implements BasketInterface
 {

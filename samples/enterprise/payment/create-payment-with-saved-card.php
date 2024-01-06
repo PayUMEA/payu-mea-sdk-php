@@ -10,16 +10,16 @@ list($request, $response) = require dirname(__DIR__, 2) . '/safestore/create-cre
 $reference = $response->getMerchantReference();
 $token = $response->getPaymentMethodsUsed()['pmId'];
 
-use PayU\Api\Data\TransactionInterface;
-use PayU\Framework\Processor;
-use PayU\Model\Total;
-use PayU\Model\CardToken;
-use PayU\Model\Currency;
-use PayU\Model\FundingInstrument;
-use PayU\Framework\Action\Sale;
-use PayU\Model\TransactionUrl;
-use PayU\Model\Transaction;
-use PayU\Framework\Soap\Context;
+use PayUSdk\Api\Data\TransactionInterface;
+use PayUSdk\Framework\Processor;
+use PayUSdk\Model\Total;
+use PayUSdk\Model\CardToken;
+use PayUSdk\Model\Currency;
+use PayUSdk\Model\FundingInstrument;
+use PayUSdk\Framework\Action\Sale;
+use PayUSdk\Model\TransactionUrl;
+use PayUSdk\Model\Transaction;
+use PayUSdk\Framework\Soap\Context;
 
 
 // ### CardToken

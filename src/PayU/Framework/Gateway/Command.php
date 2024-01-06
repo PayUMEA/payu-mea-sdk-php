@@ -6,20 +6,20 @@
 
 declare(strict_types=1);
 
-namespace PayU\Framework\Gateway;
+namespace PayUSdk\Framework\Gateway;
 
-use PayU\Api\CommandInterface;
-use PayU\Framework\Exception\ConfigurationException;
-use PayU\Framework\Exception\InvalidCredentialException;
-use PayU\Framework\BuilderComposite;
-use PayU\Framework\Soap\Context;
-use PayU\Api\HandlerInterface;
+use PayUSdk\Api\CommandInterface;
+use PayUSdk\Framework\Exception\ConfigurationException;
+use PayUSdk\Framework\Exception\InvalidCredentialException;
+use PayUSdk\Framework\BuilderComposite;
+use PayUSdk\Framework\Soap\Context;
+use PayUSdk\Api\HandlerInterface;
 use SoapFault;
 
 /**
  * Class Command
  *
- * @package PayU\Framework\Gateway
+ * @package PayUSdk\Framework\Gateway
  */
 class Command implements CommandInterface
 {

@@ -6,14 +6,14 @@
 
 declare(strict_types=1);
 
-namespace PayU\Model;
+namespace PayUSdk\Model;
 
-use PayU\Api\Data\CreditCardInterface;
+use PayUSdk\Api\Data\CreditCardInterface;
 
 /**
  * Class CreditCard
  *
- * @package PayU\Model
+ * @package PayUSdk\Model
  */
 class CreditCard extends Card implements CreditCardInterface
 {

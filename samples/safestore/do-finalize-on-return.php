@@ -5,13 +5,13 @@
 // This sample code demonstrate how you can process
 // a redirect payment.
 
-use PayU\Framework\Action\Redirect;
-use PayU\Model\Currency;
-use PayU\Model\Customer;
-use PayU\Model\CustomerDetail;
-use PayU\Model\Phone;
-use PayU\Model\Total;
-use PayU\Model\Transaction;
+use PayUSdk\Framework\Action\Redirect;
+use PayUSdk\Model\Currency;
+use PayUSdk\Model\Customer;
+use PayUSdk\Model\CustomerDetail;
+use PayUSdk\Model\Phone;
+use PayUSdk\Model\Total;
+use PayUSdk\Model\Transaction;
 
 // ### CustomerDetail
 // A resource representing a customer detailed information

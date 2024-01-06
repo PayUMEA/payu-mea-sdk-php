@@ -6,14 +6,14 @@
 
 declare(strict_types=1);
 
-namespace PayU\Framework\Action;
+namespace PayUSdk\Framework\Action;
 
 /**
  * Class VoidAuthorize
  *
  * Void an authorize action.
  *
- * @package PayU\Framework\Action
+ * @package PayUSdk\Framework\Action
  */
 class VoidAuthorize extends BaseAction
 {

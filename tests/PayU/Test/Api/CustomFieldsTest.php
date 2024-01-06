@@ -8,7 +8,7 @@
 
 namespace PayU\Test\Api;
 
-use PayU\Api\CustomFields;
+use PayUSdk\Api\CustomFields;
 
 class CustomFieldsTest extends \PHPUnit_Framework_TestCase
 {

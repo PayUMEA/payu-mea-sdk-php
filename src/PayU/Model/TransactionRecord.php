@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace PayU\Model;
+namespace PayUSdk\Model;
 
 /**
  * Class TransactionRecord

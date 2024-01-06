@@ -1,6 +1,6 @@
 <?php
 
-use PayU\Model\PayUModel;
+use PayUSdk\Model\PayUModel;
 
 class SimpleModelTestClass extends PayUModel
 {

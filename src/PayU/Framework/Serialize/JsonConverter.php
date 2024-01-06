@@ -6,10 +6,10 @@
 
 declare(strict_types=1);
 
-namespace PayU\Framework\Serialize;
+namespace PayUSdk\Framework\Serialize;
 
 use InvalidArgumentException;
-use PayU\Framework\Serialize\Serializer\Json;
+use PayUSdk\Framework\Serialize\Serializer\Json;
 
 /**
  * This class was introduced only for usage in the \Magento\Framework\DataObject::toJson method.

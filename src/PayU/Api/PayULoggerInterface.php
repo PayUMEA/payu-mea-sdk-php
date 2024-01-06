@@ -6,14 +6,14 @@
 
 declare(strict_types=1);
 
-namespace PayU\Api;
+namespace PayUSdk\Api;
 
 use Psr\Log\LoggerInterface;
 
 /**
  * Interface PayULoggerInterface
  *
- * @package PayU\Api
+ * @package PayUSdk\Api
  */
 interface PayULoggerInterface
 {

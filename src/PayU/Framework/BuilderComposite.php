@@ -6,34 +6,34 @@
 
 declare(strict_types=1);
 
-namespace PayU\Framework;
+namespace PayUSdk\Framework;
 
-use PayU\Api\BuilderInterface;
-use PayU\Framework\Exception\LocalizedException;
-use PayU\Framework\Gateway\Request\CaptureDataHandler;
-use PayU\Framework\Gateway\Request\CreditCardDataHandler;
-use PayU\Framework\Gateway\Request\CustomerDataHandler;
-use PayU\Framework\Gateway\Request\DefaultDataHandler;
-use PayU\Framework\Gateway\Request\EbucksDataHandler;
-use PayU\Framework\Gateway\Request\EFTDataHandler;
-use PayU\Framework\Gateway\Request\FraudServiceDataHandler;
-use PayU\Framework\Gateway\Request\FundingInstrumentDataHandler;
-use PayU\Framework\Gateway\Request\LookupDataHandler;
-use PayU\Framework\Gateway\Request\PaymentMethodsDataHandler;
-use PayU\Framework\Gateway\Request\PayUReferenceDataHandler;
-use PayU\Framework\Gateway\Request\RealTimeRecurringDataHandler;
-use PayU\Framework\Gateway\Request\RedirectRealTimeRecurringDataHandler;
-use PayU\Framework\Gateway\Request\RefundDataHandler;
-use PayU\Framework\Gateway\Request\TransactionRecordDataHandler;
-use PayU\Framework\Gateway\Request\TransactionUrlDataHandler;
-use PayU\Framework\Gateway\Request\VoidDataHandler;
+use PayUSdk\Api\BuilderInterface;
+use PayUSdk\Framework\Exception\LocalizedException;
+use PayUSdk\Framework\Gateway\Request\CaptureDataHandler;
+use PayUSdk\Framework\Gateway\Request\CreditCardDataHandler;
+use PayUSdk\Framework\Gateway\Request\CustomerDataHandler;
+use PayUSdk\Framework\Gateway\Request\DefaultDataHandler;
+use PayUSdk\Framework\Gateway\Request\EbucksDataHandler;
+use PayUSdk\Framework\Gateway\Request\EFTDataHandler;
+use PayUSdk\Framework\Gateway\Request\FraudServiceDataHandler;
+use PayUSdk\Framework\Gateway\Request\FundingInstrumentDataHandler;
+use PayUSdk\Framework\Gateway\Request\LookupDataHandler;
+use PayUSdk\Framework\Gateway\Request\PaymentMethodsDataHandler;
+use PayUSdk\Framework\Gateway\Request\PayUReferenceDataHandler;
+use PayUSdk\Framework\Gateway\Request\RealTimeRecurringDataHandler;
+use PayUSdk\Framework\Gateway\Request\RedirectRealTimeRecurringDataHandler;
+use PayUSdk\Framework\Gateway\Request\RefundDataHandler;
+use PayUSdk\Framework\Gateway\Request\TransactionRecordDataHandler;
+use PayUSdk\Framework\Gateway\Request\TransactionUrlDataHandler;
+use PayUSdk\Framework\Gateway\Request\VoidDataHandler;
 
 /**
  * Class BuilderComposite
  *
  * Build request payload
  *
- * @package PayU\Framework
+ * @package PayUSdk\Framework
  */
 class BuilderComposite implements BuilderInterface
 {

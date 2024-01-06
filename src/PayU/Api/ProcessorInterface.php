@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace PayU\Api;
+namespace PayUSdk\Api;
 
 /**
  * Class ProcessorInterface

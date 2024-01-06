@@ -6,16 +6,16 @@
 
 declare(strict_types=1);
 
-namespace PayU\Model;
+namespace PayUSdk\Model;
 
-use PayU\Api\Data\AddressInterface;
-use PayU\Api\Data\CardInterface;
-use PayU\Framework\AbstractModel;
+use PayUSdk\Api\Data\AddressInterface;
+use PayUSdk\Api\Data\CardInterface;
+use PayUSdk\Framework\AbstractModel;
 
 /**
  * Class Card
  *
- * @package PayU\Model
+ * @package PayUSdk\Model
  */
 class Card extends AbstractModel implements CardInterface
 {

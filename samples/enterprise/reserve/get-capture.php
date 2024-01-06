@@ -5,9 +5,9 @@
 $capture = require __DIR__ . '/../../safestore/create-finalize.php';
 $captureId = $capture->getPayUReference();
 
-use PayU\Framework\Action\Search;
-use PayU\Framework\Processor;
-use PayU\Framework\Soap\Context;
+use PayUSdk\Framework\Action\Search;
+use PayUSdk\Framework\Processor;
+use PayUSdk\Framework\Soap\Context;
 
 // Setting integration will alter the way the API behaves.
 $apiContext[0]->setAccountId('account1')

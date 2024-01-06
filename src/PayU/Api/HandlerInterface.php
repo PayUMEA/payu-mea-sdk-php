@@ -6,14 +6,14 @@
 
 declare(strict_types=1);
 
-namespace PayU\Api;
+namespace PayUSdk\Api;
 
-use PayU\Framework\Gateway\Config;
+use PayUSdk\Framework\Gateway\Config;
 
 /**
  * Class HandlerInterface
  *
- * @package PayU\Api
+ * @package PayUSdk\Api
  */
 interface HandlerInterface
 {

@@ -2,7 +2,7 @@
 
 namespace PayU\Test\Functional\Api;
 
-use PayU\Api\Payment;
+use PayUSdk\Api\Payment;
 use PayU\Test\Functional\Setup;
 
 /**

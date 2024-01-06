@@ -8,7 +8,7 @@
 
 namespace PayU\Test\Api;
 
-use PayU\Api\CreditCard;
+use PayUSdk\Api\CreditCard;
 
 class CreditCardTest extends \PHPUnit_Framework_TestCase
 {

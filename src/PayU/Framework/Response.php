@@ -6,26 +6,26 @@
 
 declare(strict_types=1);
 
-namespace PayU\Framework;
+namespace PayUSdk\Framework;
 
-use PayU\Api\Data\BasketInterface;
-use PayU\Api\Data\LookupDataInterface;
-use PayU\Api\Data\Secure3DInterface;
-use PayU\Api\ResponseInterface;
-use PayU\Model\BaseEft;
-use PayU\Model\Basket;
-use PayU\Model\FraudService;
-use PayU\Model\LookupData;
-use PayU\Model\PaymentMethod;
-use PayU\Model\RecurringPayment;
-use PayU\Model\Secure3D;
+use PayUSdk\Api\Data\BasketInterface;
+use PayUSdk\Api\Data\LookupDataInterface;
+use PayUSdk\Api\Data\Secure3DInterface;
+use PayUSdk\Api\ResponseInterface;
+use PayUSdk\Model\BaseEft;
+use PayUSdk\Model\Basket;
+use PayUSdk\Model\FraudService;
+use PayUSdk\Model\LookupData;
+use PayUSdk\Model\PaymentMethod;
+use PayUSdk\Model\RecurringPayment;
+use PayUSdk\Model\Secure3D;
 
 /**
  * Class Response
  *
  * Response class contains response from SOAP method call
  *
- * @package PayU\Framework
+ * @package PayUSdk\Framework
  */
 class Response extends AbstractModel implements ResponseInterface
 {

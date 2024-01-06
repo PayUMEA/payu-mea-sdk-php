@@ -6,17 +6,17 @@
 
 declare(strict_types=1);
 
-namespace PayU\Framework\Gateway\Request;
+namespace PayUSdk\Framework\Gateway\Request;
 
-use PayU\Api\BuilderInterface;
-use PayU\Api\Data\TransactionInterface;
+use PayUSdk\Api\BuilderInterface;
+use PayUSdk\Api\Data\TransactionInterface;
 
 /**
  * Class FraudServiceDataHandler
  *
  * Transaction record data builder
  *
- * @package PayU\Framework\Gateway\Request
+ * @package PayUSdk\Framework\Gateway\Request
  */
 class TransactionRecordDataHandler implements BuilderInterface
 {

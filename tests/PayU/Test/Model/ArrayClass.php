@@ -1,7 +1,7 @@
 <?php
 namespace PayU\Test\Model;
 
-use PayU\Model\PayUModel;
+use PayUSdk\Model\PayUModel;
 
 class ArrayClass extends PayUModel
 {

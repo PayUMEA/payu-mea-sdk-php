@@ -6,19 +6,19 @@
 
 declare(strict_types=1);
 
-namespace PayU\Framework\Gateway\Request;
+namespace PayUSdk\Framework\Gateway\Request;
 
-use PayU\Api\BuilderInterface;
-use PayU\Api\Data\TransactionInterface;
-use PayU\Framework\Formatter;
-use PayU\Model\PaymentMethod;
+use PayUSdk\Api\BuilderInterface;
+use PayUSdk\Api\Data\TransactionInterface;
+use PayUSdk\Framework\Formatter;
+use PayUSdk\Model\PaymentMethod;
 
 /**
  * Class VoidDataHandler
  *
  * Default data builder for voiding an authorized transaction
  *
- * @package PayU\Framework\Gateway\Request
+ * @package PayUSdk\Framework\Gateway\Request
  */
 class VoidDataHandler implements BuilderInterface
 {

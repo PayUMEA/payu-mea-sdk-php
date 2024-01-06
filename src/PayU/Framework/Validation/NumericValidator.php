@@ -6,14 +6,14 @@
 
 declare(strict_types=1);
 
-namespace PayU\Framework\Validation;
+namespace PayUSdk\Framework\Validation;
 
 use InvalidArgumentException;
 
 /**
  * Class NumericValidator
  *
- * @package PayU\Framework\Validation
+ * @package PayUSdk\Framework\Validation
  */
 class NumericValidator
 {

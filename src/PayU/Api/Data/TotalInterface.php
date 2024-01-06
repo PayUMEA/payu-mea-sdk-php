@@ -6,14 +6,14 @@
 
 declare(strict_types=1);
 
-namespace PayU\Api\Data;
+namespace PayUSdk\Api\Data;
 
 /**
  * Interface TotalInterface
  *
  * Total of what to pay
  *
- * @package PayU\Api\Data
+ * @package PayUSdk\Api\Data
  */
 interface TotalInterface
 {

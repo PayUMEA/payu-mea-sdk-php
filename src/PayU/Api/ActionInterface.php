@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace PayU\Api;
+namespace PayUSdk\Api;
 
 /**
  * Class ActionInterface
@@ -14,7 +14,7 @@ namespace PayU\Api;
  * The action to carry out on the payment gateway. It can be
  * a payment, refund or void action.
  *
- * @package PayU\Api
+ * @package PayUSdk\Api
  */
 interface ActionInterface
 {

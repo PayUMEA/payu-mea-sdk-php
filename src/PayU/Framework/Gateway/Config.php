@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace PayU\Framework\Gateway;
+namespace PayUSdk\Framework\Gateway;
 
-use PayU\Framework\Exception\ConfigurationException;
+use PayUSdk\Framework\Exception\ConfigurationException;
 
 /**
  * class Config

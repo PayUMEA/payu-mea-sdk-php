@@ -6,15 +6,15 @@
 
 declare(strict_types=1);
 
-namespace PayU\Model;
+namespace PayUSdk\Model;
 
-use PayU\Api\Data\CurrencyInterface;
-use PayU\Framework\AbstractModel;
+use PayUSdk\Api\Data\CurrencyInterface;
+use PayUSdk\Framework\AbstractModel;
 
 /**
  * Class Currency
  *
- * @package PayU\Model
+ * @package PayUSdk\Model
  */
 class Currency extends AbstractModel implements CurrencyInterface
 {

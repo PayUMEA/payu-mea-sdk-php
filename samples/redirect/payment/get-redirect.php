@@ -4,9 +4,9 @@
 // retrieve details of a Payment resource
 // you've created using the SOAP API.
 
-use PayU\Api\ResponseInterface;
-use PayU\Framework\Action\Search;
-use PayU\Framework\Processor;
+use PayUSdk\Api\ResponseInterface;
+use PayUSdk\Framework\Action\Search;
+use PayUSdk\Framework\Processor;
 
 /** @var ResponseInterface $response */
 $response = require __DIR__ . '/../../safestore/setup-standard-redirect.php';

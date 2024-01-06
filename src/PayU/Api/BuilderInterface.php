@@ -6,11 +6,11 @@
 
 declare(strict_types=1);
 
-namespace PayU\Api;
+namespace PayUSdk\Api;
 
 /**
  * Interface BuilderInterface
- * @package PayU\Api
+ * @package PayUSdk\Api
  * @api
  */
 interface BuilderInterface

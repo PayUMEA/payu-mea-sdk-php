@@ -6,14 +6,14 @@
 
 declare(strict_types=1);
 
-namespace PayU\Framework\Gateway;
+namespace PayUSdk\Framework\Gateway;
 
-use PayU\Api\ConnectionInterface;
-use PayU\Framework\BuilderComposite;
-use PayU\Framework\Core\LoggingManager;
-use PayU\Framework\Exception\ConfigurationException;
-use PayU\Framework\Exception\InvalidCredentialException;
-use PayU\Framework\Soap\Context;
+use PayUSdk\Api\ConnectionInterface;
+use PayUSdk\Framework\BuilderComposite;
+use PayUSdk\Framework\Core\LoggingManager;
+use PayUSdk\Framework\Exception\ConfigurationException;
+use PayUSdk\Framework\Exception\InvalidCredentialException;
+use PayUSdk\Framework\Soap\Context;
 use SoapFault;
 
 /**

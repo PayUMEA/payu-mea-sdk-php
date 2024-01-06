@@ -9,13 +9,13 @@
  * @author Kenneth Onah <kenneth@netcraft-devops.com>
  */
 
-namespace PayU\Framework\Soap;
+namespace PayUSdk\Framework\Soap;
 
 use Exception;
-use PayU\Framework\Core\ConfigManager;
-use PayU\Framework\Core\CredentialManager;
-use PayU\Framework\Authentication;
-use PayU\Framework\Exception\InvalidCredentialException;
+use PayUSdk\Framework\Core\ConfigManager;
+use PayUSdk\Framework\Core\CredentialManager;
+use PayUSdk\Framework\Authentication;
+use PayUSdk\Framework\Exception\InvalidCredentialException;
 
 /**
  * Class Context

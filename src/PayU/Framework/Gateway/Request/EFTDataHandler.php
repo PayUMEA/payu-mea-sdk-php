@@ -6,20 +6,20 @@
 
 declare(strict_types=1);
 
-namespace PayU\Framework\Gateway\Request;
+namespace PayUSdk\Framework\Gateway\Request;
 
-use PayU\Api\BuilderInterface;
-use PayU\Api\Data\EbucksInterface;
-use PayU\Framework\Exception\LocalizedException;
-use PayU\Framework\Formatter;
-use PayU\Model\PaymentMethod;
+use PayUSdk\Api\BuilderInterface;
+use PayUSdk\Api\Data\EbucksInterface;
+use PayUSdk\Framework\Exception\LocalizedException;
+use PayUSdk\Framework\Formatter;
+use PayUSdk\Model\PaymentMethod;
 
 /**
  * Class EFTDataHandler
  *
  * EFT data builder
  *
- * @package PayU\Framework\Gateway\Request
+ * @package PayUSdk\Framework\Gateway\Request
  */
 class EFTDataHandler implements BuilderInterface
 {

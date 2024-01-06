@@ -6,23 +6,23 @@
 
 declare(strict_types=1);
 
-namespace PayU\Framework;
+namespace PayUSdk\Framework;
 
-use PayU\Api\AdapterInterface;
-use PayU\Api\ResponseInterface;
-use PayU\Framework\Data\DataObject;
-use PayU\Framework\Exception\ConfigurationException;
-use PayU\Framework\Exception\InvalidCredentialException;
-use PayU\Framework\Gateway\Command;
-use PayU\Framework\Soap\Context;
-use PayU\Framework\Validation\ArgumentValidator;
+use PayUSdk\Api\AdapterInterface;
+use PayUSdk\Api\ResponseInterface;
+use PayUSdk\Framework\Data\DataObject;
+use PayUSdk\Framework\Exception\ConfigurationException;
+use PayUSdk\Framework\Exception\InvalidCredentialException;
+use PayUSdk\Framework\Gateway\Command;
+use PayUSdk\Framework\Soap\Context;
+use PayUSdk\Framework\Validation\ArgumentValidator;
 use SoapFault;
 
 /**
  * Class Adapter
  *
  * An executable operation such as payment, refund, capture etc.
- * @package PayU\Framework
+ * @package PayUSdk\Framework
  */
 class Adapter extends DataObject implements AdapterInterface
 {
@@ -40,7 +40,7 @@ class Adapter extends DataObject implements AdapterInterface
         // Initialize the context and command object if not provided explicitly
         $context = $arguments['context'] ?? new Context();
         $command = new Command($context);
-        $arguments['handlers'][] = 'PayU\Handler\GatewayConfigHandler';
+        $arguments['handlers'][] = 'PayUSdk\Handler\GatewayConfigHandler';
 
         return $command->execute($arguments);
     }

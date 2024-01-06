@@ -9,17 +9,17 @@
  * @author     Kenneth Onah <kenneth@netcraft-devops.com>
  */
 
-namespace PayU\Model;
+namespace PayUSdk\Model;
 
-use PayU\Api\Data\CartInterface;
-use PayU\Api\Data\ShippingAddressInterface;
-use PayU\Api\Data\TotalInterface;
-use PayU\Framework\AbstractModel;
+use PayUSdk\Api\Data\CartInterface;
+use PayUSdk\Api\Data\ShippingAddressInterface;
+use PayUSdk\Api\Data\TotalInterface;
+use PayUSdk\Framework\AbstractModel;
 
 /**
  * Class Cart
  *
- * @package PayU\Model
+ * @package PayUSdk\Model
  */
 class Cart extends AbstractModel implements CartInterface
 {

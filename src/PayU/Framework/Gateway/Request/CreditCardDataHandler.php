@@ -6,19 +6,19 @@
 
 declare(strict_types=1);
 
-namespace PayU\Framework\Gateway\Request;
+namespace PayUSdk\Framework\Gateway\Request;
 
-use PayU\Api\BuilderInterface;
-use PayU\Framework\Formatter;
-use PayU\Framework\Soap\Context;
-use PayU\Model\PaymentMethod;
+use PayUSdk\Api\BuilderInterface;
+use PayUSdk\Framework\Formatter;
+use PayUSdk\Framework\Soap\Context;
+use PayUSdk\Model\PaymentMethod;
 
 /**
  * Class CreditCardDataHandler
  *
  * Credit card data builder
  *
- * @package PayU\Framework\Gateway\Request
+ * @package PayUSdk\Framework\Gateway\Request
  */
 class CreditCardDataHandler implements BuilderInterface
 {

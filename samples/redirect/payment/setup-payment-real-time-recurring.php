@@ -11,18 +11,18 @@ $reference = $response->getMerchantReference();
 $pmId = $response->getPaymentMethodsUsed()->getId();
 $userId = $request->getCustomer()->getCustomerDetail()->getCustomerId();
 
-use PayU\Api\Data\TransactionInterface;
-use PayU\Framework\Processor;
-use PayU\Model\Currency;
-use PayU\Model\Total;
-use PayU\Model\CardToken;
-use PayU\Model\Customer;
-use PayU\Model\CustomerDetail;
-use PayU\Model\FundingInstrument;
-use PayU\Framework\Action\Sale;
-use PayU\Model\PaymentMethod;
-use PayU\Model\Transaction;
-use PayU\Framework\Soap\Context;
+use PayUSdk\Api\Data\TransactionInterface;
+use PayUSdk\Framework\Processor;
+use PayUSdk\Model\Currency;
+use PayUSdk\Model\Total;
+use PayUSdk\Model\CardToken;
+use PayUSdk\Model\Customer;
+use PayUSdk\Model\CustomerDetail;
+use PayUSdk\Model\FundingInstrument;
+use PayUSdk\Framework\Action\Sale;
+use PayUSdk\Model\PaymentMethod;
+use PayUSdk\Model\Transaction;
+use PayUSdk\Framework\Soap\Context;
 
 // ### CardToken
 // Saved credit card id from a previous call to

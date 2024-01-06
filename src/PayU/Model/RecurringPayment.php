@@ -6,10 +6,10 @@
 
 declare(strict_types=1);
 
-namespace PayU\Model;
+namespace PayUSdk\Model;
 
-use PayU\Api\Data\RecurringPaymentInterface;
-use PayU\Framework\AbstractModel;
+use PayUSdk\Api\Data\RecurringPaymentInterface;
+use PayUSdk\Framework\AbstractModel;
 
 /**
  * Class RecurringDetails

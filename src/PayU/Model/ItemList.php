@@ -6,17 +6,17 @@
 
 declare(strict_types=1);
 
-namespace PayU\Model;
+namespace PayUSdk\Model;
 
-use PayU\Api\Data\ItemInterface;
-use PayU\Framework\AbstractModel;
+use PayUSdk\Api\Data\ItemInterface;
+use PayUSdk\Framework\AbstractModel;
 
 /**
  * Class ItemList
  *
  * List of items in the cart.
  *
- * @package PayU\Api
+ * @package PayUSdk\Api
  */
 class ItemList extends AbstractModel
 {

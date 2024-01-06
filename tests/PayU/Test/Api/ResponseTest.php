@@ -8,7 +8,7 @@
 
 namespace PayU\Test\Api;
 
-use PayU\Api\Response;
+use PayUSdk\Api\Response;
 
 class ResponseTest extends \PHPUnit_Framework_TestCase
 {

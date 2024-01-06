@@ -7,18 +7,18 @@
 
 require __DIR__ . '/../../bootstrap.php';
 
-use PayU\Api\Data\TransactionInterface;
-use PayU\Framework\Processor;
-use PayU\Model\Address;
-use PayU\Model\Total;
-use PayU\Model\Customer;
-use PayU\Model\CustomerDetail;
-use PayU\Model\PaymentMethod;
-use PayU\Framework\Action\Redirect;
-use PayU\Model\TransactionUrl;
-use PayU\Model\Transaction;
-use PayU\Model\TransactionRecord;
-use PayU\Framework\Soap\Context;
+use PayUSdk\Api\Data\TransactionInterface;
+use PayUSdk\Framework\Processor;
+use PayUSdk\Model\Address;
+use PayUSdk\Model\Total;
+use PayUSdk\Model\Customer;
+use PayUSdk\Model\CustomerDetail;
+use PayUSdk\Model\PaymentMethod;
+use PayUSdk\Framework\Action\Redirect;
+use PayUSdk\Model\TransactionUrl;
+use PayUSdk\Model\Transaction;
+use PayUSdk\Model\TransactionRecord;
+use PayUSdk\Framework\Soap\Context;
 
 // ### Address
 // A resource representing a customer shipping/billing address information
@@ -32,7 +32,7 @@ $address->setLine1("21 Main Road")
 
 // ### CustomerDetail
 // A resource representing a customer detailed information
-$phone = new \PayU\Model\Phone();
+$phone = new \PayUSdk\Model\Phone();
 $phone->setNationalNumber('0748523695')
     ->setCountryCode('27');
 $customerDetail = new CustomerDetail();
@@ -54,7 +54,7 @@ $customer->setPaymentMethod(PaymentMethod::TYPE_REAL_TIME_RECURRING)
 // Lets you specify a payment amount.
 // You can also specify additional details
 // such as shipping, tax.
-$currency = new \PayU\Model\Currency();
+$currency = new \PayUSdk\Model\Currency();
 $currency->setCode('ZAR');
 
 $total = new Total();

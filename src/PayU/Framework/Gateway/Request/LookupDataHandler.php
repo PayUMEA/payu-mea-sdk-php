@@ -6,16 +6,16 @@
 
 declare(strict_types=1);
 
-namespace PayU\Framework\Gateway\Request;
+namespace PayUSdk\Framework\Gateway\Request;
 
-use PayU\Api\BuilderInterface;
+use PayUSdk\Api\BuilderInterface;
 
 /**
  * Class LookupDataHandler
  *
  * Lookup transaction data builder
  *
- * @package PayU\Framework\Gateway\Request
+ * @package PayUSdk\Framework\Gateway\Request
  */
 class LookupDataHandler implements BuilderInterface
 {

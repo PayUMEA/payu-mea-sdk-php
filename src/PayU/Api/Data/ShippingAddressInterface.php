@@ -6,14 +6,14 @@
 
 declare(strict_types=1);
 
-namespace PayU\Api\Data;
+namespace PayUSdk\Api\Data;
 
 /**
  * Interface ShippingAddressInterface
  *
  * Extended address used as shipping address
  *
- * @package PayU\Api\Data
+ * @package PayUSdk\Api\Data
  */
 interface ShippingAddressInterface extends AddressInterface
 {

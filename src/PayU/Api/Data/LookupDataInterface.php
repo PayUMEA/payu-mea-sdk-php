@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace PayU\Api\Data;
+namespace PayUSdk\Api\Data;
 
 /**
  * Interface LookupDataInterface
@@ -14,7 +14,7 @@ namespace PayU\Api\Data;
  * LookupData class contains response from SOAP method call with various `LookupTransactionType`
  * for instance `PAYMENT_METHODS`
  *
- * @package PayU\Api\Data
+ * @package PayUSdk\Api\Data
  */
 interface LookupDataInterface
 {

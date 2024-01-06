@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace PayU\Framework;
+namespace PayUSdk\Framework;
 
-use PayU\Framework\Data\DataObject;
+use PayUSdk\Framework\Data\DataObject;
 
 /**
  * Class AbstractModel
@@ -17,7 +17,7 @@ use PayU\Framework\Data\DataObject;
  * Stores all member data in a Hash map that enables easy
  * JSON encoding/decoding and array traversal
  *
- * @package PayU\Framework
+ * @package PayUSdk\Framework
  */
 class AbstractModel extends DataObject
 {

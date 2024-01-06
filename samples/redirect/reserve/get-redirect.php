@@ -6,8 +6,8 @@
 
 $response = require dirname(__DIR__, 2) . '/safestore/setup-standard-redirect.php';
 
-use PayU\Framework\Action\Search;
-use PayU\Framework\Processor;
+use PayUSdk\Framework\Action\Search;
+use PayUSdk\Framework\Processor;
 
 $reference = $response->getPayUReference();
 

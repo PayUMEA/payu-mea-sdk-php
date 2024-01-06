@@ -6,12 +6,12 @@
 
 declare(strict_types=1);
 
-namespace PayU\Api;
+namespace PayUSdk\Api;
 
 /**
  * Class ConnectionInterface
  *
- * @package PayU\Api
+ * @package PayUSdk\Api
  */
 interface ConnectionInterface
 {

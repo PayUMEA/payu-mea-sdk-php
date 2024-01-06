@@ -9,14 +9,14 @@
  * @author     Kenneth Onah <kenneth@netcraft-devops.com>
  */
 
-namespace PayU\Framework;
+namespace PayUSdk\Framework;
 
 /**
  * Class ArrayHelper
  *
  * Helper Class for Arrays
  *
- * @package PayU\Framework
+ * @package PayUSdk\Framework
  */
 class ArrayHelper
 {

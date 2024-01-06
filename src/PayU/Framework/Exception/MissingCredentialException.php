@@ -6,12 +6,12 @@
 
 declare(strict_types=1);
 
-namespace PayU\Framework\Exception;
+namespace PayUSdk\Framework\Exception;
 
 /**
  * Class MissingCredentialException
  *
- * @package PayU\Framework\Exception
+ * @package PayUSdk\Framework\Exception
  */
 class MissingCredentialException extends \Exception
 {

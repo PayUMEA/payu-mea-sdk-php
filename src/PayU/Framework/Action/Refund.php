@@ -6,14 +6,14 @@
 
 declare(strict_types=1);
 
-namespace PayU\Framework\Action;
+namespace PayUSdk\Framework\Action;
 
 /**
  * Class Refund
  *
  * Refund action.
  *
- * @package PayU\Framework\Action
+ * @package PayUSdk\Framework\Action
  */
 class Refund extends BaseAction
 {

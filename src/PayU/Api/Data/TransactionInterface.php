@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace PayU\Api\Data;
+namespace PayUSdk\Api\Data;
 
 /**
  * Interface TransactionInterface
@@ -14,7 +14,7 @@ namespace PayU\Api\Data;
  * A transaction defines the contract of a payment - what is the payment
  * for, who is fulfilling it, and other details.
  *
- * @package PayU\Api\Data
+ * @package PayUSdk\Api\Data
  */
 interface TransactionInterface
 {
@@ -70,7 +70,7 @@ interface TransactionInterface
 
     /**
      * @return string Demo transaction
-     * @package PayU\Api\Data
+     * @package PayUSdk\Api\Data
      */
     public function getDemo(): string;
 

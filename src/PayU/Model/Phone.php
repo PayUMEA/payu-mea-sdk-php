@@ -6,15 +6,15 @@
 
 declare(strict_types=1);
 
-namespace PayU\Model;
+namespace PayUSdk\Model;
 
-use PayU\Api\Data\PhoneInterface;
-use PayU\Framework\AbstractModel;
+use PayUSdk\Api\Data\PhoneInterface;
+use PayUSdk\Framework\AbstractModel;
 
 /**
  * Class Phone
  *
- * @package PayU\Model
+ * @package PayUSdk\Model
  */
 class Phone extends AbstractModel implements PhoneInterface
 {

@@ -7,17 +7,17 @@
 
 require __DIR__ . '/../../bootstrap.php';
 
-use PayU\Api\Data\TransactionInterface;
-use PayU\Framework\Action\Redirect;
-use PayU\Framework\Processor;
-use PayU\Framework\Soap\Context;
-use PayU\Model\Address;
-use PayU\Model\Customer;
-use PayU\Model\CustomerDetail;
-use PayU\Model\Phone;
-use PayU\Model\Total;
-use PayU\Model\Transaction;
-use PayU\Model\TransactionUrl;
+use PayUSdk\Api\Data\TransactionInterface;
+use PayUSdk\Framework\Action\Redirect;
+use PayUSdk\Framework\Processor;
+use PayUSdk\Framework\Soap\Context;
+use PayUSdk\Model\Address;
+use PayUSdk\Model\Customer;
+use PayUSdk\Model\CustomerDetail;
+use PayUSdk\Model\Phone;
+use PayUSdk\Model\Total;
+use PayUSdk\Model\Transaction;
+use PayUSdk\Model\TransactionUrl;
 
 $address = new Address();
 $address->setLine1("80 Main Road")
@@ -51,7 +51,7 @@ $customer->setCustomerDetail($customerDetail);
 // Lets you specify a payment amount.
 // You can also specify additional details
 // such as shipping, tax.
-$currency = new \PayU\Model\Currency();
+$currency = new \PayUSdk\Model\Currency();
 $currency->setCode('ZAR');
 
 $total = new Total();

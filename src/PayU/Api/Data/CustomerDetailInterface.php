@@ -6,14 +6,14 @@
 
 declare(strict_types=1);
 
-namespace PayU\Api\Data;
+namespace PayUSdk\Api\Data;
 
 /**
  * Interface CustomerDetailInterface
  *
  * Represents the details of a customer
  *
- * @package PayU\Api\Data
+ * @package PayUSdk\Api\Data
  */
 interface CustomerDetailInterface
 {

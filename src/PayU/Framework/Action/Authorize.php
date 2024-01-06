@@ -6,14 +6,14 @@
 
 declare(strict_types=1);
 
-namespace PayU\Framework\Action;
+namespace PayUSdk\Framework\Action;
 
 /**
  * Class Authorize
  *
  * An authorization action with or without redirect to payment gateway.
  *
- * @package PayU\Framework\Action
+ * @package PayUSdk\Framework\Action
  */
 class Authorize extends BaseAction
 {

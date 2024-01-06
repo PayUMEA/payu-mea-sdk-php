@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../../bootstrap.php';
 
-use PayU\Framework\XMLHelper;
+use PayUSdk\Framework\XMLHelper;
 
 $payuReference = isset($_GET['PayUReference']) ? $_GET['PayUReference'] : '';
 

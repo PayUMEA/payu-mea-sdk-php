@@ -6,17 +6,17 @@
 
 declare(strict_types=1);
 
-namespace PayU\Model;
+namespace PayUSdk\Model;
 
-use PayU\Api\Data\AddressInterface;
-use PayU\Api\Data\CustomerDetailInterface;
-use PayU\Api\Data\PhoneInterface;
-use PayU\Framework\AbstractModel;
+use PayUSdk\Api\Data\AddressInterface;
+use PayUSdk\Api\Data\CustomerDetailInterface;
+use PayUSdk\Api\Data\PhoneInterface;
+use PayUSdk\Framework\AbstractModel;
 
 /**
  * Class CustomerDetail
  *
- * @package PayU\Model
+ * @package PayUSdk\Model
  */
 class CustomerDetail extends AbstractModel implements CustomerDetailInterface
 {

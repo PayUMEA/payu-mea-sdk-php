@@ -6,12 +6,12 @@
 
 declare(strict_types=1);
 
-namespace PayU\Api\Data;
+namespace PayUSdk\Api\Data;
 
 /**
  * Lets you create, process and manage ebucks payments.
  *
- * @package PayU\Api\Data
+ * @package PayUSdk\Api\Data
  * @api
  */
 interface EbucksInterface

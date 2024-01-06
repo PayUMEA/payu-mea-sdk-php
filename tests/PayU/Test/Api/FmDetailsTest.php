@@ -8,7 +8,7 @@
 
 namespace PayU\Test\Api;
 
-use PayU\Api\FmDetails;
+use PayUSdk\Api\FmDetails;
 
 class FmDetailsTest extends \PHPUnit_Framework_TestCase
 {
