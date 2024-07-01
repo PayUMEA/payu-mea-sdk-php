@@ -10,6 +10,7 @@ You can sign up for a PayU account at https://payu.co.za.
 ## Requirements
 
 v1.* PHP 5.4 - PHP 7.4
+
 v2.* PHP8 and above
 
 ## Composer
