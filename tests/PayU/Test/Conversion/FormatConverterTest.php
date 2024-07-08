@@ -2,13 +2,13 @@
 
 namespace PayU\Test\Conversion;
 
-use PayU\Api\Amount;
-use PayU\Api\Currency;
-use PayU\Api\Details;
-use PayU\Api\Item;
-use PayU\Api\Tax;
+use PayUSdk\Api\Amount;
+use PayUSdk\Api\Currency;
+use PayUSdk\Api\Details;
+use PayUSdk\Api\Item;
+use PayUSdk\Api\Tax;
 use PayU\Conversion\Formatter;
-use PayU\Model\PayUModel;
+use PayUSdk\Model\PayUModel;
 use PayU\Test\Validation\NumericValidatorTest;
 
 class FormatConverterTest extends \PHPUnit_Framework_TestCase

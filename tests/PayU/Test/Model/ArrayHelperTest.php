@@ -1,7 +1,7 @@
 <?php
 namespace PayU\Test\Model;
 
-use PayU\Model\ArrayHelper;
+use PayUSdk\Model\ArrayHelper;
 
 class ArrayHelperTest extends \PHPUnit_Framework_TestCase
 {

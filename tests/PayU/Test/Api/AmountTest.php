@@ -8,7 +8,7 @@
 
 namespace PayU\Test\Api;
 
-use PayU\Api\Amount;
+use PayUSdk\Api\Amount;
 
 class AmountTest extends \PHPUnit_Framework_TestCase
 {

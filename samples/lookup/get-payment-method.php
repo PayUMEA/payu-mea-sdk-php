@@ -5,28 +5,23 @@
 // This sample code demonstrate how you can process
 // a redirect payment.
 
-$payment = require __DIR__ . '/../safestore/create-credit-card.php';
+list($request,) = require dirname(__DIR__) . '/safestore/create-credit-card.php';
 
-use PayU\Api\LookupTransaction;
+use PayUSdk\Framework\Action\Lookup;
+use PayUSdk\Framework\Processor;
 
-$payload = array(
-    'lookupTransactionType' => 'TOKEN',
-    'Customfield' => array(
-        array(
-            'key' => 'MerchantUserId',
-            'value' => $payment->getCustomer()->getId(),
-        ),
-    ),
-);
+$lookup = new Lookup();
+$lookup->setCustomerId($request->getCustomer()->getCustomerDetail()->getCustomerId())
+    ->setContext($apiContext[0]);
 
 try {
-    $response = LookupTransaction::lookup($payload, $apiContext[0]);
+    $response = Processor::processAction('lookup', $lookup);
 } catch (Exception $ex) {
     // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
-    ResultPrinter::printError('Lookup Transactions. If 500 Exception, check response details', 'LookupTransaction', null, null, $ex);
+    ResultPrinter::printError('Lookup Transactions. If 500 Exception, check response details', 'LookupTransaction', null, $request, $ex);
     exit(1);
 }
 
-ResultPrinter::printResult('Lookup Transactions', 'LookupTransaction', $card->getId(), $payload, $response);
+ResultPrinter::printResult('Lookup Transactions', 'LookupTransaction', $response->getPayUReference(), $lookup, $response);
 
 return $response;

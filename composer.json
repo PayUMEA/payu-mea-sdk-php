@@ -1,8 +1,8 @@
 {
   "name": "payu-mea/payu-mea-sdk-php",
-  "description": "PayU EMEA Secure Payments PHP SDK",
+  "description": "PayU MEA Secure Payments PHP SDK",
   "type": "library",
-  "homepage": "https://payu.co.za/",
+  "homepage": "https://southafrica.payu.com/",
   "minimum-stability": "stable",
   "license": "MIT",
   "keywords": [
@@ -10,23 +10,23 @@
     "payu mea",
     "payu secure payments",
     "payu payment processing",
-    "payu php sdk"
+    "payu mea php sdk"
   ],
   "extra": [
     {
       "engine": "PHP SDK"
     }
   ],
-  "require": {
-    "php": ">=5.3.3",
-    "ext-openssl": "*",
+    "version": "2.0.0",
+    "require": {
+    "php": "^8.0",
     "ext-soap": "*",
     "ext-json": "*",
-    "ext-mbstring": "*",
+    "ext-xml": "*",
     "psr/log": "^1.0.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "~4.0",
+    "phpunit/phpunit": "^10.0",
     "satooshi/php-coveralls": "~0.6.1"
   },
   "authors": [
@@ -35,12 +35,9 @@
       "email": "kenneth@netcraft-devops.com"
     }
   ],
-  "support": {
-    "issues": "https://github.com/netcraft-devops/payu-sdk-php/issues"
-  },
   "autoload": {
     "psr-4": {
-      "PayU\\": "lib/PayU"
+      "PayUSdk\\": "src/PayU"
     }
   }
 }

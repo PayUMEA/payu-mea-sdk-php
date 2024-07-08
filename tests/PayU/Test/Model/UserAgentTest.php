@@ -1,6 +1,6 @@
 <?php
 
-use PayU\Model\UserAgent;
+use PayUSdk\Model\UserAgent;
 
 class UserAgentTest extends PHPUnit_Framework_TestCase
 {

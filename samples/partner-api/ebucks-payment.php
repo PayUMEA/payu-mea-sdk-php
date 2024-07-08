@@ -7,20 +7,25 @@
 
 require __DIR__ . '/../bootstrap.php';
 
-use PayU\Api\Address;
-use PayU\Api\Amount;
-use PayU\Api\Customer;
-use PayU\Api\CustomerInfo;
-use PayU\Api\Ebucks;
-use PayU\Api\FundingInstrument;
-use PayU\Api\Payment;
-use PayU\Api\PaymentMethod;
-use PayU\Api\RedirectUrls;
-use PayU\Api\Transaction;
-use PayU\Soap\ApiContext;
+use PayUSdk\Api\Data\EbucksInterface;
+use PayUSdk\Api\Data\TransactionInterface;
+use PayUSdk\Framework\Action\Sale;
+use PayUSdk\Framework\Processor;
+use PayUSdk\Framework\Soap\Context;
+use PayUSdk\Model\Address;
+use PayUSdk\Model\Currency;
+use PayUSdk\Model\Customer;
+use PayUSdk\Model\CustomerDetail;
+use PayUSdk\Model\Ebucks;
+use PayUSdk\Model\FundingInstrument;
+use PayUSdk\Model\PaymentMethod;
+use PayUSdk\Model\Phone;
+use PayUSdk\Model\Total;
+use PayUSdk\Model\Transaction;
+use PayUSdk\Model\TransactionUrl;
 
-$addr = new Address();
-$addr->setLine1("80 Main Road")
+$address = new Address();
+$address->setLine1("80 Main Road")
     ->setLine2("Cape Town")
     ->setCity("Cape Town")
     ->setState("WC")
@@ -31,15 +36,18 @@ $addr->setLine1("80 Main Road")
 // Lets you specify a payment amount.
 // You can also specify additional details
 // such as shipping, tax.
-$amount = new Amount();
-$amount->setCurrency("ZAR")
-    ->setTotal(200.00);
+$currency = new Currency();
+$currency->setCode('ZAR');
+
+$total = new Total();
+$total->setCurrency($currency)
+    ->setAmount(200.00);
 
 // ### Ebucks
 // A resource representing an ebucks that can be
 // used to fund a payment.
 $ebucks = new Ebucks();
-$ebucks->setAction(Ebucks::PAYMENT)
+$ebucks->setAction(EbucksInterface::PAYMENT)
     ->setEbucksOTP('909059')
     ->setEbucksAccountNumber('80000278865')
     ->setEbucksAmount('200');
@@ -48,18 +56,21 @@ $ebucks->setAction(Ebucks::PAYMENT)
 // A resource representing a Customer's funding instrument.
 // For direct credit card payments, set the CreditCard
 // field on this object.
-$fi = new FundingInstrument();
-$fi->setEbucks($ebucks);
+$funding = new FundingInstrument();
+$funding->setEbucks($ebucks);
 
-$ci = new CustomerInfo();
-$ci->setFirstName('John')
+$phone = new Phone();
+$phone->setNationalNumber('0748523695')
+    ->setCountryCode('27');
+
+$customerDetail = new CustomerDetail();
+$customerDetail->setFirstName('John')
     ->setLastName('Snow')
     ->setEmail('john.snow@example.com')
-    ->setCountryCode('27')
-    ->setCountryOfResidence('ZA')
-    ->setPhone('0748523695')
+    ->setPhone($phone)
     ->setCustomerId('858')
-    ->setBillingAddress($addr);
+    ->setAddress($address)
+    ->setIpAddress('127.0.0.1');
 
 // ### Customer
 // A resource representing a Customer that funds a payment
@@ -67,56 +78,53 @@ $ci->setFirstName('John')
 // to 'credit_card' and add an array of funding instruments.
 $customer = new Customer();
 $customer->setPaymentMethod(PaymentMethod::TYPE_EBUCKS)
-    ->setCustomerInfo($ci)
-    ->setIPAddress('127.0.0.1')
-    ->setFundingInstrument($fi);
+    ->setCustomerDetail($customerDetail)
+    ->setFundingInstrument($funding);
 
 // ### Transaction
 // A transaction defines the contract of a
 // payment - what is the payment for and who
 // is fulfilling it.
 $transaction = new Transaction();
-$transaction->setAmount($amount)
+$transaction->setTotal($total)
     ->setDescription("Payment description")
-    ->setInvoiceNumber(uniqid('payu'));
+    ->setReference(uniqid('payu'));
 
 $baseUrl = getBaseUrl();
-$redirectUrls = new RedirectUrls();
-$redirectUrls->setNotifyUrl("$baseUrl/process-return.php")
-    ->setReturnUrl("$baseUrl/process-return.php?apiContext=1")
+$transactionUrl = new TransactionUrl();
+$transactionUrl->setNotificationUrl("$baseUrl/process-return.php")
+    ->setResponseUrl("$baseUrl/process-return.php?apiContext=1")
     ->setCancelUrl("$baseUrl/process-return.php?cancel=true&apiContext=1");
+
+// Because default integration is redirect, setting integration to
+// `enterprise` will alter the way the API behaves.
+$apiContext[1]->setAccountId('account2')
+    ->setIntegration(Context::ENTERPRISE);
 
 // ### Payment
 // A Payment Resource; create one using
 // the above types and intent set to sale 'sale'
-$payment = new Payment();
-$payment->setIntent(Transaction::TYPE_PAYMENT)
+$sale = new Sale();
+$sale->setContext($apiContext[1])
     ->setCustomer($customer)
     ->setTransaction($transaction)
-    ->setRedirectUrls($redirectUrls);
-
-// Because default integration is redirect, setting integration to
-// `enterprise` will alter the way the API behaves.
-$apiContext[1]->setAccountId('acct2')
-    ->setIntegration(ApiContext::ENTERPRISE);
-
-// For Sample Purposes Only.
-$request = clone $payment;
+    ->setTransactionUrl($transactionUrl)
+    ->setTransactionType(TransactionInterface::TYPE_PAYMENT);
 
 // ### Create Payment
 // Create a payment by calling the payment->create() method
-// with a valid ApiContext (See bootstrap.php for more on `ApiContext`)
+// with a valid Context (See bootstrap.php for more on `Context`)
 // The returned object contains the state as well as other details of the
 // transaction.
 try {
-    $payment->create($apiContext[1]);
+    $response = Processor::processAction('sale', $sale);
 } catch (Exception $ex) {
     // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
-    ResultPrinter::printError('Create Payment Using eBucks. If 500 Exception, check the details of the response', 'Payment', null, $request, $ex);
+    ResultPrinter::printError('Create Payment Using eBucks. If 500 Exception, check the details of the response', 'Payment', null, $sale, $ex);
     exit(1);
 }
 
 // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
-ResultPrinter::printResult('Create Payment Using eBucks', 'Payment', $payment->getId(), $request, $payment);
+ResultPrinter::printResult('Create Payment Using eBucks', 'Payment', $response->getPayUReference(), $sale, $response);
 
-return $payment;
+return $response;

@@ -8,7 +8,7 @@
 
 namespace PayU\Test\Api;
 
-use PayU\Api\RecurringDetails;
+use PayUSdk\Api\RecurringDetails;
 
 class RecurringDetailsTest extends \PHPUnit_Framework_TestCase
 {

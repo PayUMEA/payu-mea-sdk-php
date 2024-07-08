@@ -8,7 +8,7 @@
 
 namespace PayU\Test\Api;
 
-use PayU\Api\Transaction;
+use PayUSdk\Api\Transaction;
 
 class TransactionTest extends \PHPUnit_Framework_TestCase
 {

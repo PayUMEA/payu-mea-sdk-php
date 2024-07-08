@@ -8,7 +8,7 @@
 
 namespace PayU\Test\Api;
 
-use PayU\Api\Address;
+use PayUSdk\Api\Address;
 
 class AddressTest extends \PHPUnit_Framework_TestCase
 {

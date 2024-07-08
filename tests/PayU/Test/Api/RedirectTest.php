@@ -8,7 +8,7 @@
 
 namespace PayU\Test\Api;
 
-use PayU\Api\Redirect;
+use PayUSdk\Api\Redirect;
 
 class RedirectTest extends \PHPUnit_Framework_TestCase
 {

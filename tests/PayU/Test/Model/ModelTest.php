@@ -1,9 +1,9 @@
 <?php
 namespace PayU\Test\Model;
 
-use PayU\Api\Payment;
+use PayUSdk\Api\Payment;
 use PayU\Core\ConfigManager;
-use PayU\Model\PayUModel;
+use PayUSdk\Model\PayUModel;
 
 class ModelTest extends \PHPUnit_Framework_TestCase
 {

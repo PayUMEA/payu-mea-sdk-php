@@ -8,7 +8,7 @@
 
 namespace PayU\Test\Api;
 
-use PayU\Api\LookupDataEntry;
+use PayUSdk\Api\LookupDataEntry;
 
 class LookupDataEntryTest extends \PHPUnit_Framework_TestCase
 {

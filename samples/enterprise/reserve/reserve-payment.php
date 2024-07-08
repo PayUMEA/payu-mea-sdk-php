@@ -4,18 +4,22 @@
 
 require __DIR__ . '/../../bootstrap.php';
 
-use PayU\Api\Address;
-use PayU\Api\Amount;
-use PayU\Api\CreditCard;
-use PayU\Api\Customer;
-use PayU\Api\CustomerInfo;
-use PayU\Api\FundingInstrument;
-use PayU\Api\PaymentCard;
-use PayU\Api\PaymentMethod;
-use PayU\Api\RedirectUrls;
-use PayU\Api\Reserve;
-use PayU\Api\Transaction;
-use PayU\Soap\ApiContext;
+use PayUSdk\Api\Data\TransactionInterface;
+use PayUSdk\Framework\Processor;
+use PayUSdk\Model\Address;
+use PayUSdk\Model\Currency;
+use PayUSdk\Model\Phone;
+use PayUSdk\Model\Total;
+use PayUSdk\Model\CreditCard;
+use PayUSdk\Model\Customer;
+use PayUSdk\Model\CustomerDetail;
+use PayUSdk\Model\FundingInstrument;
+use PayUSdk\Api\Data\CardInterface;
+use PayUSdk\Model\PaymentMethod;
+use PayUSdk\Model\TransactionUrl;
+use PayUSdk\Framework\Action\Authorize;
+use PayUSdk\Model\Transaction;
+use PayUSdk\Framework\Soap\Context;
 
 // The biggest difference between creating a payment, and authorizing a payment is to set the intent of payment
 // to correct setting. In this case, it would be 'reserve'
@@ -28,70 +32,73 @@ $addr->setLine1("21 Main Road")
     ->setCountryCode("ZA");
 
 $creditCard = new CreditCard();
-$creditCard->setType(PaymentCard::TYPE_MASTERCARD)
+$creditCard->setType(CardInterface::TYPE_MASTERCARD)
     ->setNumber("5100011063555010")
-    ->setExpireMonth("11")
-    ->setExpireYear("2019")
-    ->setCvv2("123")
-    ->setFirstName("Joe")
-    ->setLastName("Soap")
-    ->setBillingCountry("ZA")
+    ->setExpiryMonth("11")
+    ->setExpiryYear("2026")
+    ->setCvv("123")
+    ->setNameOnCard("Joe Soap")
     ->setBillingAddress($addr);
 
-$fi = new FundingInstrument();
-$fi->setPaymentCard($creditCard);
+$funding = new FundingInstrument();
+$funding->setCreditCard($creditCard);
 
-$ci = new CustomerInfo();
-$ci->setFirstName('Joe')
+$phone = new Phone();
+$phone->setNationalNumber('0748523695')
+    ->setCountryCode('27');
+
+$customerDetail = new CustomerDetail();
+$customerDetail->setFirstName('Joe')
     ->setLastName('Soap')
     ->setEmail('joe.soap@example.com')
-    ->setCountryCode('27')
-    ->setCountryOfResidence('ZA')
-    ->setPhone('0748523695')
+    ->setPhone($phone)
     ->setCustomerId('854')
-    ->setBillingAddress($addr);
+    ->setAddress($addr)
+    ->setIPAddress('127.0.0.1');
 
 $customer = new Customer();
 $customer->setPaymentMethod(PaymentMethod::TYPE_CREDITCARD)
-    ->setIPAddress('127.0.0.1')
-    ->setFundingInstrument($fi)
-    ->setCustomerInfo($ci);
+    ->setFundingInstrument($funding)
+    ->setCustomerDetail($customerDetail);
 
-$amount = new Amount();
-$amount->setCurrency("ZAR")
-    ->setTotal(100);
+$currency = new Currency(['amount' => 100, 'code' => "ZAR"]);
+$total = new Total();
+$total->setCurrency($currency)
+    ->setAmount(100);
 
 $transaction = new Transaction();
-$transaction->setAmount($amount)
+$transaction->setTotal($total)
     ->setDescription("Payment description.")
-    ->setInvoiceNumber(uniqid('payu'));
+    ->setReference(uniqid('payu'));
 
 $baseUrl = getBaseUrl();
-$redirectUrls = new RedirectUrls();
-$redirectUrls->setNotifyUrl("$baseUrl/process-ipn");
+$transactionUrl = new TransactionUrl();
+$transactionUrl->setNotificationUrl('http://example.com/return')
+    ->setResponseUrl("$baseUrl/process-return.php?apiContext=2")
+    ->setCancelUrl("$baseUrl/process-return.php?cancel=true&apiContext=2");
 
-$reserve = new Reserve();
+// Setting integration will alter the way the API behaves.
+$apiContext[0]->setAccountId('account1')
+    ->setIntegration(Context::ENTERPRISE);
 
 // Setting intent to reserve creates a payment
 // authorization. Setting it to payment creates actual payment
-$reserve->setIntent(Transaction::TYPE_RESERVE)
+$reserve = new Authorize();
+$reserve->setContext($apiContext[0])
+    ->setTransactionType(TransactionInterface::TYPE_RESERVE)
     ->setCustomer($customer)
     ->setTransaction($transaction)
-    ->setRedirectUrls($redirectUrls);
-
-// Setting integration will alter the way the API behaves.
-$apiContext[0]->setAccountId('acct1')
-    ->setIntegration(ApiContext::ENTERPRISE);
+    ->setTransactionUrl($transactionUrl);
 
 // For Sample Purposes Only.
 $request = clone $reserve;
 
 // ### Create Payment
 // Create an authorization by calling the payment->callDoTransaction() method
-// with a valid ApiContext (See bootstrap.php for more on `ApiContext`)
+// with a valid Context (See bootstrap.php for more on `Context`)
 // The return/response object contains the various information about the payment.
 try {
-    $reserve->create($apiContext[0]);
+    $response = Processor::processAction('authorize', $reserve);
 } catch (Exception $ex) {
     // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
     ResultPrinter::printError('Authorize/Reserve Payment', 'Reserve', null, $request, $ex);
@@ -99,6 +106,6 @@ try {
 }
 
 // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
-ResultPrinter::printResult('Authorize/Reserve Payment', 'Reserve', $reserve->getReturn()->getPayUReference(), $request, $reserve);
+ResultPrinter::printResult('Authorize/Reserve Payment', 'Reserve', $response->getPayUReference(), $request, $response);
 
-return $reserve;
+return $response;

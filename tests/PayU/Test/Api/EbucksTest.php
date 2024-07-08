@@ -8,7 +8,7 @@
 
 namespace PayU\Test\Api;
 
-use PayU\Api\Ebucks;
+use PayUSdk\Api\Ebucks;
 
 class EbucksTest extends \PHPUnit_Framework_TestCase
 {

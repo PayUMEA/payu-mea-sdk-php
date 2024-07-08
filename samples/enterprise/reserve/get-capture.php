@@ -3,30 +3,33 @@
 // This sample code demonstrates how you can get details of a captured payment.
 
 $capture = require __DIR__ . '/../../safestore/create-finalize.php';
-$captureId = $capture->getId();
+$captureId = $capture->getPayUReference();
 
-use PayU\Api\Capture;
-use PayU\Soap\ApiContext;
+use PayUSdk\Framework\Action\Search;
+use PayUSdk\Framework\Processor;
+use PayUSdk\Framework\Soap\Context;
 
 // Setting integration will alter the way the API behaves.
-$apiContext[0]->setAccountId('acct1')
-    ->setIntegration(ApiContext::ENTERPRISE);
+$apiContext[0]->setAccountId('account1')
+    ->setIntegration(Context::ENTERPRISE);
 
-// For Sample Purposes Only.
-$request = clone $capture;
+
+$search = new Search();
+$search->setPayUReference($captureId)
+    ->setContext($apiContext[0]);
 
 // You can retrieve info about a Capture (Finalize)
 // by invoking the Capture::get method
-// with a valid ApiContext (See bootstrap.php for more on <code>ApiContext</code>).
+// with a valid Context (See bootstrap.php for more on <code>Context</code>).
 try {
-    $response = Capture::get($captureId, $apiContext[0]);
+    $response = Processor::processAction('search', $search);
 } catch (Exception $ex) {
     // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
-    ResultPrinter::printError('Get Captured/Finalized Payment Details', 'Capture', null, $request, $ex);
+    ResultPrinter::printError('Get Captured/Finalized Payment Details', 'Capture', null, $search, $ex);
     exit(1);
 }
 
 // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
-ResultPrinter::printResult('Get Captured/Finalized Payment Details', 'Capture', $captureId, $request, $response);
+ResultPrinter::printResult('Get Captured/Finalized Payment Details', 'Capture', $captureId, $search, $response);
 
 return $response;

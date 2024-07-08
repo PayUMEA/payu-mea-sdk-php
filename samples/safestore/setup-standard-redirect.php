@@ -7,14 +7,17 @@
 
 require __DIR__ . '/../bootstrap.php';
 
-use PayU\Api\Address;
-use PayU\Api\Amount;
-use PayU\Api\Customer;
-use PayU\Api\CustomerInfo;
-use PayU\Api\Redirect;
-use PayU\Api\RedirectUrls;
-use PayU\Api\Transaction;
-use PayU\Soap\ApiContext;
+use PayUSdk\Framework\Action\Redirect;
+use PayUSdk\Framework\Processor;
+use PayUSdk\Framework\Soap\Context;
+use PayUSdk\Model\Address;
+use PayUSdk\Model\Currency;
+use PayUSdk\Model\Customer;
+use PayUSdk\Model\CustomerDetail;
+use PayUSdk\Model\Phone;
+use PayUSdk\Model\Total;
+use PayUSdk\Model\Transaction;
+use PayUSdk\Model\TransactionUrl;
 
 // ### Address
 // A resource representing a customer shipping/billing address information
@@ -26,78 +29,80 @@ $addr->setLine1("3909 Witmer Road")
     ->setPostalCode("14305")
     ->setCountryCode("ZA");
 
-// ### CustomerInfo
+// ### CustomerDetail
 // A resource representing a customer detailed information
-$ci = new CustomerInfo();
-$ci->setFirstName('Test')
+$phone = new Phone();
+$phone->setNationalNumber('0748523695')
+    ->setCountryCode('27');
+
+$customerDetail = new CustomerDetail();
+$customerDetail->setFirstName('Test')
     ->setLastName('Customer')
     ->setEmail('test.customer@example.com')
-    ->setCountryOfResidence('ZA')
-    ->setPhone('0748523695')
+    ->setPhone($phone)
     ->setCustomerId('855')
-    ->setBillingAddress($addr);
+    ->setAddress($addr)
+    ->setIpAddress('127.0.0.1');
 
 // ### Customer
 // A resource representing a Customer that funds a payment
 // For direct credit card payments, set payment method
 // to 'credit_card' and add an array of funding instruments.
 $customer = new Customer();
-$customer->setCustomerInfo($ci)
-    ->setIPAddress('127.0.0.1');
+$customer->setCustomerDetail($customerDetail);
 
 // ### Amount
 // Lets you specify a payment amount.
 // You can also specify additional details
 // such as shipping, tax.
-$amount = new Amount();
-$amount->setCurrency("ZAR")
-    ->setTotal(200.00);
+$currency = new Currency(['code' => 'ZAR']);
+$total = new Total();
+$total->setCurrency($currency)
+    ->setAmount(200.00);
 
 // ### Transaction
 // A transaction defines the contract of a
 // payment - what is the payment for and who
 // is fulfilling it.
 $transaction = new Transaction();
-$transaction->setAmount($amount)
+$transaction->setTotal($total)
     ->setDescription("Payment description")
-    ->setInvoiceNumber(uniqid('payu'));
+    ->setReference(uniqid('payu'));
 
 $baseUrl = getBaseUrl();
-$redirectUrls = new RedirectUrls();
-$redirectUrls->setNotifyUrl("$baseUrl/process-ipn.php")
-    ->setReturnUrl("$baseUrl/process-return.php")
+$transactionUrl = new TransactionUrl();
+$transactionUrl->setNotificationUrl("$baseUrl/process-ipn.php")
+    ->setResponseUrl("$baseUrl/process-return.php")
     ->setCancelUrl("$baseUrl/process-cancel.php");
+
+// Setting integration to `redirect` will alter the way the API behaves.
+$apiContext[1]->setAccountId('account2')
+    ->setIntegration(Context::REDIRECT);
 
 // ### Redirect
 // A Redirect Payment Resource; create one using
 // the above types and intent set to sale 'payment'
 $redirect = new Redirect();
-$redirect->setIntent(Transaction::TYPE_PAYMENT)
+$redirect->setContext($apiContext[1])
+    ->setTransactionType(Transaction::TYPE_PAYMENT)
     ->setCustomer($customer)
     ->setTransaction($transaction)
-    ->setRedirectUrls($redirectUrls);
-
-// Setting integration to `redirect` will alter the way the API behaves.
-$apiContext[1]->setAccountId('acct2')
-    ->setIntegration(ApiContext::REDIRECT);
-
-// For Sample Purposes Only.
-$request = clone $redirect;
+    ->setTransactionUrl($transactionUrl);
 
 // ### Create Payment
 // Create a payment by calling the payment->callSetTransaction method
-// with a valid ApiContext (See bootstrap.php for more on `ApiContext`)
+// with a valid Context (See bootstrap.php for more on `Context`)
 // The return object contains the state.
 try {
-    $redirect->setup($apiContext[1]);
+    $response = Processor::processAction('setup', $redirect);
 } catch (Exception $ex) {
     // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
-    ResultPrinter::printError('Setup Redirect Payment. If 500 Exception, check response details', 'Redirect', null, $request, $ex);
+    ResultPrinter::printError('Setup Redirect Payment. If 500 Exception, check response details', 'Redirect', null, $redirect, $ex);
     exit(1);
 }
 
 // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
-ResultPrinter::printResult("Setup Redirect Payment", "Redirect", $redirect->getId(), $request, $redirect);
+ResultPrinter::printResult("Setup Redirect Payment", "Redirect", $response->getPayUReference(), $redirect, $response);
 
-return $redirect;
+return $response;
 

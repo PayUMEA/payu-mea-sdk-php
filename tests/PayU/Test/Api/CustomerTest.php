@@ -8,7 +8,7 @@
 
 namespace PayU\Test\Api;
 
-use PayU\Api\Customer;
+use PayUSdk\Api\Customer;
 
 class CustomerTest extends \PHPUnit_Framework_TestCase
 {

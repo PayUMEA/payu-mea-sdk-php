@@ -7,21 +7,25 @@
 
 require __DIR__ . '/../../bootstrap.php';
 
-use PayU\Api\Address;
-use PayU\Api\Amount;
-use PayU\Api\CreditCard;
-use PayU\Api\Customer;
-use PayU\Api\CustomerInfo;
-use PayU\Api\FundingInstrument;
-use PayU\Api\Payment;
-use PayU\Api\PaymentCard;
-use PayU\Api\PaymentMethod;
-use PayU\Api\RedirectUrls;
-use PayU\Api\Transaction;
-use PayU\Soap\ApiContext;
+use PayUSdk\Api\Data\TransactionInterface;
+use PayUSdk\Framework\Processor;
+use PayUSdk\Model\Address;
+use PayUSdk\Model\Phone;
+use PayUSdk\Model\Total;
+use PayUSdk\Model\CreditCard;
+use PayUSdk\Model\Currency;
+use PayUSdk\Model\Customer;
+use PayUSdk\Model\CustomerDetail;
+use PayUSdk\Model\FundingInstrument;
+use PayUSdk\Framework\Action\Sale;
+use PayUSdk\Api\Data\CardInterface;
+use PayUSdk\Model\PaymentMethod;
+use PayUSdk\Model\TransactionUrl;
+use PayUSdk\Model\Transaction;
+use PayUSdk\Framework\Soap\Context;
 
-$addr = new Address();
-$addr->setLine1("80 Main Road")
+$address = new Address();
+$address->setLine1("80 Main Road")
     ->setLine2("Cape Town")
     ->setCity("Cape Town")
     ->setState("WC")
@@ -32,33 +36,35 @@ $addr->setLine1("80 Main Road")
 // A resource representing a payment card that can be
 // used to fund a payment.
 $card = new CreditCard();
-$card->setType(PaymentCard::TYPE_VISA)
+$card->setType(CardInterface::TYPE_VISA)
     ->setNumber("4000015372250142")
-    ->setExpireMonth("01")
-    ->setExpireYear("2020")
+    ->setExpiryMonth("01")
+    ->setExpiryYear("2028")
     ->setSecure3D(true)
-    ->setCvv2("123")
-    ->setFirstName("John")
-    ->setLastName("Snow")
-    ->setBillingAddress($addr)
-    ->setBillingCountry("ZA");
+    ->setCvv("123")
+    ->setNameOnCard("John Snow")
+    ->setBillingAddress($address)
+    ->setBudget(false);
 
 // ### FundingInstrument
 // A resource representing a Customer's funding instrument.
 // For direct credit card payments, set the CreditCard
 // field on this object.
-$fi = new FundingInstrument();
-$fi->setPaymentCard($card);
+$funding = new FundingInstrument();
+$funding->setCreditCard($card);
 
-$ci = new CustomerInfo();
-$ci->setFirstName('John')
+$phone = new Phone();
+$phone->setNationalNumber('0748523695')
+    ->setCountryCode('27');
+
+$customerDetail = new CustomerDetail();
+$customerDetail->setFirstName('John')
     ->setLastName('Snow')
     ->setEmail('test.customer@example.com')
-    ->setCountryCode('27')
-    ->setCountryOfResidence('ZA')
-    ->setPhone('0748523695')
+    ->setPhone($phone)
     ->setCustomerId('854')
-    ->setBillingAddress($addr);
+    ->setAddress($address)
+    ->setIpAddress('127.0.0.1');
 
 // ### Customer
 // A resource representing a Customer that funds a payment
@@ -66,56 +72,57 @@ $ci->setFirstName('John')
 // to 'credit_card' and add an array of funding instruments.
 $customer = new Customer();
 $customer->setPaymentMethod(PaymentMethod::TYPE_CREDITCARD)
-    ->setCustomerInfo($ci)
-    ->setIPAddress('127.0.0.1')
-    ->setFundingInstrument($fi);
+    ->setCustomerDetail($customerDetail)
+    ->setFundingInstrument($funding);
 
 // ### Amount
 // Lets you specify a payment amount.
 // You can also specify additional details
 // such as shipping, tax.
-$amount = new Amount();
-$amount->setCurrency("ZAR")
-    ->setTotal(200.00);
+$currency = new Currency(['code' => 'ZAR']);
+$total = new Total();
+$total->setCurrency($currency)
+    ->setAmount(200.00);
 
 // ### Transaction
 // A transaction defines the contract of a
 // payment - what is the payment for and who
 // is fulfilling it.
 $transaction = new Transaction();
-$transaction->setAmount($amount)
+$transaction->setTotal($total)
     ->setDescription("Payment description")
-    ->setInvoiceNumber(uniqid('payu'));
+    ->setReference(uniqid('payu'));
 
 $baseUrl = getBaseUrl();
-$redirectUrls = new RedirectUrls();
-$redirectUrls->setNotifyUrl("$baseUrl/process-return.php")
-    ->setReturnUrl("$baseUrl/process-return.php?apiContext=0")
+$transactionUrl = new TransactionUrl();
+$transactionUrl->setNotificationUrl("$baseUrl/process-return.php")
+    ->setResponseUrl("$baseUrl/process-return.php?apiContext=0")
     ->setCancelUrl("$baseUrl/process-return.php?cancel=true&apiContext=0");
+
+// Because default integration is redirect, setting integration to
+// `enterprise` will alter the way the API behaves.
+$apiContext[0]->setAccountId('account1')
+    ->setIntegration(Context::ENTERPRISE);
 
 // ### Payment
 // A Payment Resource; create one using
 // the above types and intent set to sale 'sale'
-$payment = new Payment();
-$payment->setIntent(Transaction::TYPE_PAYMENT)
+$payment = new Sale();
+$payment->setContext($apiContext[0])
+    ->setTransactionType(TransactionInterface::TYPE_PAYMENT)
     ->setCustomer($customer)
     ->setTransaction($transaction)
-    ->setRedirectUrls($redirectUrls);
-
-// Because default integration is redirect, setting integration to
-// `enterprise` will alter the way the API behaves.
-$apiContext[0]->setAccountId('acct1')
-    ->setIntegration(ApiContext::ENTERPRISE);
+    ->setTransactionUrl($transactionUrl);
 
 // For Sample Purposes Only.
 $request = clone $payment;
 
 // ### Create Payment
 // Create a payment by calling the payment->doTransaction method
-// with a valid ApiContext (See bootstrap.php for more on `ApiContext`)
+// with a valid Context (See bootstrap.php for more on `Context`)
 // The return object contains the state.
 try {
-    $payment->create($apiContext[0]);
+    $response = Processor::processAction('sale', $payment);
 } catch (Exception $ex) {
     // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
     ResultPrinter::printError('Create Payment Using Credit Card with Secure3D. If 500 Exception, try creating a new Credit Card', 'Payment', null, $request, $ex);
@@ -123,6 +130,6 @@ try {
 }
 
 // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
-ResultPrinter::printResult('Create Payment Using Credit Card with Secure3D', 'Payment', $payment->getId(), $request, $payment);
+ResultPrinter::printResult('Create Payment Using Credit Card with Secure3D', 'Payment', $response->getPayUReference(), $request, $response);
 
-echo $payment->getReturn()->getSecure3D()->getSecure3DUrl();
+echo $response->getSecure3D() ? $response->getSecure3D()->getUrl() : '';

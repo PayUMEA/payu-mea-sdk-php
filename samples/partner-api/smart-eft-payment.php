@@ -7,20 +7,25 @@
 
 require __DIR__ . '/../bootstrap.php';
 
-use PayU\Api\Address;
-use PayU\Api\Amount;
-use PayU\Api\Customer;
-use PayU\Api\CustomerInfo;
-use PayU\Api\FundingInstrument;
-use PayU\Api\Payment;
-use PayU\Api\PaymentMethod;
-use PayU\Api\RedirectUrls;
-use PayU\Api\SmartEFT;
-use PayU\Api\Transaction;
-use PayU\Soap\ApiContext;
+use PayUSdk\Api\Data\EftInterface;
+use PayUSdk\Api\Data\TransactionInterface;
+use PayUSdk\Framework\Processor;
+use PayUSdk\Model\Address;
+use PayUSdk\Model\Currency;
+use PayUSdk\Model\Phone;
+use PayUSdk\Model\Total;
+use PayUSdk\Model\Customer;
+use PayUSdk\Model\CustomerDetail;
+use PayUSdk\Model\FundingInstrument;
+use PayUSdk\Framework\Action\Sale;
+use PayUSdk\Model\PaymentMethod;
+use PayUSdk\Model\TransactionUrl;
+use PayUSdk\Model\SmartEFT;
+use PayUSdk\Model\Transaction;
+use PayUSdk\Framework\Soap\Context;
 
-$addr = new Address();
-$addr->setLine1("80 Main Road")
+$address = new Address();
+$address->setLine1("80 Main Road")
     ->setLine2("Cape Town")
     ->setCity("Cape Town")
     ->setState("WC")
@@ -31,17 +36,18 @@ $addr->setLine1("80 Main Road")
 // Lets you specify a payment amount.
 // You can also specify additional details
 // such as shipping, tax.
-$amount = new Amount();
-$amount->setCurrency("ZAR")
-    ->setTotal(200.00);
+$currency = new Currency(['code' => 'ZAR']);
+$total = new Total();
+$total->setCurrency($currency)
+    ->setAmount(200.00);
 
 // For sample purposes
-$bankNames = array(
-    SmartEFT::FNB,
-    SmartEFT::ABSA,
-    SmartEFT::NEDBANK,
-    SmartEFT::STANDARD_BANK
-);
+$bankNames = [
+    EftInterface::FNB,
+    EftInterface::ABSA,
+    EftInterface::NEDBANK,
+    EftInterface::STANDARD_BANK
+];
 shuffle($bankNames);
 $bankName = array_shift($bankNames);
 
@@ -51,78 +57,79 @@ $bankName = array_shift($bankNames);
 
 $smartEft = new SmartEFT();
 $smartEft->setBankName($bankName)
-    ->setAmount($amount->getTotal());
+    ->setCurrency($currency)
+    ->setAmount($total->getAmount());
 
 // ### FundingInstrument
 // A resource representing a Customer's funding instrument.
-$fi = new FundingInstrument();
-$fi->setEft($smartEft);
+$funding = new FundingInstrument();
+$funding->setEft($smartEft);
 
-$ci = new CustomerInfo();
-$ci->setFirstName('Test')
+$phone = new Phone();
+$phone->setCountryCode('27')
+    ->setNationalNumber('0748523695');
+
+$customerDetail = new CustomerDetail();
+$customerDetail->setFirstName('Test')
     ->setLastName('Customer')
     ->setEmail('test.customer@example.com')
-    ->setCountryCode('27')
-    ->setCountryOfResidence('ZA')
-    ->setPhone('0748523695')
+    ->setPhone($phone)
     ->setCustomerId('858')
-    ->setBillingAddress($addr);
+    ->setIpAddress('127.0.0.1')
+    ->setAddress($address);
 
 // ### Customer
 // A resource representing a Customer that funds a payment.
 $customer = new Customer();
 $customer->setPaymentMethod(PaymentMethod::TYPE_SMARTEFT)
-    ->setCustomerInfo($ci)
-    ->setIPAddress('127.0.0.1')
-    ->setFundingInstrument($fi);
+    ->setCustomerDetail($customerDetail)
+    ->setFundingInstrument($funding);
 
 // ### Transaction
 // A transaction defines the contract of a
 // payment - what is the payment for and who
 // is fulfilling it.
 $transaction = new Transaction();
-$transaction->setAmount($amount)
+$transaction->setTotal($total)
     ->setDescription("Payment description")
-    ->setInvoiceNumber(uniqid('payu'));
+    ->setReference(uniqid('payu'));
 
 $baseUrl = getBaseUrl();
-$redirectUrls = new RedirectUrls();
-$redirectUrls->setNotifyUrl("$baseUrl/process-return.php")
-    ->setReturnUrl("$baseUrl/process-return.php?apiContext=1")
+$transactionUrl = new TransactionUrl();
+$transactionUrl->setNotificationUrl("$baseUrl/process-return.php")
+    ->setResponseUrl("$baseUrl/process-return.php?apiContext=1")
     ->setCancelUrl("$baseUrl/process-return.php?cancel=true&apiContext=1");
-
-// ### Payment
-// A Payment Resource; create one with intent set to 'payment'
-$payment = new Payment();
-$payment->setIntent(Transaction::TYPE_PAYMENT)
-    ->setCustomer($customer)
-    ->setTransaction($transaction)
-    ->setRedirectUrls($redirectUrls);
 
 // Because default integration is redirect, setting integration to
 // `enterprise` will alter the way the API behaves.
-$apiContext[1]->setAccountId('acct2')
-    ->setIntegration(ApiContext::ENTERPRISE);
+$apiContext[1]->setAccountId('account2')
+    ->setIntegration(Context::ENTERPRISE);
 
-// For Sample Purposes Only.
-$request = clone $payment;
+// ### Payment
+// A Payment Resource; create one with intent set to 'payment'
+$sale = new Sale();
+$sale->setContext($apiContext[1])
+    ->setCustomer($customer)
+    ->setTransaction($transaction)
+    ->setTransactionUrl($transactionUrl)
+    ->setTransactionType(TransactionInterface::TYPE_PAYMENT);
 
 // ### Create Payment
 // Create a payment by calling the payment->create() method
-// with a valid ApiContext (See bootstrap.php for more on `ApiContext`)
+// with a valid Context (See bootstrap.php for more on `Context`)
 // The returned object contains the state as well as other details of the
 // transaction.
 try {
-    $payment->create($apiContext[1]);
+    $response = Processor::processAction('sale', $sale);
 } catch (Exception $ex) {
     // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
-    ResultPrinter::printError('Create Payment Using Smart EFT. If 500 Exception, check response for details.', 'Payment', null, $request, $ex);
+    ResultPrinter::printError('Create Payment Using Smart EFT. If 500 Exception, check response for details.', 'Payment', null, $sale, $ex);
     exit(1);
 }
 
 //$url = $payment->getEftProUrl();
 
 // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
-ResultPrinter::printResult('Create Payment Using Smart EFT. "paymentMethodsUsed" key is where the customer will need to deposit the monies into.', 'Payment', $payment->getId(), $request, $payment);
+ResultPrinter::printResult('Create Payment Using Smart EFT. "paymentMethodsUsed" key is where the customer will need to deposit the monies into.', 'Payment', $response->getPayUReference(), $sale, $response);
 
-return $payment;
+return $response;

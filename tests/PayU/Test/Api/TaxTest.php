@@ -8,7 +8,7 @@
 
 namespace PayU\Test\Api;
 
-use PayU\Api\Tax;
+use PayUSdk\Api\Tax;
 
 class TaxTest extends \PHPUnit_Framework_TestCase
 {

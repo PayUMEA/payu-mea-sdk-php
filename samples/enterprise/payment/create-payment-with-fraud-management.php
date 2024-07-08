@@ -7,120 +7,126 @@
 
 require __DIR__ . '/../../bootstrap.php';
 
-use PayU\Api\Address;
-use PayU\Api\Amount;
-use PayU\Api\CreditCard;
-use PayU\Api\Customer;
-use PayU\Api\CustomerInfo;
-use PayU\Api\FmDetails;
-use PayU\Api\FundingInstrument;
-use PayU\Api\Item;
-use PayU\Api\ItemList;
-use PayU\Api\Payment;
-use PayU\Api\PaymentCard;
-use PayU\Api\PaymentMethod;
-use PayU\Api\RedirectUrls;
-use PayU\Api\ShippingInfo;
-use PayU\Api\Transaction;
-use PayU\Soap\ApiContext;
+use PayUSdk\Api\Data\CardInterface;
+use PayUSdk\Api\Data\TransactionInterface;
+use PayUSdk\Framework\Action\Sale;
+use PayUSdk\Framework\Processor;
+use PayUSdk\Model\BillingAddress;
+use PayUSdk\Model\Cart;
+use PayUSdk\Model\CreditCard;
+use PayUSdk\Model\Currency;
+use PayUSdk\Model\Customer;
+use PayUSdk\Model\CustomerDetail;
+use PayUSdk\Model\FraudService;
+use PayUSdk\Model\FundingInstrument;
+use PayUSdk\Model\Item;
+use PayUSdk\Model\ItemList;
+use PayUSdk\Model\PaymentMethod;
+use PayUSdk\Model\Phone;
+use PayUSdk\Model\ShippingAddress;
+use PayUSdk\Model\Total;
+use PayUSdk\Model\Transaction;
+use PayUSdk\Model\TransactionUrl;
+use PayUSdk\Framework\Soap\Context;
 
 // ### Address
 // A resource representing a customer shipping/billing address information
-$addr = new Address();
-$addr->setLine1("80 Main Road")
+$address = new BillingAddress();
+$address->setLine1("80 Main Road")
     ->setLine2("Cape Town")
     ->setCity("Cape Town")
     ->setState("WC")
     ->setPostalCode("8000")
-    ->setCountryCode("ZA");
+    ->setCountryCode("ZAF");
 
 // ### CreditCard
 // A resource representing a payment card that can be
 // used to fund a payment.
 $card = new CreditCard();
-$card->setType(PaymentCard::TYPE_VISA)
+$card->setType(CardInterface::TYPE_VISA)
     ->setNumber("4000015372250142")
-    ->setExpireMonth("11")
-    ->setExpireYear("2019")
-    ->setCvv2("123")
-    ->setFirstName("John")
-    ->setLastName("Snow")
-    ->setBillingAddress($addr)
-    ->setBillingCountry("ZA");
+    ->setExpiryMonth("11")
+    ->setExpiryYear("2027")
+    ->setCvv("123")
+    ->setBudget(false)
+    ->setSecure3d(true)
+    ->setNameOnCard("John Snow")
+    ->setBillingAddress($address);
 
 // ### FundingInstrument
 // A resource representing a Customer's funding instrument.
 // For direct credit card payments, set the CreditCard
 // field on this object.
-$fi = new FundingInstrument();
-$fi->setPaymentCard($card);
+$funding = new FundingInstrument(['credit_card' => $card]);
 
-// ### CustomerInfo
+// ### CustomerDetail
 // A resource representing a customer detailed information
-$ci = new CustomerInfo();
-$ci->setFirstName('John')
+$phone = new Phone();
+$phone->setCountryCode('27');
+$phone->setNationalNumber('27748523695');
+
+$customerDetail = new CustomerDetail();
+$customerDetail->setFirstName('John')
     ->setLastName('Snow')
     ->setEmail('john.snow@example.com')
-    ->setCountryCode('27')
-    ->setCountryOfResidence('ZA')
-    ->setPhone('0748523695')
-    ->setCustomerId('854')
-    ->setBillingAddress($addr);
+    ->setIpAddress('127.0.0.1')
+    ->setPhone($phone)
+    ->setCustomerId('854');
 
 // ### Customer
 // A resource representing a Customer that funds a payment
 $customer = new Customer();
 $customer->setPaymentMethod(PaymentMethod::TYPE_CREDITCARD)
-    ->setFundingInstrument($fi)
-    ->setCustomerInfo($ci)
-    ->setIPAddress('127.0.0.1');
+    ->setFundingInstrument($funding)
+    ->setCustomerDetail($customerDetail);
+
+// ### Currency
+$currency = new Currency(['code' => 'ZAR']);
 
 // ### Itemized information
 // (Optional) Lets you specify item wise
 // information. Only Utilized with fraud management enabled, otherwise ignored.
 $item1 = new Item();
 $item1->setName('Ground Coffee 40 oz')
-    ->setDescription('Ground Coffee 40 oz')
     ->setSku('GCF0011')
-    ->setCurrency('ZAR')
     ->setQuantity(10)
-    ->setTax(0.3)
-    ->setPrice(7.50);
+    ->setPrice(5.50)
+    ->setTotal(55.00)
+    ->setCostPrice(4.50);
+
 $item2 = new Item();
 $item2->setName('Granola bars')
-    ->setDescription('Granola Bars with Peanuts')
     ->setSku('GCF0022')
-    ->setCurrency('ZAR')
     ->setQuantity(5)
-    ->setTax(0.2)
-    ->setPrice(20);
+    ->setPrice(25.00)
+    ->setTotal(75.00)
+    ->setCostPrice(15.00);
 
 $itemList = new ItemList();
-$itemList->setItems(array($item1, $item2));
+$itemList->setItems([$item1, $item2]);
 
+$cart = new Cart();
+$cart->setItems($itemList)
+    ->setTotal(130.00);
 // ### ShippingInfo
 // Use this optional field to set shipping information.
-$si = new ShippingInfo();
-$si->setId(25)
-    ->setFirstName('John')
-    ->setLastName('Snow')
-    ->setEmail('john.snow@example.com')
-    ->setPhone('0748523695')
-    ->setMethod('P')
-    ->setShippingAddress($addr);
+$shippingAddress = new ShippingAddress($address->toArray());
+$shippingAddress->setRecipientName('Jon Snow')
+    ->setShippingId('880')
+    ->setShippingMethod('P');
 
 // ### Amount
 // Lets you specify a payment amount.
 // You can also specify additional details
 // such as shipping, tax.
-$amount = new Amount();
-$amount->setCurrency("ZAR")
-    ->setTotal(175.50);
+$amount = new Total();
+$amount->setCurrency($currency)
+    ->setAmount(175.50);
 
 // ### Fraud Management Details
 // Lets you specify details required for fraud management.
-$fm = new FmDetails();
-$fm->setCheckFraudOverride(false)
+$fraudService = new FraudService();
+$fraudService->setCheckFraudOverride(false)
     ->setMerchantWebsite(getBaseUrl())
     ->setPCFingerPrint('owhjiflkwhefqwoaef');
 
@@ -129,39 +135,42 @@ $fm->setCheckFraudOverride(false)
 // payment - what is the payment for and who
 // is fulfilling it.
 $transaction = new Transaction();
-$transaction->setAmount($amount)
-    ->setItemList($itemList)
+$transaction->setTotal($amount)
+    ->setCart($cart)
     ->setDescription("Payment description")
-    ->setInvoiceNumber(uniqid('payu'))
-    ->setFraudManagement($fm)
-    ->setShippingInfo($si);
+    ->setReference(uniqid('payu'))
+    ->setFraudService($fraudService)
+    ->setShippingInfo($shippingAddress);
 
 $baseUrl = getBaseUrl();
-$redirectUrls = new RedirectUrls();
-$redirectUrls->setNotifyUrl("$baseUrl/process-ipn");
+$transactionUrls = new TransactionUrl();
+$transactionUrls->setNotificationUrl('http://example.com/return')
+    ->setResponseUrl("$baseUrl/process-return.php?apiContext=2")
+    ->setCancelUrl("$baseUrl/process-return.php?cancel=true&apiContext=2");
+
+// Setting integration will alter the way the API behaves.
+$apiContext[2]->setAccountId('account3')
+    ->setIntegration(Context::ENTERPRISE);
 
 // ### Redirect
 // A Redirect Payment Resource; create one using
 // the above types and intent set to sale 'payment'
-$payment = new Payment();
-$payment->setIntent(Transaction::TYPE_PAYMENT)
+$payment = new Sale();
+$payment->setContext($apiContext[2])
+    ->setTransactionType(TransactionInterface::TYPE_PAYMENT)
     ->setCustomer($customer)
     ->setTransaction($transaction)
-    ->setRedirectUrls($redirectUrls);
-
-// Setting integration will alter the way the API behaves.
-$apiContext[2]->setAccountId('acct3')
-    ->setIntegration(ApiContext::ENTERPRISE);
+    ->setTransactionUrl($transactionUrls);
 
 // For Sample Purposes Only.
 $request = clone $payment;
 
 // ### Create Payment
 // Create a payment by calling the payment->callSetTransaction method
-// with a valid ApiContext (See bootstrap.php for more on `ApiContext`)
+// with a valid Context (See bootstrap.php for more on `Context`)
 // The return object contains the result with the redirect url to PayU to capture customer's payment details.
 try {
-    $payment->create($apiContext[2]);
+    $response = Processor::processAction('sale', $payment);
 } catch (Exception $ex) {
     // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
     ResultPrinter::printError('Create Payment with Fraud Management. If 500 Exception, check response for details.', 'Payment', null, $request, $ex);
@@ -169,6 +178,6 @@ try {
 }
 
 // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
-ResultPrinter::printResult('Create Payment with Fraud Management', 'Payment', $payment->getId(), $request, $payment);
+ResultPrinter::printResult('Create Payment with Fraud Management', 'Payment', $response->getPayUReference(), $request, $response);
 
 return $payment;
