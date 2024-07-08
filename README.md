@@ -47,7 +47,7 @@ be able to run all the examples by running ``php samples/index.php``.
 Everything from SDK Wiki, to Sample Codes, to Releases. Here are few quick links to get you there faster.
 
 Please see  for up-to-date documentation.
-* [ Samples ](https://github.com/netcraft-devops/payu-sdk-php/tree/master/samples)
+* [ Samples ](samples)
 * [ PayU Developer Docs] (http://help.payu.co.za/display/developers/)
 
 ## Development
