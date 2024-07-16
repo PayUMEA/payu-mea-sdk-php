@@ -18,7 +18,7 @@ v2.* PHP8 and above
 You can install the bindings via [Composer](http://getcomposer.org/). Run the following command:
 
 ```bash
-composer require netcraft-devops/payu-sdk-php
+composer require payumea/payu-sdk-php
 ```
 
 To use the bindings, use Composer's [autoload](https://getcomposer.org/doc/00-intro.md#autoloading):
