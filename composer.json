@@ -1,11 +1,11 @@
 {
-  "name": "netcraft-devops/payu-sdk-php",
+  "name": "payu-mea/payu-sdk-php",
   "description": "PayU MEA Secure Payments PHP SDK",
   "type": "library",
-  "homepage": "https://payu.co.za/",
+  "homepage": "https://southafrica.payu.com",
   "minimum-stability": "stable",
   "license": "MIT",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "keywords": [
     "payu",
     "payu mea",
@@ -34,11 +34,11 @@
   "authors": [
     {
       "name": "Kenneth Onah",
-      "email": "kenneth@netcraft-devops.com"
+      "email": "kenneth@nanoteck.co.za"
     }
   ],
   "support": {
-    "issues": "https://github.com/netcraft-devops/payu-sdk-php/issues"
+    "issues": "https://github.com/PayUMEA/payu-mea-sdk-php/issues"
   },
   "autoload": {
     "psr-4": {
