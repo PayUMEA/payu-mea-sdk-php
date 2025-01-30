@@ -11,7 +11,9 @@
 
 namespace PayUSdk\Framework;
 
-use PayU\Validation\JsonValidator;
+use PayUSdk\Framework\Validation\JsonValidator;
+use SimpleXMLElement;
+use stdClass;
 
 /**
  * Class XmlHelper
@@ -44,7 +46,7 @@ class XMLHelper
      *
      * @return array|bool
      */
-    public static function parseXMLToArray(string $xml): bool|array
+    public static function parseXMLToArray(SimpleXMLElement $xml): bool|stdClass
     {
         if (empty($xml)) {
             return false;
@@ -72,7 +74,7 @@ class XMLHelper
         $data = json_encode($data);
 
         if (JsonValidator::validate($data)) {
-            return $data;
+            return json_decode($data);
         }
 
         return false;
