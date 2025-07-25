@@ -23,7 +23,7 @@
     "ext-soap": "*",
     "ext-json": "*",
     "ext-xml": "*",
-    "psr/log": "^2 || ^3"
+    "psr/log": "^2.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^10.0",
