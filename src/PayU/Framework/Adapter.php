@@ -57,8 +57,8 @@ class Adapter extends DataObject implements AdapterInterface
     public static function get(array $arguments): ResponseInterface
     {
         $arguments['method'] = 'getTransaction';
-        $reference = $arguments['subject']->getPayUReference();
-        ArgumentValidator::validate($reference, 'PayUReference');
+        $reference = $arguments['subject']->getPayUReference() ?? $arguments['subject']->getMerchantReference() ?? '';
+        ArgumentValidator::validate($reference, 'PayUReference or MerchantReference');
 
         $result = self::execute($arguments);
 

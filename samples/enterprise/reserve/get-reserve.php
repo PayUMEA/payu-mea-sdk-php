@@ -15,6 +15,7 @@ $apiContext[0]->setAccountId('account1')
 
 $search = new Search();
 $search->setContext($apiContext[0])
+    //->setMerchantReference($reserve->getMerchantReference())
     ->setPayUReference($reference);
 
 // For Sample Purposes Only.
