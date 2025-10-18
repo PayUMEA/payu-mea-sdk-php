@@ -16,6 +16,7 @@ $apiContext[0]->setAccountId('account1')
 
 $search = new Search();
 $search->setPayUReference($captureId)
+    //->setMerchantReference($capture->getMerchantReference())
     ->setContext($apiContext[0]);
 
 // You can retrieve info about a Capture (Finalize)

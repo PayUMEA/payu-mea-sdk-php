@@ -8,13 +8,13 @@
 $createdPayment = require __DIR__ . '/../../safestore/create-payment.php';
 
 use PayUSdk\Framework\Action\Search;
-use PayUSdk\Framework\Action\Sale;
 use PayUSdk\Framework\Processor;
 
 $paymentId = $createdPayment->getPayUReference();
 
 $search = new Search();
 $search->setPayUReference($paymentId)
+    //->setMerchantReference($createdPayment->getMerchantReference())
     ->setContext($apiContext[6]);
 // ### Retrieve payment
 // Retrieve details of a payment object by calling the

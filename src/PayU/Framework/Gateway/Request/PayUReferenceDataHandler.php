@@ -30,6 +30,8 @@ class PayUReferenceDataHandler implements BuilderInterface
 
         if ($payUReference) {
             $data['AdditionalInformation'] = ['payUReference' => $payUReference];
+        } else {
+            $data['AdditionalInformation'] = ['merchantReference' => $buildSubject['subject']->getMerchantReference()];
         }
 
         return $data;
