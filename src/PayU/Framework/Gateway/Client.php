@@ -55,8 +55,6 @@ class Client
         if (null === self::$soapClient) {
             self::$soapClient = new SoapClient($httpConfig->getGatewayUrl(), $options);
         }
-
-        return $this;
     }
 
     /**
@@ -84,7 +82,7 @@ class Client
      */
     private function setHttpHeader(array $httpHeaders): void
     {
-        stream_context_set_option(
+        stream_context_set_options(
             $this->streamContext, [
                 'http' => [
                     'header' => $httpHeaders

@@ -29,7 +29,7 @@ class Config
      */
     public array $defaultSoapClientOptions = [
         'cache_wsdl' => WSDL_CACHE_BOTH,
-        'connection_timeout' => 500000,
+        'connection_timeout' => 5,
         'cache_ttl' => 86400,
         'trace' => true,
         'exceptions' => true,
