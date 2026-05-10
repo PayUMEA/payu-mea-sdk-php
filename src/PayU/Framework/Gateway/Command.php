@@ -43,13 +43,14 @@ class Command implements CommandInterface
         $configHashmap = $this->apiContext->getConfigHashmap();
         $config = new Config(null, $arguments['method'], $configHashmap);
 
-        /** @var HandlerInterface $handler */
+        /** @var HandlerInterface|string $handler */
         foreach ($arguments['handlers'] as $handler) {
             if (!is_object($handler)) {
                 $class = "\\" . $handler;
                 $handler = new $class($this->apiContext);
             }
 
+            /** @var HandlerInterface $handler */
             $handler->handle($config);
         }
 

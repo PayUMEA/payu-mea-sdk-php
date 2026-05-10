@@ -47,15 +47,15 @@ class UserAgent
     /**
      * Gets PHP Bit version
      *
-     * @return int|string
+     * @return int
      */
-    private static function _getPHPBit()
+    private static function _getPHPBit(): int
     {
         switch (PHP_INT_SIZE) {
             case 4:
-                return '32';
+                return 32;
             case 8:
-                return '64';
+                return 64;
             default:
                 return PHP_INT_SIZE;
         }

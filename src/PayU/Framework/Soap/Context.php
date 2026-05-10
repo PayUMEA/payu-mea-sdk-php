@@ -34,24 +34,24 @@ class Context
      * The user can either generate one as per application
      * needs or let the SDK generate one
      *
-     * @var ?string $requestId
+     * @var string $requestId
      */
-    private ?string $requestId = '';
+    private string $requestId = '';
 
     /**
      * Determines how to make API calls. Default integration method is Redirect Payment Page (RPP)
      *
-     * @var ?string
+     * @var string
      */
-    private ?string $integration = '';
+    private string $integration = '';
 
     /**
      * PayU configuration Account Id placeholder. This enable multi-tenancy in the SDK, i.e multiple accounts can be
      * used within the SDK.
      *
-     * @var ?string
+     * @var string
      */
-    private ?string $accountId = '';
+    private string $accountId = '';
 
 
     /**

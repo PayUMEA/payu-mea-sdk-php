@@ -34,7 +34,8 @@ class EbucksDataHandler implements BuilderInterface
         $paymentMethod = $customer ? $customer->getPaymentMethod() : null;
         $total = $buildSubject['subject']->getTransaction()->getTotal();
 
-        if (PaymentMethod::TYPE_EBUCKS === $paymentMethod && $customer) {
+        if (PaymentMethod::TYPE_EBUCKS === $paymentMethod) {
+            /** @var \PayUSdk\Model\Customer $customer */
             $ebucks = $customer->getFundingInstrument()->getEbucks();
 
             $data = match ($ebucks->getAction()) {

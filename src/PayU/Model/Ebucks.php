@@ -29,6 +29,14 @@ class Ebucks extends AbstractModel implements EbucksInterface
     /**
      * @return string
      */
+    public function getPayUReference(): string
+    {
+        return $this->getData(EbucksInterface::PAYU_REFERENCE);
+    }
+
+    /**
+     * @return string
+     */
     public function getAuthenticateAccountType(): string
     {
         return $this->getData(EbucksInterface::AUTHENTICATE_ACCOUNT_TYPE);
@@ -146,7 +154,7 @@ class Ebucks extends AbstractModel implements EbucksInterface
      * @param string $generateOtpType
      * @return $this
      */
-    public function setGenerateOTPType(string $generateOtpType): static
+    public function setGenerateOtpType(string $generateOtpType): static
     {
         return $this->setData(EbucksInterface::GENERATE_OTP_TYPE, $generateOtpType);
     }
@@ -173,7 +181,7 @@ class Ebucks extends AbstractModel implements EbucksInterface
      * @param string $validateOtpType
      * @return $this
      */
-    public function setValidateOTPType(string $validateOtpType): static
+    public function setValidateOtpType(string $validateOtpType): static
     {
         return $this->setData(EbucksInterface::VALIDATE_OTP_TYPE, $validateOtpType);
     }
@@ -182,7 +190,7 @@ class Ebucks extends AbstractModel implements EbucksInterface
      * @param string $ebucksOtp
      * @return $this
      */
-    public function setEbucksOTP(string $ebucksOtp): static
+    public function setEbucksOtp(string $ebucksOtp): static
     {
         return $this->setData(EbucksInterface::EBUCKS_OTP, $ebucksOtp);
     }
@@ -203,5 +211,14 @@ class Ebucks extends AbstractModel implements EbucksInterface
     public function setEbucksDestination(string $ebucksDestination): static
     {
         return $this->setData(EbucksInterface::EBUCKS_DESTINATION, $ebucksDestination);
+    }
+
+    /**
+     * @param string $payUReference
+     * @return $this
+     */
+    public function setPayUReference(string $payUReference): static
+    {
+        return $this->setData(EbucksInterface::PAYU_REFERENCE, $payUReference);
     }
 }

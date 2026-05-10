@@ -69,12 +69,21 @@ interface EbucksInterface
      * eBucks destination account number
      */
     const EBUCKS_DESTINATION = 'ebucks_destination';
+    /*
+     * PayU Reference
+     */
+    const PAYU_REFERENCE = 'payu_reference';
 
     /**
      * @return string The Type of action being performed.
      * Valid types [AUTHENTICATE_ACCOUNT, GENERATE_OTP, RESET_PASSWORD, VALIDATE_OTP]
      */
     public function getAction(): string;
+
+    /**
+     * @return string
+     */
+    public function getPayUReference(): string;
 
     /**
      * @return string Metadata for identifying the type of action performed.
@@ -191,4 +200,10 @@ interface EbucksInterface
      * @return $this
      */
     public function setEbucksDestination(string $ebucksDestination): static;
+
+    /**
+     * @param string $payUReference
+     * @return $this
+     */
+    public function setPayUReference(string $payUReference): static;
 }

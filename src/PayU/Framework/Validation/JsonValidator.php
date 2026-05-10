@@ -32,7 +32,7 @@ class JsonValidator
         @json_decode($string);
 
         if (json_last_error() != JSON_ERROR_NONE) {
-            if ($string === '' || $string === null) {
+            if ($string === '') {
                 return true;
             }
 
