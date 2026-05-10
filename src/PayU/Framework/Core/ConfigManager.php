@@ -129,7 +129,7 @@ class ConfigManager
      * @param string|null $accountId
      * @return array|string
      */
-    public function getIniPrefix(string $accountId = null): array|string
+    public function getIniPrefix(?string $accountId = null): array|string
     {
         if ($accountId == null) {
             $arr = [];

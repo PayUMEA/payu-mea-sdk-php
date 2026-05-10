@@ -11,9 +11,9 @@
 
 namespace PayUSdk\Framework\Validation;
 
-use PayU\Exception\InvalidArgumentException;
-use PayU\Exception\RequiredArgumentException;
-use PayU\Resource;
+use PayUSdk\Framework\Exception\InvalidArgumentException;
+use PayUSdk\Framework\Exception\RequiredArgumentException;
+use PayUSdk\Framework\Data\DataObject;
 
 /**
  * Class ParameterValidator
@@ -37,7 +37,7 @@ class ParameterValidator
 
     private $getTransaction = array();
 
-    public function validate(Resource $resource, $methodName)
+    public function validate(DataObject $resource, $methodName)
     {
         $params = $this->$methodName;
         $properties = $resource->toArray();
@@ -48,7 +48,7 @@ class ParameterValidator
                     call_user_func(array($this, 'checkRequiredParameter'), array_keys($properties), $params[$properties['intent']]);
                     break;
                 default:
-                    new InvalidArgumentException('Unknown SOAP method action requested');
+                    throw new InvalidArgumentException('Unknown SOAP method action requested');
             }
         }
     }

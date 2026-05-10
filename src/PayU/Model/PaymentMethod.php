@@ -35,8 +35,7 @@ class PaymentMethod extends AbstractModel
      */
     public function setId($id)
     {
-        $this->id = $id;
-        return $this;
+        return $this->setData('id', $id);
     }
 
     /**
@@ -46,10 +45,11 @@ class PaymentMethod extends AbstractModel
      */
     public function getId()
     {
-        if ($this->id)
-            return $this->id;
+        $id = $this->getData('id');
+        if ($id)
+            return $id;
 
-        return $this->pmId;
+        return $this->getData('pm_id');
     }
 
     /**
@@ -61,8 +61,7 @@ class PaymentMethod extends AbstractModel
      */
     public function setCardNumber($number)
     {
-        $this->cardNumber = $number;
-        return $this;
+        return $this->setData('card_number', $number);
     }
 
     /**
@@ -72,7 +71,7 @@ class PaymentMethod extends AbstractModel
      */
     public function getCardNumber()
     {
-        return $this->cardNumber;
+        return $this->getData('card_number');
     }
 
     /**
@@ -85,8 +84,7 @@ class PaymentMethod extends AbstractModel
      */
     public function setInformation($type)
     {
-        $this->information = $type;
-        return $this;
+        return $this->setData('information', $type);
     }
 
     /**
@@ -96,20 +94,19 @@ class PaymentMethod extends AbstractModel
      */
     public function getInformation()
     {
-        return $this->information;
+        return $this->getData('information');
     }
 
     /**
      * Payment amount in integer
      *
-     * @param $amountInCents
+     * @param mixed $amountInCents
      *
      * @return $this
      */
     public function setAmountInCents($amountInCents)
     {
-        $this->amountInCents = $amountInCents;
-        return $this;
+        return $this->setData('amount_in_cents', $amountInCents);
     }
 
     /**
@@ -119,7 +116,7 @@ class PaymentMethod extends AbstractModel
      */
     public function getAmountInCents()
     {
-        return $this->amountInCents;
+        return (string)$this->getData('amount_in_cents');
     }
 
     /**
@@ -131,8 +128,7 @@ class PaymentMethod extends AbstractModel
      */
     public function setCardExpiry($expiry)
     {
-        $this->cardExpiry = $expiry;
-        return $this;
+        return $this->setData('card_expiry', $expiry);
     }
 
     /**
@@ -142,7 +138,7 @@ class PaymentMethod extends AbstractModel
      */
     public function getCardExpiry()
     {
-        return $this->cardExpiry;
+        return $this->getData('card_expiry');
     }
 
     /**
@@ -154,8 +150,7 @@ class PaymentMethod extends AbstractModel
      */
     public function setCvv($cvv)
     {
-        $this->cvv = $cvv;
-        return $this;
+        return $this->setData('cvv', $cvv);
     }
 
     /**
@@ -165,7 +160,7 @@ class PaymentMethod extends AbstractModel
      */
     public function getCvv()
     {
-        return $this->cvv;
+        return $this->getData('cvv');
     }
 
     /**
@@ -177,8 +172,7 @@ class PaymentMethod extends AbstractModel
      */
     public function setNameOnCard($name)
     {
-        $this->nameOnCard = $name;
-        return $this;
+        return $this->setData('name_on_card', $name);
     }
 
     /**
@@ -188,7 +182,7 @@ class PaymentMethod extends AbstractModel
      */
     public function getNameOnCard()
     {
-        return $this->nameOnCard;
+        return $this->getData('name_on_card');
     }
 
     /**
@@ -200,8 +194,7 @@ class PaymentMethod extends AbstractModel
      */
     public function setVerified($verified)
     {
-        $this->verified = $verified;
-        return $this;
+        return $this->setData('verified', $verified);
     }
 
     /**
@@ -211,7 +204,7 @@ class PaymentMethod extends AbstractModel
      */
     public function getVerified()
     {
-        return $this->verified;
+        return $this->getData('verified');
     }
 
     /**
@@ -223,8 +216,7 @@ class PaymentMethod extends AbstractModel
      */
     public function setPmId($pmId)
     {
-        $this->pmId = $pmId;
-        return $this;
+        return $this->setData('pm_id', $pmId);
     }
 
     /**
@@ -234,20 +226,19 @@ class PaymentMethod extends AbstractModel
      */
     public function getPmId()
     {
-        return $this->pmId;
+        return $this->getData('pm_id');
     }
 
     /**
      * The payment method description set by the user
      *
-     * @param $description
+     * @param mixed $description
      *
      * @return $this
      */
     public function setDescription($description)
     {
-        $this->description = $description;
-        return $this;
+        return $this->setData('description', $description);
     }
 
     /**
@@ -257,20 +248,19 @@ class PaymentMethod extends AbstractModel
      */
     public function getDescription()
     {
-        return $this->description;
+        return $this->getData('description');
     }
 
     /**
      * The default payment method
      *
-     * @param $defaultPM
+     * @param mixed $defaultPM
      *
      * @return $this
      */
     public function setDefaultPM($defaultPM)
     {
-        $this->defaultPM = $defaultPM;
-        return $this;
+        return $this->setData('default_pm', $defaultPM);
     }
 
     /**
@@ -280,20 +270,19 @@ class PaymentMethod extends AbstractModel
      */
     public function getDefaultPM()
     {
-        return $this->defaultPM;
+        return $this->getData('default_pm');
     }
 
     /**
      * EFT funding instrument reference
      *
-     * @param $reference
+     * @param mixed $reference
      *
      * @return $this
      */
     public function setReference($reference)
     {
-        $this->reference = $reference;
-        return $this;
+        return $this->setData('reference', $reference);
     }
 
     /**
@@ -303,20 +292,19 @@ class PaymentMethod extends AbstractModel
      */
     public function getReference()
     {
-        return $this->reference;
+        return $this->getData('reference');
     }
 
     /**
      * eBucks funding instrument token
      *
-     * @param $ebucksToken
+     * @param mixed $ebucksToken
      *
      * @return $this
      */
     public function setEbucksToken($ebucksToken)
     {
-        $this->ebucksToken = $ebucksToken;
-        return $this;
+        return $this->setData('ebucks_token', $ebucksToken);
     }
 
     /**
@@ -326,7 +314,7 @@ class PaymentMethod extends AbstractModel
      */
     public function getEbucksToken()
     {
-        return $this->ebucksToken;
+        return $this->getData('ebucks_token');
     }
 }
 

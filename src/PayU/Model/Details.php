@@ -42,18 +42,18 @@ class Details extends AbstractModel implements DetailsInterface
         NumericValidator::validate($subtotal, "Subtotal");
         $subtotal = Formatter::formatToPrice($subtotal);
 
-        return $this->setData();
+        return $this->setData('subtotal', $subtotal);
     }
 
     /**
      * Amount of the subtotal of the items. **Required** if line items are specified.
      * 10 characters max, with support for integers.
      *
-     * @return string
+     * @return float
      */
     public function getSubtotal(): float
     {
-        return $this->subtotal;
+        return (float)$this->getData('subtotal');
     }
 
     /**
@@ -67,8 +67,7 @@ class Details extends AbstractModel implements DetailsInterface
     {
         NumericValidator::validate($shipping, "Shipping");
         $shipping = Formatter::formatToPrice($shipping);
-        $this->shipping = $shipping;
-        return $this;
+        return $this->setData('shipping', $shipping);
     }
 
     /**
@@ -78,7 +77,7 @@ class Details extends AbstractModel implements DetailsInterface
      */
     public function getShipping()
     {
-        return $this->shipping;
+        return $this->getData('shipping');
     }
 
     /**
@@ -92,8 +91,7 @@ class Details extends AbstractModel implements DetailsInterface
     {
         NumericValidator::validate($tax, "Tax");
         $tax = Formatter::formatToPrice($tax);
-        $this->tax = $tax;
-        return $this;
+        return $this->setData('tax', $tax);
     }
 
     /**
@@ -103,7 +101,7 @@ class Details extends AbstractModel implements DetailsInterface
      */
     public function getTax()
     {
-        return $this->tax;
+        return $this->getData('tax');
     }
 
     /**
@@ -117,8 +115,7 @@ class Details extends AbstractModel implements DetailsInterface
     {
         NumericValidator::validate($handlingFee, "Handling Fee");
         $handlingFee = Formatter::formatToPrice($handlingFee);
-        $this->handlingFee = $handlingFee;
-        return $this;
+        return $this->setData('handling_fee', $handlingFee);
     }
 
     /**
@@ -128,7 +125,7 @@ class Details extends AbstractModel implements DetailsInterface
      */
     public function getHandlingFee()
     {
-        return $this->handlingFee;
+        return $this->getData('handling_fee');
     }
 
     /**
@@ -142,8 +139,7 @@ class Details extends AbstractModel implements DetailsInterface
     {
         NumericValidator::validate($shippingDiscount, "Shipping Discount");
         $shippingDiscount = Formatter::formatToPrice($shippingDiscount);
-        $this->shippingDiscount = $shippingDiscount;
-        return $this;
+        return $this->setData('shipping_discount', $shippingDiscount);
     }
 
     /**
@@ -153,13 +149,13 @@ class Details extends AbstractModel implements DetailsInterface
      */
     public function getShippingDiscount()
     {
-        return $this->shippingDiscount;
+        return $this->getData('shipping_discount');
     }
 
     /**
      * Amount being charged as gift wrap fee.
      *
-     * @param string|double $gift_wrap
+     * @param string|double $giftWrap
      *
      * @return $this
      */
@@ -167,8 +163,7 @@ class Details extends AbstractModel implements DetailsInterface
     {
         NumericValidator::validate($giftWrap, "Gift Wrap");
         $giftWrap = Formatter::formatToPrice($giftWrap);
-        $this->giftWrap = $giftWrap;
-        return $this;
+        return $this->setData('gift_wrap', $giftWrap);
     }
 
     /**
@@ -178,7 +173,7 @@ class Details extends AbstractModel implements DetailsInterface
      */
     public function getGiftWrap()
     {
-        return $this->giftWrap;
+        return $this->getData('gift_wrap');
     }
 
     /**
@@ -193,8 +188,7 @@ class Details extends AbstractModel implements DetailsInterface
     {
         NumericValidator::validate($fee, "Fee");
         $fee = Formatter::formatToPrice($fee);
-        $this->fee = $fee;
-        return $this;
+        return $this->setData('fee', $fee);
     }
 
     /**
@@ -205,6 +199,6 @@ class Details extends AbstractModel implements DetailsInterface
      */
     public function getFee()
     {
-        return $this->fee;
+        return $this->getData('fee');
     }
 }

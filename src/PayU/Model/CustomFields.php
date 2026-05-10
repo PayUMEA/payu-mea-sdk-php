@@ -35,9 +35,7 @@ class CustomFields extends PayUModel
      */
     public function setKey(string $key): static
     {
-        $this->key = $key;
-
-        return $this;
+        return $this->setData('key', $key);
     }
 
     /**
@@ -47,7 +45,7 @@ class CustomFields extends PayUModel
      */
     public function getKey(): string
     {
-        return $this->key;
+        return (string)$this->getData('key');
     }
 
     /**
@@ -58,9 +56,7 @@ class CustomFields extends PayUModel
      */
     public function setValue(string $value): static
     {
-        $this->value = $value;
-
-        return $this;
+        return $this->setData('value', $value);
     }
 
     /**
@@ -70,6 +66,6 @@ class CustomFields extends PayUModel
      */
     public function getValue(): string
     {
-        return $this->value;
+        return (string)$this->getData('value');
     }
 }

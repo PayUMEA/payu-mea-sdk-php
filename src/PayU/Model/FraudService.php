@@ -35,9 +35,7 @@ class FraudService extends AbstractModel implements FraudServiceInterface
      */
     public function setCheckFraudOverride(string $checkFraudOverride): static
     {
-        $this->checkFraudOverride = $checkFraudOverride;
-
-        return $this;
+        return $this->setData('check_fraud_override', $checkFraudOverride);
     }
 
     /**
@@ -47,7 +45,7 @@ class FraudService extends AbstractModel implements FraudServiceInterface
      */
     public function getCheckFraudOverride(): string|null
     {
-        return $this->checkFraudOverride;
+        return $this->getData('check_fraud_override');
     }
 
     /**
@@ -59,9 +57,7 @@ class FraudService extends AbstractModel implements FraudServiceInterface
      */
     public function setMerchantWebsite(string $merchantWebsite): static
     {
-        $this->merchantWebsite = $merchantWebsite;
-
-        return $this;
+        return $this->setData('merchant_website', $merchantWebsite);
     }
 
     /**
@@ -71,7 +67,7 @@ class FraudService extends AbstractModel implements FraudServiceInterface
      */
     public function getMerchantWebsite(): string|null
     {
-        return $this->merchantWebsite;
+        return $this->getData('merchant_website');
     }
 
     /**
@@ -83,9 +79,7 @@ class FraudService extends AbstractModel implements FraudServiceInterface
      */
     public function setPCFingerPrint(string $pcFingerPrint): static
     {
-        $this->pcFingerPrint = $pcFingerPrint;
-
-        return $this;
+        return $this->setData('pc_finger_print', $pcFingerPrint);
     }
 
     /**
@@ -95,7 +89,7 @@ class FraudService extends AbstractModel implements FraudServiceInterface
      */
     public function getPCFingerPrint(): string|null
     {
-        return $this->pcFingerPrint;
+        return $this->getData('pc_finger_print');
     }
 
     /**
@@ -107,9 +101,7 @@ class FraudService extends AbstractModel implements FraudServiceInterface
      */
     public function setResultCode(string $resultCode): static
     {
-        $this->resultCode = $resultCode;
-
-        return $this;
+        return $this->setData('result_code', $resultCode);
     }
 
     /**
@@ -119,7 +111,7 @@ class FraudService extends AbstractModel implements FraudServiceInterface
      */
     public function getResultCode(): string|null
     {
-        return $this->resultCode;
+        return $this->getData('result_code');
     }
 
     /**
@@ -131,9 +123,7 @@ class FraudService extends AbstractModel implements FraudServiceInterface
      */
     public function setResultMessage(string $resultMessage): static
     {
-        $this->resultMessage = $resultMessage;
-
-        return $this;
+        return $this->setData('result_message', $resultMessage);
     }
 
     /**
@@ -143,6 +133,6 @@ class FraudService extends AbstractModel implements FraudServiceInterface
      */
     public function getResultMessage(): string|null
     {
-        return $this->resultMessage;
+        return $this->getData('result_message');
     }
 }

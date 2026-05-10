@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace PayUSdk\Framework\Core;
 
 use Exception;
-use JetBrains\PhpStorm\NoReturn;
 use PayUSdk\Framework\Authentication;
 use PayUSdk\Framework\Exception\InvalidCredentialException;
 
@@ -124,7 +123,7 @@ class CredentialManager
      * @return CredentialManager
      * @throws Exception
      */
-    public static function getInstance(array $config = null): CredentialManager
+    public static function getInstance(?array $config = null): CredentialManager
     {
         if (!self::$instance) {
             self::$instance = new self(
@@ -145,7 +144,7 @@ class CredentialManager
      *
      * @return $this
      */
-    public function setCredentialObject(Authentication $credential, string $accountId = null, bool $default = true): static
+    public function setCredentialObject(Authentication $credential, ?string $accountId = null, bool $default = true): static
     {
         $key = !$accountId ? 'default' : $accountId;
         $this->credentialHashmap[$key] = $credential;
@@ -183,7 +182,6 @@ class CredentialManager
     /**
      * Disabling __clone call
      */
-    #[NoReturn]
     public function __clone()
     {
         trigger_error('Clone is not allowed.', E_USER_ERROR);

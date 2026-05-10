@@ -24,7 +24,7 @@ class NumericValidator
      * @param string|null $argumentName
      * @return bool
      */
-    public static function validate(mixed $argument, string $argumentName = null): bool
+    public static function validate(mixed $argument, ?string $argumentName = null): bool
     {
         if (!is_numeric($argument)) {
             throw new InvalidArgumentException("$argumentName is not a valid numeric value");

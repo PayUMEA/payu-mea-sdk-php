@@ -99,7 +99,7 @@ class DataObject implements ArrayAccess
      * @param array|string|null $key
      * @return $this
      */
-    public function unsetData(array|string $key = null): static
+    public function unsetData(array|string|null $key = null): static
     {
         if ($key === null) {
             $this->setData([]);
@@ -132,7 +132,7 @@ class DataObject implements ArrayAccess
      * @return mixed
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    public function getData(string $key = '', int|string $index = null): mixed
+    public function getData(string $key = '', int|string|null $index = null): mixed
     {
         if ('' === $key) {
             return $this->_data;
@@ -419,7 +419,7 @@ class DataObject implements ArrayAccess
         }
 
         throw new LocalizedException(
-            sprintf('Invalid method %1::%2', get_class($this), $method)
+            sprintf('Invalid method %s::%s', get_class($this), $method)
         );
     }
 
