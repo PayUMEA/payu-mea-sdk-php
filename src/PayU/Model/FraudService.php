@@ -18,11 +18,11 @@ use PayUSdk\Framework\AbstractModel;
  *
  * @package PayUSdk\Api
  *
- * @property string checkFraudOverride
- * @property string merchantWebsite
- * @property string pcFingerPrint
- * @property string resultCode
- * @property string resultMessage
+ * @property string $checkFraudOverride
+ * @property string $merchantWebsite
+ * @property string $pcFingerPrint
+ * @property string $resultCode
+ * @property string $resultMessage
  */
 class FraudService extends AbstractModel implements FraudServiceInterface
 {

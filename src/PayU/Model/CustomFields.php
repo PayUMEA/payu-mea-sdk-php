@@ -22,8 +22,8 @@ use PayU\Validation\JsonValidator;
  *
  * @package PayUSdk\Api
  *
- * @property string key
- * @property string value
+ * @property string $key
+ * @property string $value
  */
 class CustomFields extends PayUModel
 {

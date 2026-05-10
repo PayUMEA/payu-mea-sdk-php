@@ -20,8 +20,8 @@ use PayUSdk\Api\BuilderInterface;
 class CustomerDataHandler implements BuilderInterface
 {
     /**
-     * @param array $buildSubject
-     * @return array
+     * @param array<string, mixed> $buildSubject
+     * @return array<string, mixed>
      */
     public function build(array $buildSubject): array
     {

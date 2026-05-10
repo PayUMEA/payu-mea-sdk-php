@@ -74,7 +74,7 @@ class Config
      *
      * @param string $prefix HTTP configuration prefix
      * @param array $configs configuration options
-     * @return array
+     * @return array<string, mixed>
      */
     public function getHttpConstantsFromConfigs(string $prefix, array $configs = []): array
     {
@@ -128,7 +128,7 @@ class Config
     /**
      * Gets all Headers
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function getHeaders()
     {
@@ -188,7 +188,7 @@ class Config
     /**
      * Gets all SOAP options
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function getSoapOptions(): array
     {

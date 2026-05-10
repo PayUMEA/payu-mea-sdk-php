@@ -16,7 +16,8 @@ namespace PayUSdk\Api;
 interface ConnectionInterface
 {
     /**
-     * @param array $arguments connection arguments
+     * @param array<string, mixed> $arguments connection arguments
+     * @return array<string, mixed>
      */
-    public function execute(array $arguments);
+    public function execute(array $arguments): array;
 }

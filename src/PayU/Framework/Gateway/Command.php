@@ -34,7 +34,7 @@ class Command implements CommandInterface
 
     /**
      * @param array $arguments
-     * @return array
+     * @return array<string, mixed>
      * @throws ConfigurationException
      * @throws SoapFault|InvalidCredentialException
      */

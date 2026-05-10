@@ -60,7 +60,7 @@ class Connection implements ConnectionInterface
      * Executes an HTTP request
      *
      * @param array $arguments connection arguments
-     * @return array
+     * @return array<string, mixed>
      * @throws SoapFault|InvalidCredentialException
      */
     public function execute(array $arguments): array
@@ -107,7 +107,7 @@ class Connection implements ConnectionInterface
     /**
      * Gets all Http Headers
      *
-     * @return array
+     * @return array<string, mixed>
      */
     private function getHttpHeaders(): array
     {

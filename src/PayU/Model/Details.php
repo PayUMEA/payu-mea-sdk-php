@@ -20,13 +20,13 @@ use PayUSdk\Framework\Validation\NumericValidator;
  *
  * @package PayUSdk\Model
  *
- * @property string subtotal
- * @property string shipping
- * @property string tax
- * @property string handlingFee
- * @property string shippingDiscount
- * @property string giftWrap
- * @property string fee
+ * @property string $subtotal
+ * @property string $shipping
+ * @property string $tax
+ * @property string $handlingFee
+ * @property string $shippingDiscount
+ * @property string $giftWrap
+ * @property string $fee
  */
 class Details extends AbstractModel implements DetailsInterface
 {

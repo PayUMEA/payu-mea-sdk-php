@@ -16,8 +16,8 @@ namespace PayUSdk\Api;
 interface CommandInterface
 {
     /**
-     * @param array $arguments
-     * @return array
+     * @param array<string, mixed> $arguments
+     * @return array<string, mixed>
      */
     public function execute(array $arguments): array;
 }

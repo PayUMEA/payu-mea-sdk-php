@@ -167,7 +167,7 @@ interface RecurringPaymentInterface
     public function setDeductionDay(string $deductionDay): static;
 
     /**
-     * @param array $callCenterRepId
+     * @param array<int, string> $callCenterRepId
      * @return $this
      */
     public function setCallCenterRepIds(array $callCenterRepId): static;

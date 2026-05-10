@@ -64,7 +64,7 @@ class Client
      * @param array $payload the payment transaction details
      * @param array $httpHeaders
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function doAction(string $methodName, array $payload, array $httpHeaders): array
     {
@@ -131,7 +131,7 @@ class Client
 
     /**
      * @param string $xml
-     * @return array|string|string[]|null
+     * @return array<string, mixed>|string|string[]|null
      */
     private function prettyPrintXml(string $xml) {
         return (new XMLHelper())->prettyPrint($xml);

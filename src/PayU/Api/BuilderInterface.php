@@ -18,8 +18,8 @@ interface BuilderInterface
     /**
      * Builds request payload
      *
-     * @param array $buildSubject
-     * @return array
+     * @param array<string, mixed> $buildSubject
+     * @return array<string, mixed>
      */
     public function build(array $buildSubject): array;
 }

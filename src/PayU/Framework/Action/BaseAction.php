@@ -23,12 +23,15 @@ use SoapFault;
  * Base class of all actions requested by the client
  *
  * @package PayUSdk\Framework\Adapter
+ * @template TKey of int|string
+ * @template TValue
+ * @extends DataObject<TKey, TValue>
  */
 abstract class BaseAction extends DataObject implements ActionInterface
 {
     /**
      * @param ?AdapterInterface $adapter
-     * @param array $data
+     * @param array<TKey, TValue> $data
      */
     public function __construct(
         protected ?AdapterInterface $adapter = null,
@@ -48,12 +51,29 @@ abstract class BaseAction extends DataObject implements ActionInterface
      */
     public function execute(string $action): ResponseInterface
     {
-        return $this->adapter->create(
+        /** @var AdapterInterface $adapter */
+        $adapter = $this->adapter;
+
+        return $adapter->create(
             [
                 'subject' => $this,
                 'action' => $action,
                 'context' => $this->getContext()
             ]
         );
+    }
+
+    /**
+     * @return \PayUSdk\Framework\Soap\Context
+     */
+    public function getContext(): \PayUSdk\Framework\Soap\Context
+    {
+        $context = $this->getData('context');
+        if (!($context instanceof \PayUSdk\Framework\Soap\Context)) {
+            $context = new \PayUSdk\Framework\Soap\Context();
+            $this->setData('context', $context);
+        }
+
+        return $context;
     }
 }
