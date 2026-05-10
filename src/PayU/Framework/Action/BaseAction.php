@@ -23,7 +23,7 @@ use SoapFault;
  * Base class of all actions requested by the client
  *
  * @package PayUSdk\Framework\Adapter
- * @template TKey of int|string
+ * @template TKey of string
  * @template TValue
  * @extends DataObject<TKey, TValue>
  */

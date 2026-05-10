@@ -19,6 +19,7 @@ use SoapFault;
  * Search for a transaction on the payment gateway
  *
  * @package PayUSdk\Framework\Action
+ * @extends BaseAction<string, mixed>
  */
 class Search extends BaseAction
 {

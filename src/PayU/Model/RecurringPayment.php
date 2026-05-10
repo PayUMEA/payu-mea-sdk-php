@@ -75,7 +75,7 @@ class RecurringPayment extends AbstractModel implements RecurringPaymentInterfac
     }
 
     /**
-     * @return ?array
+     * @return array<int, string>|null
      */
     public function getCallCenterRepIds(): ?array
     {
@@ -156,7 +156,7 @@ class RecurringPayment extends AbstractModel implements RecurringPaymentInterfac
     }
 
     /**
-     * @param array $callCenterRepId
+     * @param array<int, string> $callCenterRepId
      * @return $this
      */
     public function setCallCenterRepIds(array $callCenterRepId): static

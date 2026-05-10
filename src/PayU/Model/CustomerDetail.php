@@ -149,7 +149,7 @@ class CustomerDetail extends AbstractModel implements CustomerDetailInterface
     }
 
     /**
-     * @param AddressInterface $address
+     * @param string $identification
      * @return $this
      */
     public function setRegionalId(string $identification): static

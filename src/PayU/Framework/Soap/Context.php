@@ -80,7 +80,7 @@ class Context
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
     public function getRequestHeaders(): array
     {
@@ -174,7 +174,7 @@ class Context
     /**
      * Sets Config
      *
-     * @param array $config SDK configuration parameters
+     * @param array<string, mixed> $config SDK configuration parameters
      */
     public function setConfig(array $config): void
     {
@@ -184,7 +184,7 @@ class Context
     /**
      * Gets Configurations hashmap
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function getConfigHashmap(): array
     {
@@ -194,10 +194,10 @@ class Context
     /**
      * Gets a specific configuration from key
      *
-     * @param $searchKey
-     * @return string|array
+     * @param string $searchKey
+     * @return string|array<string, mixed>
      */
-    public function get($searchKey): string|array
+    public function get(string $searchKey): string|array
     {
         return ConfigManager::getInstance()->get($searchKey);
     }

@@ -19,6 +19,7 @@ use SoapFault;
  * A capture action.
  *
  * @package PayUSdk\Framework\Action
+ * @extends BaseAction<string, mixed>
  */
 class Capture extends BaseAction
 {

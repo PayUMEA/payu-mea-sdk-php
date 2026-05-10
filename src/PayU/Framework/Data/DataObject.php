@@ -17,8 +17,7 @@ use PayUSdk\Framework\Serialize\JsonConverter;
  * Universal data container with array access implementation
  *
  * @api
- * @SuppressWarnings(PHPMD.NumberOfChildren)
- * @template TKey of int|string
+ * @template TKey of string
  * @template TValue
  * @implements ArrayAccess<TKey, TValue>
  */
@@ -78,16 +77,20 @@ class DataObject implements ArrayAccess
      *
      * The $key parameter can be string or array.
      * If $key is string, the attribute value will be overwritten by $value
+    /**
+     * Overwrite data in the object.
+     *
+     * If $key is string, the attribute value will be overwritten by $value
      *
      * If $key is an array, it will overwrite all the data in the object.
      *
-     * @param array<TKey, TValue>|string $key
+     * @param TKey|array<TKey, TValue> $key
      * @param TValue|null $value
      * @return $this
      */
     public function setData(array|string $key, mixed $value = null): static
     {
-        if ($key === (array)$key) {
+        if (is_array($key)) {
             $this->_data = $key;
         } else {
             /** @var TKey $key */
@@ -134,7 +137,7 @@ class DataObject implements ArrayAccess
      * @param string $key
      * @param int|string|null $index
      * @return mixed
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings"PHPMD.CyclomaticComplexity"
      */
     public function getData(string $key = '', int|string|null $index = null): mixed
     {
@@ -311,8 +314,8 @@ class DataObject implements ArrayAccess
     /**
      * The "__" style wrapper for toArray method
      *
-     * @param  array $keys
-     * @return array
+     * @param  array<int, TKey> $keys
+     * @return array<TKey, TValue>
      */
     public function convertToArray(array $keys = []): array
     {
@@ -322,8 +325,8 @@ class DataObject implements ArrayAccess
     /**
      * Convert nested array into flat array.
      *
-     * @param array $data
-     * @return array
+     * @param array<string, mixed> $data
+     * @return array<string, mixed>
      */
     public static function toFlatArray($data = [])
     {
@@ -340,7 +343,7 @@ class DataObject implements ArrayAccess
     /**
      * Convert object data to JSON
      *
-     * @param array $keys array of required keys
+     * @param array<int, TKey> $keys array of required keys
      * @return bool|string
      * @throws InvalidArgumentException
      */
@@ -354,7 +357,7 @@ class DataObject implements ArrayAccess
     /**
      * The "__" style wrapper for toJson
      *
-     * @param array $keys
+     * @param array<int, TKey> $keys
      * @return bool|string
      * @throws InvalidArgumentException
      */
@@ -391,7 +394,7 @@ class DataObject implements ArrayAccess
      * Set/Get attribute wrapper
      *
      * @param string $method
-     * @param array $args
+     * @param array<int, mixed> $args
      * @return mixed
      * @throws LocalizedException
      */
@@ -463,7 +466,7 @@ class DataObject implements ArrayAccess
      *
      * Example: key1="value1" key2="value2" ...
      *
-     * @param array $keys array of accepted keys
+     * @param array<int, TKey> $keys array of accepted keys
      * @param string $valueSeparator separator between key and value
      * @param string $fieldSeparator separator between key/value pairs
      * @param string $quote quoting sign
@@ -494,9 +497,9 @@ class DataObject implements ArrayAccess
     /**
      * Present object data as string in debug mode
      *
-     * @param mixed|null $data
-     * @param array $objects
-     * @return array|string
+     * @param array<string, mixed>|null $data
+     * @param array<string, bool> $objects
+     * @return array<string, mixed>|string
      */
     public function debug(mixed $data = null, array &$objects = []): array|string
     {

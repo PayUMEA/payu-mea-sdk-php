@@ -27,7 +27,7 @@ class ConfigManager
     /**
      * Configuration Options
      *
-     * @var array
+     * @var array<string, mixed>
      */
     private array $configs = [];
 
@@ -54,15 +54,15 @@ class ConfigManager
      * Add Configuration from configuration.ini files
      *
      * @param string $fileName
-     * @return $this
+     * @return self
      */
-    public function addConfigFromIni(string $fileName): static
+    public function addConfigFromIni(string $fileName): self
     {
         if ($configs = parse_ini_file($fileName)) {
             $this->addConfigs($configs);
         }
 
-        return $this;
+        return self::$instance;
     }
 
     /**
@@ -70,22 +70,22 @@ class ConfigManager
      * then the element from the first array will be used and
      * the matching key's element from the second array will be ignored.
      *
-     * @param array $configs
-     * @return $this
+     * @param array<string, mixed> $configs
+     * @return self
      */
-    public function addConfigs(array $configs = []): static
+    public function addConfigs(array $configs = []): self
     {
         $this->configs = $configs + $this->configs;
 
-        return $this;
+        return self::$instance;
     }
 
     /**
      * Returns the singleton object
      *
-     * @return $this
+     * @return self
      */
-    public static function getInstance(): ConfigManager
+    public static function getInstance(): self
     {
         if (!isset(self::$instance)) {
             self::$instance = new self();
@@ -100,7 +100,7 @@ class ConfigManager
      * does a "contains" search on the key
      *
      * @param string $searchKey
-     * @return array|string|bool
+     * @return string[]|string|bool
      */
     public function get(string $searchKey): array|string|bool
     {
@@ -127,7 +127,7 @@ class ConfigManager
      * all configured accounts
      *
      * @param string|null $accountId
-     * @return array|string
+     * @return string[]|string
      */
     public function getIniPrefix(?string $accountId = null): array|string
     {
@@ -153,6 +153,8 @@ class ConfigManager
 
     /**
      * returns the config file hashmap
+     *
+     * @return array<string, mixed>
      */
     public function getConfigHashmap(): array
     {

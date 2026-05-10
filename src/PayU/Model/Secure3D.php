@@ -36,7 +36,7 @@ class Secure3D extends AbstractModel implements Secure3DInterface
 
     /**
      * @param string $id
-     * @return $this|Secure3D
+     * @return $this
      */
     public function setId(string $id): static
     {
@@ -44,10 +44,10 @@ class Secure3D extends AbstractModel implements Secure3DInterface
     }
 
     /**
-     * @param $url
+     * @param string $url
      * @return $this
      */
-    public function setUrl($url): static
+    public function setUrl(string $url): static
     {
         return $this->setData(Secure3DInterface::secure_3d_url, $url);
     }

@@ -23,14 +23,15 @@ use SoapFault;
  *
  * An executable operation such as payment, refund, capture etc.
  * @package PayUSdk\Framework
+ * @extends DataObject<string, mixed>
  */
 class Adapter extends DataObject implements AdapterInterface
 {
     /**
      * Call command on PayU gateway
      *
-     * @param array $arguments
-     * @return array response of the transaction
+     * @param array<string, mixed> $arguments
+     * @return array<string, mixed> response of the transaction
      * @throws ConfigurationException
      * @throws InvalidCredentialException
      * @throws SoapFault
@@ -48,13 +49,13 @@ class Adapter extends DataObject implements AdapterInterface
     /**
      * Shows details a of payment or redirect resource.
      *
-     * @param array $arguments
+     * @param array<string, mixed> $arguments
      * @return ResponseInterface resource object
      * @throws ConfigurationException
      * @throws InvalidCredentialException
      * @throws SoapFault
      */
-    public static function get(array $arguments): ResponseInterface
+    public function get(array $arguments): ResponseInterface
     {
         $arguments['method'] = 'getTransaction';
         $reference = $arguments['subject']->getPayUReference() ?? $arguments['subject']->getMerchantReference() ?? '';
@@ -69,7 +70,7 @@ class Adapter extends DataObject implements AdapterInterface
      * Set up a redirect payment process. In the JSON request body, include a `redirect` object with the intent,
      * customer, fundingInstrument, transaction etc. Also include return, notify, and cancel URLs in the `redirect` object.
      *
-     * @param array $arguments
+     * @param array<string, mixed> $arguments
      * @return ResponseInterface resource object
      * @throws ConfigurationException
      * @throws InvalidCredentialException
@@ -87,7 +88,7 @@ class Adapter extends DataObject implements AdapterInterface
      * Executes, or completes direct payment processing. In the JSON request body, include a `payment` object with the intent,
      * customer, fundingInstrument, transaction etc. Also include return, notify, and cancel URLs in the `payment` object.
      *
-     * @param array $arguments
+     * @param array<string, mixed> $arguments
      * @return ResponseInterface resource object
      * @throws ConfigurationException
      * @throws InvalidCredentialException
@@ -105,7 +106,7 @@ class Adapter extends DataObject implements AdapterInterface
      * Refund a captured payment.
      * In addition, include an amount object in the body of the request JSON.
      *
-     * @param array $arguments
+     * @param array<string, mixed> $arguments
      * @return ResponseInterface
      * @throws ConfigurationException
      * @throws InvalidCredentialException
@@ -120,7 +121,7 @@ class Adapter extends DataObject implements AdapterInterface
      * Captures and processes an authorization, by ID. To use this call, the original payment call must specify an
      * intent of `reserve`.
      *
-     * @param array $arguments
+     * @param array<string, mixed> $arguments
      * @return ResponseInterface
      * @throws ConfigurationException
      * @throws InvalidCredentialException
@@ -134,7 +135,7 @@ class Adapter extends DataObject implements AdapterInterface
     /**
      * Voids, or cancels, an authorization, by ID. You cannot void a fully captured authorization.
      *
-     * @param array $arguments
+     * @param array<string, mixed> $arguments
      * @return ResponseInterface
      * @throws ConfigurationException
      * @throws InvalidCredentialException
@@ -148,13 +149,13 @@ class Adapter extends DataObject implements AdapterInterface
     /**
      * Shows details for a payment, by ID.
      *
-     * @param array $arguments
+     * @param array<string, mixed> $arguments
      * @return ResponseInterface
      * @throws ConfigurationException
      * @throws InvalidCredentialException
      * @throws SoapFault
      */
-    public static function lookup(array $arguments): ResponseInterface
+    public function lookup(array $arguments): ResponseInterface
     {
         $arguments['method'] = 'getLookupTransaction';
         $result = self::execute($arguments);
@@ -163,7 +164,7 @@ class Adapter extends DataObject implements AdapterInterface
     }
 
     /**
-     * @param array $arguments
+     * @param array<string, mixed> $arguments
      * @return Response
      * @throws ConfigurationException
      * @throws InvalidCredentialException

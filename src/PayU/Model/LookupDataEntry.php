@@ -42,7 +42,7 @@ class LookupDataEntry extends AbstractModel implements LookupDataEntryInterface
      * @param DetailsInterface $value
      * @return $this
      */
-    public function setValue($value): static
+    public function setValue(DetailsInterface $value): static
     {
         return $this->setData(LookupDataEntryInterface::VALUE, $value);
     }

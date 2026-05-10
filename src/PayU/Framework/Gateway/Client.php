@@ -61,8 +61,8 @@ class Client
      * Execute SOAP method on the client
      *
      * @param string $methodName the soap call method to execute
-     * @param array $payload the payment transaction details
-     * @param array $httpHeaders
+     * @param array<string, mixed> $payload the payment transaction details
+     * @param array<int, string> $httpHeaders
      *
      * @return array<string, mixed>
      */
@@ -78,7 +78,7 @@ class Client
     /**
      * Set HTTP headers passed to the request
      *
-     * @param array $httpHeaders
+     * @param array<int, string> $httpHeaders
      */
     private function setHttpHeader(array $httpHeaders): void
     {
@@ -131,9 +131,9 @@ class Client
 
     /**
      * @param string $xml
-     * @return array<string, mixed>|string|string[]|null
+     * @return string
      */
-    private function prettyPrintXml(string $xml) {
+    private function prettyPrintXml(string $xml): string {
         return (new XMLHelper())->prettyPrint($xml);
     }
 }

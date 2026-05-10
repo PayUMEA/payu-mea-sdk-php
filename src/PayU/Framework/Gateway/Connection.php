@@ -27,6 +27,8 @@ class Connection implements ConnectionInterface
      * HTTP status codes for which a retry must be attempted
      * retry is currently attempted for BuilderComposite timeout, Bad Gateway,
      * Service Unavailable and Gateway timeout errors.
+     *
+     * @var string[]
      */
     private static array $retryCodes = ['408', '502', '503', '504',];
 
@@ -59,7 +61,7 @@ class Connection implements ConnectionInterface
     /**
      * Executes an HTTP request
      *
-     * @param array $arguments connection arguments
+     * @param array<string, mixed> $arguments connection arguments
      * @return array<string, mixed>
      * @throws SoapFault|InvalidCredentialException
      */
@@ -107,7 +109,7 @@ class Connection implements ConnectionInterface
     /**
      * Gets all Http Headers
      *
-     * @return array<string, mixed>
+     * @return string[]
      */
     private function getHttpHeaders(): array
     {

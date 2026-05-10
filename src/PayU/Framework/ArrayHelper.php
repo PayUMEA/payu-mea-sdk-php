@@ -22,8 +22,8 @@ class ArrayHelper
 {
     /**
      *
-     * @param array $arr
-     * @return true if $arr is an associative array
+     * @param array<int|string, mixed> $arr
+     * @return bool
      */
     public static function isAssocArray(array $arr): bool
     {

@@ -20,8 +20,10 @@ use SoapFault;
  * Payment/Sale action.
  *
  * @package PayUSdk\Framework\Action
+ * @extends BaseAction<string, mixed>
  */
-class Sale extends BaseAction implements ActionInterface
+ class Sale extends BaseAction
+ implements ActionInterface
 {
     /**
      * @param string $action
@@ -32,6 +34,7 @@ class Sale extends BaseAction implements ActionInterface
      */
     public function execute(string $action): ResponseInterface
     {
+        /** @var \PayUSdk\Framework\Response $response */
         $response = $this->adapter->create(
             [
                 'subject' => $this,
@@ -45,10 +48,10 @@ class Sale extends BaseAction implements ActionInterface
     }
 
     /**
-     * @param $response
+     * @param ResponseInterface $response
      * @return string
      */
-    protected function getEftProUrl($response): string
+    protected function getEftProUrl(ResponseInterface $response): string
     {
         return isset($response['redirect']) ? $response['redirect']['url'] : '';
     }

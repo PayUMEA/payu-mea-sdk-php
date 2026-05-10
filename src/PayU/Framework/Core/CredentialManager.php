@@ -31,7 +31,7 @@ class CredentialManager
     /**
      * Hashmap to contain credentials for accounts.
      *
-     * @var array
+     * @var array<string, mixed>
      */
     private array $credentialHashmap = [];
 
@@ -46,7 +46,7 @@ class CredentialManager
     /**
      * Constructor initialize credential for multiple accounts specified in property file
      *
-     * @param array $config
+     * @param array<string, mixed> $config
      * @throws Exception
      */
     private function __construct(array $config)
@@ -62,7 +62,7 @@ class CredentialManager
     /**
      * Load credentials for multiple accounts.
      *
-     * @param array $config
+     * @param array<string, mixed> $config
      */
     private function initCredential(array $config): void
     {
@@ -119,11 +119,11 @@ class CredentialManager
     /**
      * Create singleton instance for this class.
      *
-     * @param array|null $config
+     * @param array<string, mixed>|null $config
      * @return CredentialManager
      * @throws Exception
      */
-    public static function getInstance(?array $config = null): CredentialManager
+    public static function getInstance(?array $config = null): self
     {
         if (!self::$instance) {
             self::$instance = new self(
@@ -142,9 +142,9 @@ class CredentialManager
      * @param string|null $accountId Account Id associated with the account
      * @param bool $default If set, it would make it as a default credential for all requests
      *
-     * @return $this
+     * @return self
      */
-    public function setCredentialObject(Authentication $credential, ?string $accountId = null, bool $default = true): static
+    public function setCredentialObject(Authentication $credential, ?string $accountId = null, bool $default = true): self
     {
         $key = !$accountId ? 'default' : $accountId;
         $this->credentialHashmap[$key] = $credential;
@@ -153,25 +153,26 @@ class CredentialManager
             $this->defaultAccountName = $key;
         }
 
-        return $this;
+        return self::$instance;
     }
 
     /**
      * Obtain Credential Object based on StoreId provided.
      *
-     * @param null $accountId
+     * @param string|null $accountId
      * @return Authentication
      * @throws InvalidCredentialException
      */
-    public function getCredentialObject($accountId = null): Authentication
+    public function getCredentialObject(?string $accountId = null): Authentication
     {
-        if ($accountId == null && array_key_exists($this->defaultAccountName, $this->credentialHashmap)) {
+        $credObj = null;
+        if ($accountId === null && array_key_exists($this->defaultAccountName, $this->credentialHashmap)) {
             $credObj = $this->credentialHashmap[$this->defaultAccountName];
-        } elseif (array_key_exists($accountId, $this->credentialHashmap)) {
+        } elseif ($accountId !== null && array_key_exists($accountId, $this->credentialHashmap)) {
             $credObj = $this->credentialHashmap[$accountId];
         }
 
-        if (empty($credObj)) {
+        if ($credObj === null) {
             throw new InvalidCredentialException("Credential not found for " . ($accountId ?: " default user") .
                 ". Please make sure your configuration/APIContext has credential information");
         }

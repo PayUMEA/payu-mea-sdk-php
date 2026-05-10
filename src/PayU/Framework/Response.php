@@ -182,7 +182,7 @@ class Response extends AbstractModel implements ResponseInterface
     /**
      * Custom key-value pair fields.
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function getCustomFields(): array
     {
@@ -202,10 +202,44 @@ class Response extends AbstractModel implements ResponseInterface
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
     public function getPaymentData(): array
     {
         return self::toFlatArray($this->toArray());
+    }
+
+    /**
+     * @param string $url
+     * @return $this
+     */
+    public function setPayURedirectUrl(string $url): static
+    {
+        return $this->setData('payu_redirect_url', $url);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPayURedirectUrl(): ?string
+    {
+        return $this->getData('payu_redirect_url');
+    }
+
+    /**
+     * @param string $url
+     * @return $this
+     */
+    public function setEftProUrl(string $url): static
+    {
+        return $this->setData('eft_pro_url', $url);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getEftProUrl(): ?string
+    {
+        return $this->getData('eft_pro_url');
     }
 }

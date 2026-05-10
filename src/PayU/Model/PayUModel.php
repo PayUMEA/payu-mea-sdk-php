@@ -18,7 +18,7 @@ use PayUSdk\Framework\AbstractModel;
 abstract class PayUModel extends AbstractModel
 {
     /**
-     * @param array $data
+     * @param array<string, mixed> $data
      */
     final public function __construct(array $data = [])
     {
@@ -29,7 +29,7 @@ abstract class PayUModel extends AbstractModel
      * Get list of objects from JSON or array
      *
      * @param mixed $input
-     * @return array|null
+     * @return array<int, static>|null
      */
     public static function getList(mixed $input): ?array
     {

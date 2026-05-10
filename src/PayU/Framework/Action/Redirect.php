@@ -22,6 +22,7 @@ use SoapFault;
  * Payment with redirect action.
  *
  * @package PayUSdk\Framework\Action
+ * @extends BaseAction<string, mixed>
  */
 class Redirect extends BaseAction
 {
@@ -36,7 +37,8 @@ class Redirect extends BaseAction
      */
     public function execute(string $action): ResponseInterface
     {
-        $response =  $this->adapter->setup(
+        /** @var \PayUSdk\Framework\Response $response */
+        $response = $this->adapter->setup(
             [
                 'subject' => $this,
                 'action' => $action,
@@ -52,10 +54,10 @@ class Redirect extends BaseAction
     /**
      * PayU redirect url. Customer is redirected to PayU to capture payment details.
      *
-     * @param $response
+     * @param ResponseInterface $response
      * @return string|null
      */
-    public function getPayURedirectUrl($response): ?string
+    public function getPayURedirectUrl(ResponseInterface $response): ?string
     {
         $mode = $this->getContext()->get('mode');
         $reference = $response->getPayUReference();

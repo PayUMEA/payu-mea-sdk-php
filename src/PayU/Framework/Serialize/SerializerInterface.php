@@ -21,7 +21,7 @@ interface SerializerInterface
     /**
      * Serialize data into string
      *
-     * @param float|array|bool|int|string|null $data
+     * @param float|array<string, mixed>|bool|int|string|null $data
      * @return string|bool
      * @throws InvalidArgumentException
      * @since 101.0.0
@@ -32,7 +32,7 @@ interface SerializerInterface
      * Unserialize the given string
      *
      * @param string $string
-     * @return string|int|float|bool|array|null
+     * @return string|int|float|bool|array<string, mixed>|null
      * @throws InvalidArgumentException
      * @since 101.0.0
      */

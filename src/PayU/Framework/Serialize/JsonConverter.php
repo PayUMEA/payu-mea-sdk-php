@@ -22,7 +22,7 @@ class JsonConverter
      * This method should only be used by \Magento\Framework\DataObject::toJson
      * All other cases should use \Magento\Framework\Serialize\Serializer\Json::serialize directly
      *
-     * @param string|int|float|bool|array|null $data
+     * @param string|int|float|bool|array<string, mixed>|null $data
      * @return bool|string
      * @throws InvalidArgumentException
      */

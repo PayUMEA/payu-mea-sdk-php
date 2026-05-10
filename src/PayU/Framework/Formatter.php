@@ -20,11 +20,11 @@ class Formatter
     /**
      * Format the data based on the input formatter value
      *
-     * @param $value
-     * @param $formatter
+     * @param mixed $value
+     * @param string $formatter
      * @return string
      */
-    public static function format($value, $formatter): string
+    public static function format(mixed $value, string $formatter): string
     {
         return sprintf($formatter, $value);
     }
@@ -50,7 +50,7 @@ class Formatter
      * any specific currency level rules as required here.
      *
      * @param float $amount
-     * @param null $currency
+     * @param string|null $currency
      * @return ?string
      */
     public static function formatToPrice(float $amount, $currency = null): ?string

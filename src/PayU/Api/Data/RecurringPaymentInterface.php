@@ -113,7 +113,7 @@ interface RecurringPaymentInterface
      * `callcenter.allowed.reps` list. If there are no IDs in the `callcenter.allowed.reps` list the
      * callCenterRepId can be an empty string.
      *
-     * @return ?array
+     * @return array<int, string>|null
      */
     public function getCallCenterRepIds(): ?array;
 

@@ -46,8 +46,8 @@ interface LookupDataEntryInterface
     public function setKey(string $key): static;
 
     /**
-     * @param string $value
+     * @param DetailsInterface $value
      * @return $this
      */
-    public function setValue(string $value): static;
+    public function setValue(DetailsInterface $value): static;
 }

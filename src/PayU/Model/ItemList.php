@@ -39,7 +39,7 @@ class ItemList extends AbstractModel
     /**
      * List of items.
      *
-     * @return ?array
+     * @return ItemInterface[]|null
      */
     public function getItems(): ?array
     {
@@ -49,7 +49,7 @@ class ItemList extends AbstractModel
     /**
      * List of items.
      *
-     * @param array $items
+     * @param ItemInterface[] $items
      *
      * @return $this
      */
@@ -67,8 +67,11 @@ class ItemList extends AbstractModel
      */
     public function removeItem(Item $item): static
     {
-        return $this->setItems(
-            array_diff($this->getItems(), [$item])
-        );
+        $items = $this->getItems() ?? [];
+        $items = array_filter($items, function ($existingItem) use ($item) {
+            return $existingItem !== $item;
+        });
+
+        return $this->setItems($items);
     }
 }

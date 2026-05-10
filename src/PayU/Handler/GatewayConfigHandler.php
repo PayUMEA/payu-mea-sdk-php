@@ -58,7 +58,7 @@ class GatewayConfigHandler implements HandlerInterface
     /**
      * Get base endpoint for SOAP WSDL service
      *
-     * @param array $config
+     * @param array<string, mixed> $config
      *
      * @return string $baseEndpoint the WSDL endpoint
      * @throws ConfigurationException

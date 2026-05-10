@@ -42,9 +42,9 @@ class XMLHelper
     private $preserveWhitespace = false;
 
     /**
-     * @param string $xml the IPN xm to parse
+     * @param \SimpleXMLElement $xml
      *
-     * @return array|bool
+     * @return \stdClass|bool
      */
     public static function parseXMLToArray(SimpleXMLElement $xml): bool|stdClass
     {
@@ -83,7 +83,7 @@ class XMLHelper
     /**
      * @param int $indent
      */
-    public function setIndentSize($indent)
+    public function setIndentSize($indent): void
     {
         $this->indent = intval($indent);
     }
@@ -91,7 +91,7 @@ class XMLHelper
     /**
      * @param string $indentCharacter
      */
-    public function setIndentCharacter($indentCharacter)
+    public function setIndentCharacter($indentCharacter): void
     {
         $this->padChar = $indentCharacter;
     }
@@ -100,7 +100,7 @@ class XMLHelper
      * @param string $xml
      * @return string
      */
-    public function prettyPrint($xml)
+    public function prettyPrint(string $xml): string
     {
         $output = '';
         $this->depth = 0;
@@ -120,7 +120,7 @@ class XMLHelper
 
     /**
      * @param string $xml
-     * @return array
+     * @return string[]
      */
     private function getXmlParts($xml)
     {
@@ -152,7 +152,7 @@ class XMLHelper
     /**
      * @param string $part
      */
-    private function runPre($part)
+    private function runPre(string $part): void
     {
         if ($this->isClosingTag($part)) {
             $this->depth--;
@@ -162,7 +162,7 @@ class XMLHelper
     /**
      * @param string $part
      */
-    private function runPost($part)
+    private function runPost(string $part): void
     {
         if ($this->isOpeningTag($part)) {
             $this->depth++;
