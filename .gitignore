@@ -6,3 +6,5 @@ clover.xml
 /build.php
 sample_ipn
 *.log
+phpstan*
+!phpstan.neon
