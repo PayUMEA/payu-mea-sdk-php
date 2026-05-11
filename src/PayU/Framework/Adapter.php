@@ -23,7 +23,7 @@ use SoapFault;
  *
  * An executable operation such as payment, refund, capture etc.
  * @package PayUSdk\Framework
- * @extends DataObject<string, mixed>
+ * 
  */
 class Adapter extends DataObject implements AdapterInterface
 {

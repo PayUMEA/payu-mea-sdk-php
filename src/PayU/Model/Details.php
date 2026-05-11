@@ -66,7 +66,7 @@ class Details extends AbstractModel implements DetailsInterface
     public function setShipping($shipping)
     {
         NumericValidator::validate($shipping, "Shipping");
-        $shipping = Formatter::formatToPrice($shipping);
+        $shipping = Formatter::formatToPrice((float)$shipping);
         return $this->setData('shipping', $shipping);
     }
 
@@ -90,7 +90,7 @@ class Details extends AbstractModel implements DetailsInterface
     public function setTax($tax)
     {
         NumericValidator::validate($tax, "Tax");
-        $tax = Formatter::formatToPrice($tax);
+        $tax = Formatter::formatToPrice((float)$tax);
         return $this->setData('tax', $tax);
     }
 
@@ -114,7 +114,7 @@ class Details extends AbstractModel implements DetailsInterface
     public function setHandlingFee($handlingFee)
     {
         NumericValidator::validate($handlingFee, "Handling Fee");
-        $handlingFee = Formatter::formatToPrice($handlingFee);
+        $handlingFee = Formatter::formatToPrice((float)$handlingFee);
         return $this->setData('handling_fee', $handlingFee);
     }
 
@@ -138,7 +138,7 @@ class Details extends AbstractModel implements DetailsInterface
     public function setShippingDiscount($shippingDiscount)
     {
         NumericValidator::validate($shippingDiscount, "Shipping Discount");
-        $shippingDiscount = Formatter::formatToPrice($shippingDiscount);
+        $shippingDiscount = Formatter::formatToPrice((float)$shippingDiscount);
         return $this->setData('shipping_discount', $shippingDiscount);
     }
 
@@ -162,7 +162,7 @@ class Details extends AbstractModel implements DetailsInterface
     public function setGiftWrap($giftWrap)
     {
         NumericValidator::validate($giftWrap, "Gift Wrap");
-        $giftWrap = Formatter::formatToPrice($giftWrap);
+        $giftWrap = Formatter::formatToPrice((float)$giftWrap);
         return $this->setData('gift_wrap', $giftWrap);
     }
 
@@ -187,7 +187,7 @@ class Details extends AbstractModel implements DetailsInterface
     public function setFee($fee)
     {
         NumericValidator::validate($fee, "Fee");
-        $fee = Formatter::formatToPrice($fee);
+        $fee = Formatter::formatToPrice((float)$fee);
         return $this->setData('fee', $fee);
     }
 

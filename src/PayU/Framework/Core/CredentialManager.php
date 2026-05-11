@@ -84,7 +84,7 @@ class CredentialManager
             $dot = strpos($key, '.');
 
             if (str_contains($key, "account")) {
-                $accounts[] = substr($key, 0, $dot);
+                $accounts[] = substr($key, 0, $dot === false ? null : $dot);
             }
         }
 
@@ -153,7 +153,7 @@ class CredentialManager
             $this->defaultAccountName = $key;
         }
 
-        return self::$instance;
+        return $this;
     }
 
     /**

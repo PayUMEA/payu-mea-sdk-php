@@ -53,17 +53,38 @@ class XMLHelper
         }
 
         $data = array();
-        $data[$xml['Stage']->getName()] = $xml['Stage']->__toString();
+        if (isset($xml['Stage'])) {
+            $data[$xml['Stage']->getName()] = $xml['Stage']->__toString();
+        }
 
         foreach ($xml as $element) {
             if ($element->children()) {
                 foreach ($element as $child) {
                     if ($child->attributes()) {
                         foreach ($child->attributes() as $key => $value) {
-                            $data[$element->getName()][$child->getName()][$key] = $value->__toString();
+                            /** @var array<string, mixed> $data */
+                            if (!isset($data[$element->getName()])) {
+                                $data[$element->getName()] = [];
+                            }
+                            $elementData = &$data[$element->getName()];
+                            if (is_array($elementData)) {
+                                if (!isset($elementData[$child->getName()])) {
+                                    $elementData[$child->getName()] = [];
+                                }
+                                $childData = &$elementData[$child->getName()];
+                                if (is_array($childData)) {
+                                    $childData[$key] = $value->__toString();
+                                }
+                            }
                         }
                     } else {
-                        $data[$element->getName()][$child->getName()] = $child->__toString();
+                        if (!isset($data[$element->getName()])) {
+                            $data[$element->getName()] = [];
+                        }
+                        $elementData = &$data[$element->getName()];
+                        if (is_array($elementData)) {
+                            $elementData[$child->getName()] = $child->__toString();
+                        }
                     }
                 }
             } else {
@@ -71,10 +92,10 @@ class XMLHelper
             }
         }
 
-        $data = json_encode($data);
+        $jsonData = json_encode($data);
 
-        if (JsonValidator::validate($data)) {
-            return json_decode($data);
+        if (is_string($jsonData) && JsonValidator::validate($jsonData)) {
+            return (object)json_decode($jsonData);
         }
 
         return false;
@@ -122,9 +143,9 @@ class XMLHelper
      * @param string $xml
      * @return string[]
      */
-    private function getXmlParts($xml)
+    private function getXmlParts(string $xml): array
     {
-        $withNewLines = preg_replace('/(>)(<)(\/*)/', "$1\n$2$3", trim($xml));
+        $withNewLines = (string)preg_replace('/(>)(<)(\/*)/', "$1\n$2$3", trim($xml));
         return explode("\n", $withNewLines);
     }
 

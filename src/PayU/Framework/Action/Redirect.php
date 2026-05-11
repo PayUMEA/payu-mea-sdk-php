@@ -22,7 +22,7 @@ use SoapFault;
  * Payment with redirect action.
  *
  * @package PayUSdk\Framework\Action
- * @extends BaseAction<string, mixed>
+ * 
  */
 class Redirect extends BaseAction
 {
@@ -46,7 +46,7 @@ class Redirect extends BaseAction
             ]
         );
 
-        $response->setPayURedirectUrl($this->getPayURedirectUrl($response));
+        $response->setPayURedirectUrl($this->getPayURedirectUrl($response) ?? '');
 
         return $response;
     }

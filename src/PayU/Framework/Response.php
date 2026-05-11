@@ -206,7 +206,9 @@ class Response extends AbstractModel implements ResponseInterface
      */
     public function getPaymentData(): array
     {
-        return self::toFlatArray($this->toArray());
+        /** @var array<string, mixed> $data */
+        $data = $this->toArray();
+        return self::toFlatArray($data);
     }
 
     /**

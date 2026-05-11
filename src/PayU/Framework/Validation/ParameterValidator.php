@@ -47,7 +47,7 @@ class ParameterValidator
     private array $getTransaction = array();
 
     /**
-     * @param DataObject<string, mixed> $resource
+     * @param DataObject $resource
      * @param string $methodName
      * @return void
      * @throws InvalidArgumentException|RequiredArgumentException
@@ -60,7 +60,9 @@ class ParameterValidator
         if (isset($properties['intent'])) {
             switch ($properties['intent']) {
                 case 'payment':
-                    $this->checkRequiredParameter(array_keys($properties), $params[$properties['intent']]);
+                    /** @var string[] $keys */
+                    $keys = (array)array_keys($properties);
+                    $this->checkRequiredParameter($keys, $params[$properties['intent']]);
                     break;
                 default:
                     throw new InvalidArgumentException('Unknown SOAP method action requested');

@@ -69,10 +69,17 @@ class Client
     public function doAction(string $methodName, array $payload, array $httpHeaders): array
     {
         $this->setHttpHeader($httpHeaders);
+        assert(self::$soapClient instanceof \SoapClient);
         self::$soapClient->__setSoapHeaders($this->getAuthHeader());
+        /** @var mixed $response */
         $response = self::$soapClient->$methodName($payload);
 
-        return json_decode(json_encode($response), true);
+        $json = json_encode($response);
+        if ($json === false) {
+             return [];
+        }
+
+        return (array)json_decode($json, true);
     }
 
     /**
@@ -97,11 +104,12 @@ class Client
     /**
      * SOAP Authentication header for SOAP client
      *
-     * @return SOAPHeader
+     * @return \SoapHeader
      */
-    private function getAuthHeader(): SOAPHeader
+    private function getAuthHeader(): \SoapHeader
     {
         $credential = $this->apiContext->getCredential();
+        assert($credential !== null);
 
         $header = '<wsse:Security SOAP-ENV:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">';
         $header .= '<wsse:UsernameToken wsu:Id="UsernameToken-9" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">';
@@ -110,9 +118,9 @@ class Client
         $header .= '</wsse:UsernameToken>';
         $header .= '</wsse:Security>';
 
-        $headerBody = new SoapVar($header, XSD_ANYXML, null, null, null);
+        $headerBody = new \SoapVar($header, XSD_ANYXML, null, null, null);
 
-        return new SOAPHeader(self::PAYU_NAMESPACE, 'Security', $headerBody, true);
+        return new \SoapHeader(self::PAYU_NAMESPACE, 'Security', $headerBody, true);
     }
 
     /**
@@ -120,10 +128,11 @@ class Client
      */
     public function debugLog(): string
     {
-        $string = "\n\n" . "SOAP CALL REQUEST HEADERS: \n" . $this->prettyPrintXml(self::$soapClient->__getLastRequestHeaders());
-        $string .= "\n\n" . "SOAP CALL REQUEST: \n" . $this->prettyPrintXml(self::$soapClient->__getLastRequest());
-        $string .= "\n\n" . "SOAP CALL RESPONSE HEADERS: \n" . $this->prettyPrintXml(self::$soapClient->__getLastResponseHeaders());
-        $string .= "\n\n" . "SOAP CALL RESPONSE: \n" . $this->prettyPrintXml(self::$soapClient->__getLastResponse());
+        assert(self::$soapClient instanceof \SoapClient);
+        $string = "\n\n" . "SOAP CALL REQUEST HEADERS: \n" . $this->prettyPrintXml((string)self::$soapClient->__getLastRequestHeaders());
+        $string .= "\n\n" . "SOAP CALL REQUEST: \n" . $this->prettyPrintXml((string)self::$soapClient->__getLastRequest());
+        $string .= "\n\n" . "SOAP CALL RESPONSE HEADERS: \n" . $this->prettyPrintXml((string)self::$soapClient->__getLastResponseHeaders());
+        $string .= "\n\n" . "SOAP CALL RESPONSE: \n" . $this->prettyPrintXml((string)self::$soapClient->__getLastResponse());
         $string .= "\n\n";
 
         return $string;

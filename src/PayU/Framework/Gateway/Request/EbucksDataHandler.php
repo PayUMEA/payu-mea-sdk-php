@@ -38,6 +38,10 @@ class EbucksDataHandler implements BuilderInterface
             /** @var \PayUSdk\Model\Customer $customer */
             $ebucks = $customer->getFundingInstrument()->getEbucks();
 
+            if ($ebucks === null) {
+                return [];
+            }
+
             $data = match ($ebucks->getAction()) {
                 EbucksInterface::AUTHENTICATE_ACCOUNT => [
                     'Customfield' => [

@@ -11,33 +11,35 @@ namespace PayUSdk\Framework\Action;
 use PayUSdk\Api\ActionInterface;
 use PayUSdk\Api\AdapterInterface;
 use PayUSdk\Api\ResponseInterface;
-use PayUSdk\Framework\Data\DataObject;
 use PayUSdk\Framework\Adapter;
+use PayUSdk\Framework\Data\DataObject;
 use PayUSdk\Framework\Exception\ConfigurationException;
 use PayUSdk\Framework\Exception\InvalidCredentialException;
+use PayUSdk\Framework\Soap\Context;
 use SoapFault;
 
 /**
  * Class BaseAction
  *
- * Base class of all actions requested by the client
- *
- * @package PayUSdk\Framework\Adapter
- * @template TKey of string
- * @template TValue
- * @extends DataObject<TKey, TValue>
+ * @package PayUSdk\Framework\Action
+ * 
  */
 abstract class BaseAction extends DataObject implements ActionInterface
 {
     /**
+     * @var AdapterInterface
+     */
+    protected AdapterInterface $adapter;
+
+    /**
      * @param ?AdapterInterface $adapter
-     * @param array<TKey, TValue> $data
+     * @param array<string, mixed> $data
      */
     public function __construct(
-        protected ?AdapterInterface $adapter = null,
+        ?AdapterInterface $adapter = null,
         array $data = []
     ) {
-        $this->adapter = $this->adapter ?? new Adapter();
+        $this->adapter = $adapter ?? new Adapter();
 
         parent::__construct($data);
     }
@@ -51,10 +53,7 @@ abstract class BaseAction extends DataObject implements ActionInterface
      */
     public function execute(string $action): ResponseInterface
     {
-        /** @var AdapterInterface $adapter */
-        $adapter = $this->adapter;
-
-        return $adapter->create(
+        return $this->adapter->create(
             [
                 'subject' => $this,
                 'action' => $action,

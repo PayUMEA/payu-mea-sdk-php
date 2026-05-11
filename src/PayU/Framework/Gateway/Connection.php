@@ -29,6 +29,11 @@ class Connection implements ConnectionInterface
     private LoggingManager $logger;
 
     /**
+     * @var BuilderComposite
+     */
+    protected BuilderComposite $requestBuilder;
+
+    /**
      * Default Constructor
      *
      * @param Context $context
@@ -39,14 +44,14 @@ class Connection implements ConnectionInterface
     public function __construct(
         protected readonly Context $context,
         protected readonly Config  $config,
-        protected ?BuilderComposite $requestBuilder = null
+        ?BuilderComposite $requestBuilder = null
     ) {
         if (!extension_loaded("soap")) {
             throw new ConfigurationException("SOAP extension is not available/enabled on the server");
         }
 
         $this->logger = LoggingManager::getInstance();
-        $this->requestBuilder = $this->requestBuilder ?? new BuilderComposite();
+        $this->requestBuilder = $requestBuilder ?? new BuilderComposite();
     }
 
     /**
@@ -80,10 +85,13 @@ class Connection implements ConnectionInterface
             $this->logger->debug($header);
         }
 
+        $credential = $context->getCredential();
+        assert($credential !== null);
+
         $payload = array_merge(
             [
                 'Api' => Client::API_VERSION,
-                'Safekey' => $context->getCredential()->getSafekey(),
+                'Safekey' => $credential->getSafekey(),
             ],
             $payload
         );

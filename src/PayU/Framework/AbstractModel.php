@@ -18,7 +18,7 @@ use PayUSdk\Framework\Data\DataObject;
  * JSON encoding/decoding and array traversal
  *
  * @package PayUSdk\Framework
- * @extends DataObject<string, mixed>
+ * 
  */
 class AbstractModel extends DataObject
 {

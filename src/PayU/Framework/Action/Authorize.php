@@ -14,7 +14,7 @@ namespace PayUSdk\Framework\Action;
  * An authorization action with or without redirect to payment gateway.
  *
  * @package PayUSdk\Framework\Action
- * @extends BaseAction<string, mixed>
+ * 
  */
 class Authorize extends BaseAction
 {

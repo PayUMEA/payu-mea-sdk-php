@@ -275,7 +275,7 @@ class Config
 
         if (isset($urlParts["user"])) {
             $this->soapOptions['proxy_login'] = $urlParts["user"];
-            $this->soapOptions['proxy_password'] = $urlParts["pass"];
+            $this->soapOptions['proxy_password'] = $urlParts["pass"] ?? '';
         }
     }
 

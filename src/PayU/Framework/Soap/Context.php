@@ -87,9 +87,11 @@ class Context
         $result = ConfigManager::getInstance()->get('http.headers');
         $headers = [];
 
-        foreach ($result as $header => $value) {
-            $headerName = ltrim($header, 'http.headers');
-            $headers[$headerName] = $value;
+        if (is_iterable($result)) {
+            foreach ($result as $header => $value) {
+                $headerName = ltrim((string)$header, 'http.headers');
+                $headers[$headerName] = $value;
+            }
         }
 
         return $headers;
@@ -199,7 +201,12 @@ class Context
      */
     public function get(string $searchKey): string|array
     {
-        return ConfigManager::getInstance()->get($searchKey);
+        $result = ConfigManager::getInstance()->get($searchKey);
+        if (is_bool($result)) {
+            return '';
+        }
+        /** @var array<string, mixed>|string $result */
+        return $result;
     }
 
     /**

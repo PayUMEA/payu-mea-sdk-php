@@ -135,19 +135,22 @@ class ConfigManager
             $arr = [];
 
             foreach ($this->configs as $key => $value) {
-                $pos = strpos($key, '.');
+                $pos = strpos((string)$key, '.');
 
-                if (str_contains($key, "acct")) {
-                    $arr[] = substr($key, 0, $pos);
+                if (str_contains((string)$key, "acct") && $pos !== false) {
+                    $arr[] = substr((string)$key, 0, $pos);
                 }
             }
 
             return array_unique($arr);
         } else {
             $iniPrefix = array_search($accountId, $this->configs);
-            $pos = strpos($iniPrefix, '.');
+            if ($iniPrefix === false) {
+                return '';
+            }
+            $pos = strpos((string)$iniPrefix, '.');
 
-            return substr($iniPrefix, 0, $pos);
+            return substr((string)$iniPrefix, 0, $pos === false ? null : $pos);
         }
     }
 

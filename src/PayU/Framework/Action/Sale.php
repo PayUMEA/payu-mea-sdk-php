@@ -20,7 +20,7 @@ use SoapFault;
  * Payment/Sale action.
  *
  * @package PayUSdk\Framework\Action
- * @extends BaseAction<string, mixed>
+ * 
  */
  class Sale extends BaseAction
  implements ActionInterface
@@ -53,6 +53,7 @@ use SoapFault;
      */
     protected function getEftProUrl(ResponseInterface $response): string
     {
+        assert($response instanceof \PayUSdk\Framework\Data\DataObject);
         return isset($response['redirect']) ? $response['redirect']['url'] : '';
     }
 }

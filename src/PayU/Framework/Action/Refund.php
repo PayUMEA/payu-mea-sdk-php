@@ -14,7 +14,7 @@ namespace PayUSdk\Framework\Action;
  * Refund action.
  *
  * @package PayUSdk\Framework\Action
- * @extends BaseAction<string, mixed>
+ * 
  */
 class Refund extends BaseAction
 {

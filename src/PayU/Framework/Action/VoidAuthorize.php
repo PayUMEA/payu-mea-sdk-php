@@ -14,7 +14,7 @@ namespace PayUSdk\Framework\Action;
  * Void an authorize action.
  *
  * @package PayUSdk\Framework\Action
- * @extends BaseAction<string, mixed>
+ * 
  */
 class VoidAuthorize extends BaseAction
 {
