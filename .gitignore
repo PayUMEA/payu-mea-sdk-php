@@ -1,10 +1,11 @@
-/vendor/
-/.idea/
-/samples/*.log
-/build/
+vendor/
+.idea/
+samples/*.log
+build/
 clover.xml
-/build.php
+build.php
 sample_ipn
 *.log
 phpstan*
 !phpstan.neon
+.phpunit.result.cache

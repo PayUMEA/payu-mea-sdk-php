@@ -1,33 +1,30 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: kenny
- * Date: 12/19/16
- * Time: 12:18 PM
+ * Copyright © 2026 PayU Financial Services. All rights reserved.
+ * See COPYING.txt for license details.
  */
 
 namespace PayU\Test\Api;
 
-use PayUSdk\Api\Currency;
+use PayUSdk\Model\Currency;
 
-class CurrencyTest extends \PHPUnit_Framework_TestCase
+class CurrencyTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Gets Object Instance with Json data filled in
+     * Gets Object Instance
      * @return Currency
      */
     public static function getObject()
     {
-        return new Currency(self::getJson());
+        return new Currency(self::getData());
     }
 
     /**
-     * Gets Json String of Object Amount
-     * @return string
+     * @return array
      */
-    public static function getJson()
+    public static function getData()
     {
-        return '{"currency":"TestSample","value":"12.34"}';
+        return ["code" => "ZAR"];
     }
 
     /**
@@ -36,21 +33,29 @@ class CurrencyTest extends \PHPUnit_Framework_TestCase
      */
     public function testSerializationDeserialization()
     {
-        $obj = new Currency(self::getJson());
-        $this->assertNotNull($obj);
-        $this->assertNotNull($obj->getCurrency());
-        $this->assertNotNull($obj->getValue());
-        $this->assertEquals(self::getJson(), $obj->toJson());
-        return $obj;
+        $currency = new Currency(self::getData());
+        $this->assertNotNull($currency);
+        $this->assertNotNull($currency->getCode());
+        $this->assertEquals(self::getObject(), $currency);
+        return $currency;
     }
 
     /**
      * @depends testSerializationDeserialization
-     * @param Currency $obj
+     * @param Currency $currency
      */
-    public function testGetters($obj)
+    public function testGetters(Currency $currency)
     {
-        $this->assertEquals($obj->getCurrency(), "TestSample");
-        $this->assertEquals($obj->getValue(), "12.34");
+        $this->assertEquals($currency->getCode(), "ZAR");
+    }
+
+    /**
+     * @depends testSerializationDeserialization
+     * @param Currency $currency
+     */
+    public function testSetters(Currency $currency)
+    {
+        $currency->setCode("NGN");
+        $this->assertEquals($currency->getCode(), "NGN");
     }
 }

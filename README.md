@@ -32,7 +32,7 @@ require_once('vendor/autoload.php');
 The bindings require the following extension in order to work properly:
 
 - [`soap`](https://php.net/manual/en/book.soap.php)
-- [`openssl`](http://php.net/manual/en/book.openssl.php)
+- [`xml`](http://php.net/manual/en/book.xml.php)
 - [`json`](https://php.net/manual/en/book.json.php)
 - [`mbstring`](http://php.net/manual/en/book.mbstring.php)
 
