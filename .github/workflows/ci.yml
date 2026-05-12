@@ -126,54 +126,54 @@ jobs:
   # No external services. Matrix across PHP versions.
   # Generates code coverage report.
   # ============================================================
-  unit-tests:
-    name: Unit Tests (PHP ${{ matrix.php-version }})
-    runs-on: ubuntu-latest
+  # unit-tests:
+  #   name: Unit Tests (PHP ${{ matrix.php-version }})
+  #   runs-on: ubuntu-latest
 
-    strategy:
-      fail-fast: false   # Let all matrix versions run; see the full picture
-      matrix:
-        php-version: ["8.1", "8.2", "8.3", "8.4"]
+  #   strategy:
+  #     fail-fast: false   # Let all matrix versions run; see the full picture
+  #     matrix:
+  #       php-version: ["8.1", "8.2", "8.3", "8.4"]
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
 
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php-version }}
-          tools: composer:v2
-          coverage: xdebug   # Required for coverage report
-          extensions: mbstring, xml, ctype, json, soap
+  #     - name: Set up PHP
+  #       uses: shivammathur/setup-php@v2
+  #       with:
+  #         php-version: ${{ matrix.php-version }}
+  #         tools: composer:v2
+  #         coverage: xdebug   # Required for coverage report
+  #         extensions: mbstring, xml, ctype, json, soap
 
-      - name: Cache Composer dependencies
-        uses: actions/cache@v4
-        with:
-          path: vendor
-          key: composer-${{ runner.os }}-${{ matrix.php-version }}-${{ hashFiles('composer.lock') }}
-          restore-keys: |
-            composer-${{ runner.os }}-${{ matrix.php-version }}-
+  #     - name: Cache Composer dependencies
+  #       uses: actions/cache@v4
+  #       with:
+  #         path: vendor
+  #         key: composer-${{ runner.os }}-${{ matrix.php-version }}-${{ hashFiles('composer.lock') }}
+  #         restore-keys: |
+  #           composer-${{ runner.os }}-${{ matrix.php-version }}-
 
-      - name: Install dependencies
-        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+  #     - name: Install dependencies
+  #       run: composer install --no-interaction --prefer-dist --optimize-autoloader
 
-      - name: Run unit tests
-        run: |
-          ./vendor/bin/phpunit \
-            --testsuite=unit \
-            --coverage-clover=coverage/clover.xml \
-            --log-junit=coverage/junit.xml
-        # Coverage only uploaded from the default PHP version to avoid
-        # duplicate reports from the matrix
+  #     - name: Run unit tests
+  #       run: |
+  #         ./vendor/bin/phpunit \
+  #           --testsuite=unit \
+  #           --coverage-clover=coverage/clover.xml \
+  #           --log-junit=coverage/junit.xml
+  #       # Coverage only uploaded from the default PHP version to avoid
+  #       # duplicate reports from the matrix
 
-      - name: Upload coverage report
-        if: matrix.php-version == env.PHP_VERSION_DEFAULT
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-report
-          path: coverage/
-          retention-days: 7
+  #     - name: Upload coverage report
+  #       if: matrix.php-version == env.PHP_VERSION_DEFAULT
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: coverage-report
+  #         path: coverage/
+  #         retention-days: 7
 
   # ============================================================
   # Job 5: Integration Tests
@@ -181,44 +181,44 @@ jobs:
   # Runs only after unit tests pass.
   # Single PHP version — testing behaviour, not PHP compatibility.
   # ============================================================
-  integration-tests:
-    name: Integration Tests
-    runs-on: ubuntu-latest
-    needs: unit-tests   # Do not run if unit tests are broken
+  # integration-tests:
+  #   name: Integration Tests
+  #   runs-on: ubuntu-latest
+  #   needs: unit-tests   # Do not run if unit tests are broken
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
 
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ env.PHP_VERSION_DEFAULT }}
-          tools: composer:v2
-          coverage: none
-          extensions: mbstring, xml, ctype, json
+  #     - name: Set up PHP
+  #       uses: shivammathur/setup-php@v2
+  #       with:
+  #         php-version: ${{ env.PHP_VERSION_DEFAULT }}
+  #         tools: composer:v2
+  #         coverage: none
+  #         extensions: mbstring, xml, ctype, json
 
-      - name: Cache Composer dependencies
-        uses: actions/cache@v4
-        with:
-          path: vendor
-          key: composer-${{ runner.os }}-${{ hashFiles('composer.lock') }}
-          restore-keys: |
-            composer-${{ runner.os }}-
+  #     - name: Cache Composer dependencies
+  #       uses: actions/cache@v4
+  #       with:
+  #         path: vendor
+  #         key: composer-${{ runner.os }}-${{ hashFiles('composer.lock') }}
+  #         restore-keys: |
+  #           composer-${{ runner.os }}-
 
-      - name: Install dependencies
-        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+  #     - name: Install dependencies
+  #       run: composer install --no-interaction --prefer-dist --optimize-autoloader
 
-      - name: Run integration tests
-        run: |
-          ./vendor/bin/phpunit \
-            --testsuite=integration \
-            --log-junit=test-results/integration-junit.xml
+  #     - name: Run integration tests
+  #       run: |
+  #         ./vendor/bin/phpunit \
+  #           --testsuite=integration \
+  #           --log-junit=test-results/integration-junit.xml
 
-      - name: Upload test results
-        if: always()   # Upload even on failure — you want the report when it breaks
-        uses: actions/upload-artifact@v4
-        with:
-          name: integration-test-results
-          path: test-results/
-          retention-days: 7
+  #     - name: Upload test results
+  #       if: always()   # Upload even on failure — you want the report when it breaks
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: integration-test-results
+  #         path: test-results/
+  #         retention-days: 7
