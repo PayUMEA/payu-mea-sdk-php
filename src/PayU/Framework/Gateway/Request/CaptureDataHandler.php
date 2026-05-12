@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -30,7 +31,7 @@ class CaptureDataHandler implements BuilderInterface
     {
         $transactionType = $buildSubject['subject']->getTransactionType();
         $customer = $buildSubject['subject']->getCustomer();
-        $transaction = $buildSubject['subject']->getTransaction();;
+        $transaction = $buildSubject['subject']->getTransaction();
         $total = $transaction->getTotal();
         $amount = Formatter::formatToInteger((float)$total->getAmount());
         $payuReference = $buildSubject['subject']->getPayUReference();
@@ -47,7 +48,6 @@ class CaptureDataHandler implements BuilderInterface
                 'amountInCents' => $amount
             ],
         ];
-
 
         if ($transactionType === TransactionInterface::TYPE_FINALIZE) {
             $paymentMethod = $customer->getPaymentMethod();

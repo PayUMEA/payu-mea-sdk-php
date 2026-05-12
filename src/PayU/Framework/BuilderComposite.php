@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -95,8 +96,7 @@ class BuilderComposite implements BuilderInterface
      */
     public function __construct(
         array $builders = []
-    )
-    {
+    ) {
         $this->builders = array_merge($this->builders, $builders);
     }
 

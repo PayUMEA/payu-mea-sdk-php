@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -23,19 +24,19 @@ interface CardTokenInterface
     /*
      * Token id.
      */
-    const ID = 'id';
+    public const ID = 'id';
     /*
      * Last four digits.
      */
-    const LAST_FOUR = 'last_four';
+    public const LAST_FOUR = 'last_four';
     /*
      * Card type.
      */
-    const TYPE = 'type';
+    public const TYPE = 'type';
     /*
      * Last four digits.
      */
-    const CVV = 'cvv';
+    public const CVV = 'cvv';
 
     /**
      * ID of credit card previously stored using `storePaymentMethod` parameter set to `true`.

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -23,7 +24,7 @@ use SoapFault;
  *
  * An executable operation such as payment, refund, capture etc.
  * @package PayUSdk\Framework
- * 
+ *
  */
 class Adapter extends DataObject implements AdapterInterface
 {

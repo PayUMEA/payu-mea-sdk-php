@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -18,7 +19,7 @@ use PayUSdk\Framework\Data\DataObject;
  * JSON encoding/decoding and array traversal
  *
  * @package PayUSdk\Framework
- * 
+ *
  */
 class AbstractModel extends DataObject
 {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -23,15 +24,15 @@ interface PhoneInterface
     /*
      * Country code.
      */
-    const COUNTRY_CODE = 'country_code';
+    public const COUNTRY_CODE = 'country_code';
     /*
      * Country code.
      */
-    const NATIONAL_NUMBER = 'national_number';
+    public const NATIONAL_NUMBER = 'national_number';
     /*
      * Country code.
      */
-    const EXTENSION = 'extension';
+    public const EXTENSION = 'extension';
 
     /**
      * @return string Phone number country code.

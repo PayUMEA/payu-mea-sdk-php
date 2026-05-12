@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -25,11 +26,11 @@ interface CartInterface
     /*
      * Total.
      */
-    const TOTAL = 'total';
+    public const TOTAL = 'total';
     /*
      * Cart items.
      */
-    const ITEMS = 'items';
+    public const ITEMS = 'items';
 
     /**
      * @return float Total amount

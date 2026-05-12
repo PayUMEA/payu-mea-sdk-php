@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -23,31 +24,31 @@ interface CreditCardInterface extends CardInterface
     /*
      * Number.
      */
-    const NUMBER = 'number';
+    public const NUMBER = 'number';
     /*
      * Cvv.
      */
-    const NAME_ON_CARD = 'name_on_card';
+    public const NAME_ON_CARD = 'name_on_card';
     /*
      * Expire month.
      */
-    const EXPIRY_MONTH = 'expiry_month';
+    public const EXPIRY_MONTH = 'expiry_month';
     /*
      * Expire year.
      */
-    const EXPIRY_YEAR = 'expiry_year';
+    public const EXPIRY_YEAR = 'expiry_year';
     /*
      * Cvv.
      */
-    const CVV = 'cvv';
+    public const CVV = 'cvv';
     /*
      * Budget.
      */
-    const BUDGET = 'budget';
+    public const BUDGET = 'budget';
     /*
      * Secure 3DS.
      */
-    const SECURE3D = 'secure_3d';
+    public const SECURE3D = 'secure_3d';
 
     /**
      * @return string

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -17,14 +18,14 @@ use PayUSdk\Framework\AbstractModel;
  */
 class PaymentMethod extends AbstractModel
 {
-    const TYPE_CREDITCARD = 'CREDITCARD';
-    const TYPE_DEBIT_ORDER = 'DEBIT_ORDER';
-    const TYPE_EFT_PRO = 'EFT_PRO';
-    const TYPE_SMARTEFT = 'SMARTEFT';
-    const TYPE_EBUCKS = 'EBUCKS';
-    const TYPE_CREDITCARD_TOKEN = 'CREDITCARD_TOKEN';
-    const TYPE_DISCOVERYMILES = 'DISCOVERYMILES';
-    const TYPE_REAL_TIME_RECURRING = 'REAL_TIME_RECURRING';
+    public const TYPE_CREDITCARD = 'CREDITCARD';
+    public const TYPE_DEBIT_ORDER = 'DEBIT_ORDER';
+    public const TYPE_EFT_PRO = 'EFT_PRO';
+    public const TYPE_SMARTEFT = 'SMARTEFT';
+    public const TYPE_EBUCKS = 'EBUCKS';
+    public const TYPE_CREDITCARD_TOKEN = 'CREDITCARD_TOKEN';
+    public const TYPE_DISCOVERYMILES = 'DISCOVERYMILES';
+    public const TYPE_REAL_TIME_RECURRING = 'REAL_TIME_RECURRING';
 
     /**
      * The payment method id. This is in the form of a token
@@ -46,8 +47,9 @@ class PaymentMethod extends AbstractModel
     public function getId()
     {
         $id = $this->getData('id');
-        if ($id)
+        if ($id) {
             return $id;
+        }
 
         return $this->getData('pm_id');
     }
@@ -317,4 +319,3 @@ class PaymentMethod extends AbstractModel
         return $this->getData('ebucks_token');
     }
 }
-

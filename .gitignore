@@ -8,3 +8,5 @@ sample_ipn
 *.log
 phpstan*
 !phpstan.neon
+.phpunit.result.cache
+.php-cs-fixer.cache

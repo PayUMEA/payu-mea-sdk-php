@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -23,15 +24,15 @@ interface TransactionUrlInterface
     /*
      * PayU response url.
      */
-    const RESPONSE_URL = 'return_url';
+    public const RESPONSE_URL = 'return_url';
     /*
      * PayU Cancel url.
      */
-    const CANCEL_URL = 'cancel_url';
+    public const CANCEL_URL = 'cancel_url';
     /*
      * PayU Instant Payment Notification (IPN) url.
      */
-    const NOTIFICATION_URL = 'notification_url';
+    public const NOTIFICATION_URL = 'notification_url';
 
     /**
      * Url where the customer should be redirected to after approving the payment

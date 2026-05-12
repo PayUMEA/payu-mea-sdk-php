@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -11,9 +12,6 @@ namespace PayUSdk\Framework\Action;
 use PayUSdk\Api\ResponseInterface;
 use PayUSdk\Framework\Exception\ConfigurationException;
 use PayUSdk\Framework\Exception\InvalidCredentialException;
-use PayUSdk\Framework\Soap\Context;
-use PayUSdk\Framework\Gateway\Command;
-use ReflectionException;
 use SoapFault;
 
 /**
@@ -22,11 +20,11 @@ use SoapFault;
  * Payment with redirect action.
  *
  * @package PayUSdk\Framework\Action
- * 
+ *
  */
 class Redirect extends BaseAction
 {
-    const REDIRECT_URL = 'https://%s.payu.co.za/rpp.do?PayUReference=%s';
+    public const REDIRECT_URL = 'https://%s.payu.co.za/rpp.do?PayUReference=%s';
 
     /**
      * @param string $action

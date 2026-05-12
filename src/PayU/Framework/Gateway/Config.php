@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -19,7 +20,7 @@ use PayUSdk\Framework\Exception\ConfigurationException;
  */
 class Config
 {
-    const HEADER_SEPARATOR = ';';
+    public const HEADER_SEPARATOR = ';';
 
     /**
      * Some default options for SOAPClient
@@ -66,7 +67,7 @@ class Config
         $this->soapOptions = $this->getHttpConstantsFromConfigs(
             'http.',
             $configs
-            ) + $this->defaultSoapClientOptions;
+        ) + $this->defaultSoapClientOptions;
     }
 
     /**
@@ -139,7 +140,7 @@ class Config
      * @param array<string, mixed> $headers
      * @return void
      */
-    public function setHeaders(array $headers = array()): void
+    public function setHeaders(array $headers = []): void
     {
         $this->headers = $headers;
     }

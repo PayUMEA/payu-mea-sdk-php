@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -8,7 +9,6 @@ declare(strict_types=1);
 
 namespace PayUSdk\Framework\Data;
 
-use ArrayAccess;
 use InvalidArgumentException;
 use PayUSdk\Framework\Exception\LocalizedException;
 use PayUSdk\Framework\Serialize\JsonConverter;
@@ -448,8 +448,7 @@ class DataObject implements \ArrayAccess
         string $valueSeparator = '=',
         string $fieldSeparator = ' ',
         string $quote = '"'
-    ): string
-    {
+    ): string {
         $data = [];
 
         if (empty($keys)) {

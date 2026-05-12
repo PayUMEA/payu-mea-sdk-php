@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -24,7 +25,7 @@ class Json implements SerializerInterface
      */
     public function serialize(float|array|bool|int|string|null $data): string
     {
-        $result = json_encode($data, 128|64);
+        $result = json_encode($data, 128 | 64);
 
         if (false === $result) {
             throw new InvalidArgumentException("Unable to serialize value. Error: " . json_last_error_msg());
@@ -47,4 +48,3 @@ class Json implements SerializerInterface
         return $result;
     }
 }
-

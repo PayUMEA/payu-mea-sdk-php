@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -19,7 +20,7 @@ use SoapFault;
  * A capture action.
  *
  * @package PayUSdk\Framework\Action
- * 
+ *
  */
 class Capture extends BaseAction
 {

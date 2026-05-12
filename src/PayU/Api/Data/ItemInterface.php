@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -23,27 +24,27 @@ interface ItemInterface
     /*
      * Item name.
      */
-    const NAME = 'name';
+    public const NAME = 'name';
     /*
      * Item SKU.
      */
-    const SKU = 'sku';
+    public const SKU = 'sku';
     /*
      * Item quantity.
      */
-    const QUANTITY = 'quantity';
+    public const QUANTITY = 'quantity';
     /*
      * Item price.
      */
-    const PRICE = 'price';
+    public const PRICE = 'price';
     /*
      * Item cost price.
      */
-    const COST_PRICE = 'cost_price';
+    public const COST_PRICE = 'cost_price';
     /*
      * Item total.
      */
-    const TOTAL = 'total';
+    public const TOTAL = 'total';
 
     /**
      * @return string Item name

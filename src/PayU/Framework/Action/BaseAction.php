@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -15,14 +16,13 @@ use PayUSdk\Framework\Adapter;
 use PayUSdk\Framework\Data\DataObject;
 use PayUSdk\Framework\Exception\ConfigurationException;
 use PayUSdk\Framework\Exception\InvalidCredentialException;
-use PayUSdk\Framework\Soap\Context;
 use SoapFault;
 
 /**
  * Class BaseAction
  *
  * @package PayUSdk\Framework\Action
- * 
+ *
  */
 abstract class BaseAction extends DataObject implements ActionInterface
 {

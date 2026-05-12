@@ -1,19 +1,17 @@
 <?php
+
 /**
- * PayU MEA PHP SDK
- *
- * @copyright  Copyright (c) 2016 PayU
- * @license    http://opensource.org/licenses/LGPL-3.0  Open Software License (LGPL 3.0)
- * @link http://www.payu.co.za
- * @link http://help.payu.co.za/developers
- * @author Kenneth Onah <kenneth@netcraft-devops.com>
+ * Copyright © 2023 PayU Financial Services. All rights reserved.
+ * See LICENSE for license details.
  */
+
+declare(strict_types=1);
 
 namespace PayUSdk\Framework\Validation;
 
+use PayUSdk\Framework\Data\DataObject;
 use PayUSdk\Framework\Exception\InvalidArgumentException;
 use PayUSdk\Framework\Exception\RequiredArgumentException;
-use PayUSdk\Framework\Data\DataObject;
 
 /**
  * Class ParameterValidator
@@ -25,26 +23,26 @@ class ParameterValidator
     /**
      * @var array<string, string[]>
      */
-    private array $doTransaction = array(
-        'payment' => array('intent', 'customer', 'transaction', 'redirect_urls'),
-        'reserve' => array(),
-        'credit' => array(),
-        'reserve_cancel' => array(),
-        'finalize' => array()
-    );
+    private array $doTransaction = [
+        'payment' => ['intent', 'customer', 'transaction', 'redirect_urls'],
+        'reserve' => [],
+        'credit' => [],
+        'reserve_cancel' => [],
+        'finalize' => []
+    ];
 
     /**
      * @var array<string, string[]>
      */
-    private array $setTransaction = array(
-        'payment' => array('intent', 'customer', 'transaction', 'redirect_urls'),
-        'reserve' => array('intent', 'customer', 'transaction', 'redirect_urls')
-    );
+    private array $setTransaction = [
+        'payment' => ['intent', 'customer', 'transaction', 'redirect_urls'],
+        'reserve' => ['intent', 'customer', 'transaction', 'redirect_urls']
+    ];
 
     /**
      * @var array<string, string[]>
      */
-    private array $getTransaction = array();
+    private array $getTransaction = [];
 
     /**
      * @param DataObject $resource
@@ -78,7 +76,8 @@ class ParameterValidator
      */
     private function checkRequiredParameter(array $properties, array $params): void
     {
-        if ($properties != $params)
+        if ($properties != $params) {
             throw new RequiredArgumentException('One of the required parameter is missing: ' . implode(', ', $params));
+        }
     }
 }

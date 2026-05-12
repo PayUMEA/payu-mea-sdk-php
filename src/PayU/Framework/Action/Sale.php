@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -20,10 +21,9 @@ use SoapFault;
  * Payment/Sale action.
  *
  * @package PayUSdk\Framework\Action
- * 
+ *
  */
- class Sale extends BaseAction
- implements ActionInterface
+class Sale extends BaseAction implements ActionInterface
 {
     /**
      * @param string $action

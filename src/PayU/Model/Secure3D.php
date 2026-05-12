@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -52,4 +53,3 @@ class Secure3D extends AbstractModel implements Secure3DInterface
         return $this->setData(Secure3DInterface::secure_3d_url, $url);
     }
 }
-

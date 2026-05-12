@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -17,10 +18,10 @@ namespace PayUSdk\Api\Data;
  */
 interface CardInterface
 {
-    const TYPE_VISA = 'VISA';
-    const TYPE_MASTERCARD = 'MASTERCARD';
-    const TYPE_MAESTRO = 'MAESTRO';
-    const TYPE_DISCOVERYMILES = 'DISCOVERYMILES';
+    public const TYPE_VISA = 'VISA';
+    public const TYPE_MASTERCARD = 'MASTERCARD';
+    public const TYPE_MAESTRO = 'MAESTRO';
+    public const TYPE_DISCOVERYMILES = 'DISCOVERYMILES';
 
     /**#@+
      * Constants for keys of data array. Identical to the name of the getter in snake case.
@@ -28,15 +29,15 @@ interface CardInterface
     /*
      * Id.
      */
-    const ID = 'id';
+    public const ID = 'id';
     /*
      * Type.
      */
-    const TYPE = 'type';
+    public const TYPE = 'type';
     /*
      * Billing address.
      */
-    const BILLING_ADDRESS = 'billing_address';
+    public const BILLING_ADDRESS = 'billing_address';
 
     /**
      * @return string Card id

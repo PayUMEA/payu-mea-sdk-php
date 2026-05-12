@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -23,11 +24,11 @@ interface Secure3DInterface
     /*
      * Id.
      */
-    const secure_3d_id = 'secure_3d_id';
+    public const secure_3d_id = 'secure_3d_id';
     /*
      * Url.
      */
-    const secure_3d_url = 'secure_3d_url';
+    public const secure_3d_url = 'secure_3d_url';
 
     /**
      * @return string Secure 3D id

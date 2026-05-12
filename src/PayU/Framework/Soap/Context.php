@@ -1,33 +1,29 @@
 <?php
+
 /**
- * PayU MEA PHP SDK
- *
- * @copyright  Copyright (c) 2016 PayU
- * @license    http://opensource.org/licenses/LGPL-3.0  Open Software License (LGPL 3.0)
- * @link http://www.payu.co.za
- * @link http://help.payu.co.za/developers
- * @author Kenneth Onah <kenneth@netcraft-devops.com>
+ * Copyright © 2023 PayU Financial Services. All rights reserved.
+ * See LICENSE for license details.
  */
+
+declare(strict_types=1);
 
 namespace PayUSdk\Framework\Soap;
 
 use Exception;
+use PayUSdk\Framework\Authentication;
 use PayUSdk\Framework\Core\ConfigManager;
 use PayUSdk\Framework\Core\CredentialManager;
-use PayUSdk\Framework\Authentication;
 use PayUSdk\Framework\Exception\InvalidCredentialException;
 
 /**
- * Class Context
- *
- * Call level parameters such as credentials, request-id etc
+ * SDK level parameters such as credentials, request-id etc
  *
  * @package PayU\Soap
  */
 class Context
 {
-    const ENTERPRISE = 'enterprise';
-    const REDIRECT = 'redirect';
+    public const ENTERPRISE = 'enterprise';
+    public const REDIRECT = 'redirect';
 
     /**
      * Unique request id to be used for this call
@@ -52,7 +48,6 @@ class Context
      * @var string
      */
     private string $accountId = '';
-
 
     /**
      * Construct

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -23,7 +24,7 @@ interface CurrencyInterface
     /*
      * Total.
      */
-    const CODE = 'code';
+    public const CODE = 'code';
 
     /**
      * @return string Currency code in ISO format

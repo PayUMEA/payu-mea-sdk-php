@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -10,7 +11,6 @@ namespace PayUSdk\Model;
 
 use PayUSdk\Api\Data\ItemInterface;
 use PayUSdk\Framework\AbstractModel;
-use PayUSdk\Framework\Formatter;
 
 /**
  * Class Item

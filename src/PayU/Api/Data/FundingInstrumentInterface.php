@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -23,23 +24,23 @@ interface FundingInstrumentInterface
     /*
      * Save card.
      */
-    const SAVE_CARD = 'save_card';
+    public const SAVE_CARD = 'save_card';
     /*
      * Credit card.
      */
-    const CREDIT_CARD = 'credit_card';
+    public const CREDIT_CARD = 'credit_card';
     /*
      * Electronic Funds Transfer (EFT).
      */
-    const EFT = 'eft';
+    public const EFT = 'eft';
     /*
      * eBucks rewards card.
      */
-    const EBUCKS = 'ebucks';
+    public const EBUCKS = 'ebucks';
     /*
      * Saved credit card token.
      */
-    const CARD_TOKEN = 'card_token';
+    public const CARD_TOKEN = 'card_token';
 
     /**
      * @return bool Save credit card.

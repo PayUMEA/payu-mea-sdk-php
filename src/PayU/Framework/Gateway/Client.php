@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -12,8 +13,6 @@ use PayUSdk\Framework\Soap\Context;
 use PayUSdk\Framework\XMLHelper;
 use SoapClient;
 use SoapFault;
-use SOAPHeader;
-use SoapVar;
 
 /**
  * Class SoapClient
@@ -22,8 +21,8 @@ use SoapVar;
  */
 class Client
 {
-    const API_VERSION = 'ONE_ZERO';
-    const PAYU_NAMESPACE = 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd';
+    public const API_VERSION = 'ONE_ZERO';
+    public const PAYU_NAMESPACE = 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd';
 
     /**
      * @var ?SoapClient
@@ -76,7 +75,7 @@ class Client
 
         $json = json_encode($response);
         if ($json === false) {
-             return [];
+            return [];
         }
 
         return (array)json_decode($json, true);
@@ -90,7 +89,8 @@ class Client
     private function setHttpHeader(array $httpHeaders): void
     {
         stream_context_set_options(
-            $this->streamContext, [
+            $this->streamContext,
+            [
                 'http' => [
                     'header' => $httpHeaders
                 ],
@@ -142,7 +142,8 @@ class Client
      * @param string $xml
      * @return string
      */
-    private function prettyPrintXml(string $xml): string {
+    private function prettyPrintXml(string $xml): string
+    {
         return (new XMLHelper())->prettyPrint($xml);
     }
 }

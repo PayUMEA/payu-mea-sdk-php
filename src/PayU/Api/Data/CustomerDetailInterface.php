@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -23,35 +24,35 @@ interface CustomerDetailInterface
     /*
      * Email.
      */
-    const EMAIL = 'email';
+    public const EMAIL = 'email';
     /*
      * First name.
      */
-    const FIRST_NAME = 'first_name';
+    public const FIRST_NAME = 'first_name';
     /*
      * Last name.
      */
-    const LAST_NAME = 'last_name';
+    public const LAST_NAME = 'last_name';
     /*
      * Customer Id.
      */
-    const CUSTOMER_ID = 'customer_id';
+    public const CUSTOMER_ID = 'customer_id';
     /*
      * Customer phone.
      */
-    const PHONE = 'phone';
+    public const PHONE = 'phone';
     /*
      * IP address.
      */
-    const IP_ADDRESS = 'ip_address';
+    public const IP_ADDRESS = 'ip_address';
     /*
      * Address.
      */
-    const ADDRESS = 'address';
+    public const ADDRESS = 'address';
     /*
      * Address.
      */
-    const REGIONAL_ID = 'regional_id';
+    public const REGIONAL_ID = 'regional_id';
 
     /**
      * @return string Customer email

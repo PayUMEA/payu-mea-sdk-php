@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -23,15 +24,15 @@ interface ShippingAddressInterface extends AddressInterface
     /*
      * Full name of recipient.
      */
-    const RECIPIENT_NAME = 'recipient_name';
+    public const RECIPIENT_NAME = 'recipient_name';
     /*
      * Shipping method.
      */
-    const SHIPPING_ID = 'shipping_id';
+    public const SHIPPING_ID = 'shipping_id';
     /*
      * Shipping method.
      */
-    const SHIPPING_METHOD = 'shipping_method';
+    public const SHIPPING_METHOD = 'shipping_method';
 
     /**
      * @return string Name of recipient.
@@ -42,7 +43,6 @@ interface ShippingAddressInterface extends AddressInterface
      * @return mixed
      */
     public function getShippingId(): mixed;
-
 
     /**
      * @return string

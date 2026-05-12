@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -19,7 +20,7 @@ use SoapFault;
  * Search for a transaction on the payment gateway
  *
  * @package PayUSdk\Framework\Action
- * 
+ *
  */
 class Lookup extends BaseAction
 {

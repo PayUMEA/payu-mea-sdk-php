@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -27,7 +28,6 @@ class CustomerDetail extends AbstractModel implements CustomerDetailInterface
     {
         return $this->getData(CustomerDetailInterface::EMAIL);
     }
-
 
     /**
      * @return string
