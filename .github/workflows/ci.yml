@@ -19,7 +19,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  PHP_VERSION_DEFAULT: "8.2"
+  PHP_VERSION_DEFAULT: "8.4"
 
 jobs:
 
