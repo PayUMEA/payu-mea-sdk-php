@@ -10,7 +10,7 @@ use PayU\Test\Functional\Setup;
  *
  * @package PayU\Test\Api
  */
-class PaymentsFunctionalTest extends \PHPUnit_Framework_TestCase
+class PaymentsFunctionalTest extends \PHPUnit\Framework\TestCase
 {
 
     public $operation;
@@ -21,7 +21,7 @@ class PaymentsFunctionalTest extends \PHPUnit_Framework_TestCase
 
     public $apiContext;
 
-    public function setUp()
+    public function setUp(): void
     {
         $className = $this->getClassName();
         $testName = $this->getName();
