@@ -22,11 +22,11 @@ interface AddressInterface
      * Constants for keys of data array. Identical to the name of the getter in snake case.
      */
     /*
-     * Line 1.
+     * Address Line 1.
      */
     public const LINE1 = 'line1';
     /*
-     * Line 2.
+     * Address Line 2.
      */
     public const LINE2 = 'line2';
     /*

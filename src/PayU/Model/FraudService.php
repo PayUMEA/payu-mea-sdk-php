@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace PayUSdk\Model;
 
 use PayUSdk\Api\Data\FraudServiceInterface;
-use PayUSdk\Framework\AbstractModel;
 
 /**
  * Class FraudService
@@ -25,7 +24,7 @@ use PayUSdk\Framework\AbstractModel;
  * @property string $resultCode
  * @property string $resultMessage
  */
-class FraudService extends AbstractModel implements FraudServiceInterface
+class FraudService extends PayUModel implements FraudServiceInterface
 {
     /**
      * Check Fraud Override filter.

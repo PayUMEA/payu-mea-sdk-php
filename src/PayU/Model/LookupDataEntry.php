@@ -11,14 +11,13 @@ namespace PayUSdk\Model;
 
 use PayUSdk\Api\Data\DetailsInterface;
 use PayUSdk\Api\Data\LookupDataEntryInterface;
-use PayUSdk\Framework\AbstractModel;
 
 /**
  * Class LookupDataEntry
  *
  * @package PayUSdk\Model
  */
-class LookupDataEntry extends AbstractModel implements LookupDataEntryInterface
+class LookupDataEntry extends PayUModel implements LookupDataEntryInterface
 {
     /**
      * @param string $key

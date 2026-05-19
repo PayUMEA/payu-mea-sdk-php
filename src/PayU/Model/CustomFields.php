@@ -7,61 +7,54 @@
 
 declare(strict_types=1);
 
-namespace PayUSdk\Api;
+namespace PayUSdk\Model;
 
+use PayUSdk\Api\Data\CustomFieldsInterface;
 use PayUSdk\Model\PayUModel;
 
 /**
  * Class CustomFields
  *
- * CustomFields class contains key-value pair details,
+ * CustomFields class contains client key-value pair data,
  *
  * @package PayUSdk\Api
  *
  * @property string $key
  * @property string $value
  */
-class CustomFields extends PayUModel
+class CustomFields extends PayUModel implements CustomFieldsInterface
 {
     /**
-     * JSON String key
-     *
      * @param string $key
      * @return $this
      */
     public function setKey(string $key): static
     {
-        return $this->setData('key', $key);
+        return $this->setData(CustomFieldsInterface::KEY, $key);
     }
 
     /**
-     * JSON String key
-     *
-     * @return string
+     * @return mixed
      */
-    public function getKey(): string
+    public function getKey(): mixed
     {
-        return (string)$this->getData('key');
+        return (string)$this->getData(CustomFieldsInterface::KEY);
     }
 
     /**
-     * JSON string value
-     *
-     * @param string $value
+     * @param mixed $value
      * @return $this
      */
-    public function setValue(string $value): static
+    public function setValue(mixed $value): static
     {
-        return $this->setData('value', $value);
+        return $this->setData(CustomFieldsInterface::VALUE, $value);
     }
 
     /**
-     * JSON string value
-     *
-     * @return string
+     * @return mixed
      */
-    public function getValue(): string
+    public function getValue(): mixed
     {
-        return (string)$this->getData('value');
+        return (string)$this->getData(CustomFieldsInterface::VALUE);
     }
 }

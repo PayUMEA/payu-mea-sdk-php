@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace PayUSdk\Model;
 
 use PayUSdk\Api\Data\ItemInterface;
-use PayUSdk\Framework\AbstractModel;
+use PayUSdk\Api\Data\ItemListInterface;
 
 /**
  * Class ItemList
@@ -19,13 +19,12 @@ use PayUSdk\Framework\AbstractModel;
  *
  * @package PayUSdk\Api
  */
-class ItemList extends AbstractModel
+class ItemList extends PayUModel implements ItemListInterface
 {
     /**
      * Append Items to the list.
      *
      * @param ItemInterface $item
-     *
      * @return $this
      */
     public function addItem(ItemInterface $item): static
@@ -40,30 +39,28 @@ class ItemList extends AbstractModel
     /**
      * List of items.
      *
-     * @return ItemInterface[]|null
+     * @return ?ItemInterface[]
      */
     public function getItems(): ?array
     {
-        return $this->getData('items');
+        return $this->getData(ItemListInterface::ITEMS);
     }
 
     /**
      * List of items.
      *
      * @param ItemInterface[] $items
-     *
      * @return $this
      */
     public function setItems(array $items): static
     {
-        return $this->setData('items', $items);
+        return $this->setData(ItemListInterface::ITEMS, $items);
     }
 
     /**
      * Remove Items from the list.
      *
      * @param Item $item
-     *
      * @return $this
      */
     public function removeItem(Item $item): static
