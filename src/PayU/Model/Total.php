@@ -19,7 +19,7 @@ use PayUSdk\Framework\Validation\NumericValidator;
  *
  * @package PayUSdk\Model
  */
-class Total extends PayUModell implements TotalInterface
+class Total extends PayUModel implements TotalInterface
 {
     /**
      * @return string
