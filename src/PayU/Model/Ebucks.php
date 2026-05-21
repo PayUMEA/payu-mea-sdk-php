@@ -10,14 +10,13 @@ declare(strict_types=1);
 namespace PayUSdk\Model;
 
 use PayUSdk\Api\Data\EbucksInterface;
-use PayUSdk\Framework\AbstractModel;
 
 /**
  * Class Ebucks
  *
  * @package PayUSdk\Api
  */
-class Ebucks extends AbstractModel implements EbucksInterface
+class Ebucks extends PayUModel implements EbucksInterface
 {
     /**
      * @return string

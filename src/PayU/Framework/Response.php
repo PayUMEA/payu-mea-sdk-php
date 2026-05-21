@@ -245,4 +245,21 @@ class Response extends AbstractModel implements ResponseInterface
     {
         return $this->getData('eft_pro_url');
     }
+
+    /**
+     * Check if payment failed
+     *
+     * @return bool
+     */
+    public function isPaymentTransactionFailed(): bool
+    {
+        $state = $this->getTransactionState();
+        $successful = $this->getSuccessful();
+
+        return ($successful === true || $successful === false)
+            && in_array(
+                $state,
+                ['FAILED', 'EXPIRED', 'TIMEOUT']
+            );
+    }
 }

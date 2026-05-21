@@ -74,6 +74,7 @@ class Client
         $response = self::$soapClient->$methodName($payload);
 
         $json = json_encode($response);
+
         if ($json === false) {
             return [];
         }

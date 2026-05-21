@@ -11,14 +11,13 @@ namespace PayUSdk\Model;
 
 use PayUSdk\Api\Data\AddressInterface;
 use PayUSdk\Api\Data\CardInterface;
-use PayUSdk\Framework\AbstractModel;
 
 /**
  * Class Card
  *
  * @package PayUSdk\Model
  */
-class Card extends AbstractModel implements CardInterface
+class Card extends PayUModel implements CardInterface
 {
     /**
      * @return string

@@ -14,14 +14,13 @@ use PayUSdk\Api\Data\CreditCardInterface;
 use PayUSdk\Api\Data\EbucksInterface;
 use PayUSdk\Api\Data\EftInterface;
 use PayUSdk\Api\Data\FundingInstrumentInterface;
-use PayUSdk\Framework\AbstractModel;
 
 /**
  * Class FundingInstrument
  *
  * @package PayUSdk\Api
  */
-class FundingInstrument extends AbstractModel implements FundingInstrumentInterface
+class FundingInstrument extends PayUModel implements FundingInstrumentInterface
 {
     /**
      * @return bool

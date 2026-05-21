@@ -11,7 +11,6 @@ namespace PayUSdk\Model;
 
 use InvalidArgumentException;
 use PayUSdk\Api\Data\TransactionUrlInterface;
-use PayUSdk\Framework\AbstractModel;
 use PayUSdk\Framework\Validation\UrlValidator;
 
 /**
@@ -19,7 +18,7 @@ use PayUSdk\Framework\Validation\UrlValidator;
  *
  * @package PayUSdk\Model
  */
-class TransactionUrl extends AbstractModel implements TransactionUrlInterface
+class TransactionUrl extends PayUModel implements TransactionUrlInterface
 {
     /**
      * @return string

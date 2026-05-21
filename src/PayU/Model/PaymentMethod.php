@@ -9,14 +9,14 @@ declare(strict_types=1);
 
 namespace PayUSdk\Model;
 
-use PayUSdk\Framework\AbstractModel;
+use PayUSdk\Api\Data\PaymentMethodInterface;
 
 /**
  * Class PaymentMethod
  *
  * @package PayUSdk\Model
  */
-class PaymentMethod extends AbstractModel
+class PaymentMethod extends PayUModel implements PaymentMethodInterface
 {
     public const TYPE_CREDITCARD = 'CREDITCARD';
     public const TYPE_DEBIT_ORDER = 'DEBIT_ORDER';
@@ -31,12 +31,11 @@ class PaymentMethod extends AbstractModel
      * The payment method id. This is in the form of a token
      *
      * @param string $id
-     *
      * @return $this
      */
-    public function setId($id)
+    public function setId(string $id): static
     {
-        return $this->setData('id', $id);
+        return $this->setData(PaymentMethodInterface::ID, $id);
     }
 
     /**
@@ -44,93 +43,90 @@ class PaymentMethod extends AbstractModel
      *
      * @return string
      */
-    public function getId()
+    public function getId(): string
     {
-        $id = $this->getData('id');
+        $id = $this->getData(PaymentMethodInterface::ID);
+
         if ($id) {
             return $id;
         }
 
-        return $this->getData('pm_id');
+        return $this->getPmId();
     }
 
     /**
      * The card number.
      *
      * @param string $number
-     *
      * @return $this
      */
-    public function setCardNumber($number)
+    public function setCardNumber(string $number): static
     {
-        return $this->setData('card_number', $number);
+        return $this->setData(PaymentMethodInterface::CARD_NUMBER, $number);
     }
 
     /**
-     * The card number.
+     * The card PAN number.
      *
      * @return string
      */
-    public function getCardNumber()
+    public function getCardNumber(): string
     {
-        return $this->getData('card_number');
+        return $this->getData(PaymentMethodInterface::CARD_NUMBER);
     }
 
     /**
-     * The card type.
+     * The card type information.
      * Valid Values: ["VISA", "MASTERCARD"]
      *
-     * @param string $type
-     *
+     * @param string $information
      * @return $this
      */
-    public function setInformation($type)
+    public function setInformation(string $information): static
     {
-        return $this->setData('information', $type);
+        return $this->setData(PaymentMethodInterface::INFORMATION, $information);
     }
 
     /**
-     * The card type.
+     * The card type information.
      *
      * @return string
      */
-    public function getInformation()
+    public function getInformation(): string
     {
-        return $this->getData('information');
+        return $this->getData(PaymentMethodInterface::INFORMATION);
     }
 
     /**
      * Payment amount in integer
      *
-     * @param mixed $amountInCents
-     *
+     * @param int $amountInCents
      * @return $this
      */
-    public function setAmountInCents($amountInCents)
+    public function setAmountInCents(int $amountInCents): static
     {
-        return $this->setData('amount_in_cents', $amountInCents);
+        return $this->setData(PaymentMethodInterface::AMOUNT_IN_CENTS, $amountInCents);
     }
 
     /**
      * Payment amount in integer
      *
-     * @return string
+     * @return int
      */
-    public function getAmountInCents()
+    public function getAmountInCents(): int
     {
-        return (string)$this->getData('amount_in_cents');
+        return (int)$this->getData(PaymentMethodInterface::AMOUNT_IN_CENTS);
     }
 
     /**
      * The expiry date for the card.
      *
      * @param string $expiry
-     *
      * @return $this
      */
-    public function setCardExpiry($expiry)
+    public function setCardExpiry(string $expiry): static
     {
-        return $this->setData('card_expiry', $expiry);
+        return $this->setData(PaymentMethodInterface::CARD_EXPIRY, $expiry);
     }
 
     /**
@@ -138,21 +134,20 @@ class PaymentMethod extends AbstractModel
      *
      * @return string
      */
-    public function getCardExpiry()
+    public function getCardExpiry(): string
     {
-        return $this->getData('card_expiry');
+        return $this->getData(PaymentMethodInterface::CARD_EXPIRY);
     }
 
     /**
      * The validation code for the card.
      *
      * @param string $cvv
-     *
      * @return $this
      */
-    public function setCvv($cvv)
+    public function setCvv(string $cvv): static
     {
-        return $this->setData('cvv', $cvv);
+        return $this->setData(PaymentMethodInterface::CVV, $cvv);
     }
 
     /**
@@ -160,9 +155,9 @@ class PaymentMethod extends AbstractModel
      *
      * @return string
      */
-    public function getCvv()
+    public function getCvv(): string
     {
-        return $this->getData('cvv');
+        return $this->getData(PaymentMethodInterface::CVV);
     }
 
     /**
@@ -172,9 +167,9 @@ class PaymentMethod extends AbstractModel
      *
      * @return $this
      */
-    public function setNameOnCard($name)
+    public function setNameOnCard(string $name): static
     {
-        return $this->setData('name_on_card', $name);
+        return $this->setData(PaymentMethodInterface::NAME_ON_CARD, $name);
     }
 
     /**
@@ -182,31 +177,30 @@ class PaymentMethod extends AbstractModel
      *
      * @return string
      */
-    public function getNameOnCard()
+    public function getNameOnCard(): string
     {
-        return $this->getData('name_on_card');
+        return $this->getData(PaymentMethodInterface::NAME_ON_CARD);
     }
 
     /**
      * The verified status of the payment method.
      *
-     * @param string $verified
-     *
+     * @param bool $verified
      * @return $this
      */
-    public function setVerified($verified)
+    public function setVerified(bool $verified): static
     {
-        return $this->setData('verified', $verified);
+        return $this->setData(PaymentMethodInterface::VERIFIED, $verified);
     }
 
     /**
      * The verified status of the payment method.
      *
-     * @return string
+     * @return bool
      */
-    public function getVerified()
+    public function isVerified(): bool
     {
-        return $this->getData('verified');
+        return $this->getData(PaymentMethodInterface::VERIFIED);
     }
 
     /**
@@ -216,31 +210,30 @@ class PaymentMethod extends AbstractModel
      *
      * @return $this
      */
-    public function setPmId($pmId)
+    public function setPmId(string $pmId): static
     {
-        return $this->setData('pm_id', $pmId);
+        return $this->setData(PaymentMethodInterface::PM_ID, $pmId);
     }
 
     /**
-     * The payment method ID
+     * The payment method token ID
      *
      * @return string
      */
-    public function getPmId()
+    public function getPmId(): string
     {
-        return $this->getData('pm_id');
+        return $this->getData(PaymentMethodInterface::PM_ID);
     }
 
     /**
      * The payment method description set by the user
      *
      * @param mixed $description
-     *
      * @return $this
      */
-    public function setDescription($description)
+    public function setDescription(string $description): static
     {
-        return $this->setData('description', $description);
+        return $this->setData(PaymentMethodInterface::DESCRIPTION, $description);
     }
 
     /**
@@ -248,43 +241,41 @@ class PaymentMethod extends AbstractModel
      *
      * @return string
      */
-    public function getDescription()
+    public function getDescription(): string
     {
-        return $this->getData('description');
+        return $this->getData(PaymentMethodInterface::DESCRIPTION);
     }
 
     /**
      * The default payment method
      *
-     * @param mixed $defaultPM
-     *
+     * @param mixed $defaultPm
      * @return $this
      */
-    public function setDefaultPM($defaultPM)
+    public function setDefaultPaymentMethod(mixed $defaultPm): static
     {
-        return $this->setData('default_pm', $defaultPM);
+        return $this->setData(PaymentMethodInterface::DEFAULT_METHOD, $defaultPm);
     }
 
     /**
      * The default payment method
      *
-     * @return string
+     * @return mixed
      */
-    public function getDefaultPM()
+    public function getDefaultPaymentMethod(): mixed
     {
-        return $this->getData('default_pm');
+        return $this->getData(PaymentMethodInterface::DEFAULT_METHOD);
     }
 
     /**
      * EFT funding instrument reference
      *
-     * @param mixed $reference
-     *
+     * @param string $reference
      * @return $this
      */
-    public function setReference($reference)
+    public function setReference(string $reference): static
     {
-        return $this->setData('reference', $reference);
+        return $this->setData(PaymentMethodInterface::REFERENCE, $reference);
     }
 
     /**
@@ -292,21 +283,20 @@ class PaymentMethod extends AbstractModel
      *
      * @return string
      */
-    public function getReference()
+    public function getReference(): string
     {
-        return $this->getData('reference');
+        return $this->getData(PaymentMethodInterface::REFERENCE);
     }
 
     /**
      * eBucks funding instrument token
      *
      * @param mixed $ebucksToken
-     *
      * @return $this
      */
-    public function setEbucksToken($ebucksToken)
+    public function setEbucksToken(string $ebucksToken): static
     {
-        return $this->setData('ebucks_token', $ebucksToken);
+        return $this->setData(PaymentMethodInterface::EBUCKS_TOKEN, $ebucksToken);
     }
 
     /**
@@ -314,8 +304,8 @@ class PaymentMethod extends AbstractModel
      *
      * @return string
      */
-    public function getEbucksToken()
+    public function getEbucksToken(): string
     {
-        return $this->getData('ebucks_token');
+        return $this->getData(PaymentMethodInterface::EBUCKS_TOKEN);
     }
 }
