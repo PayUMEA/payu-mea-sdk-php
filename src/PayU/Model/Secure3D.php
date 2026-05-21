@@ -10,14 +10,13 @@ declare(strict_types=1);
 namespace PayUSdk\Model;
 
 use PayUSdk\Api\Data\Secure3DInterface;
-use PayUSdk\Framework\AbstractModel;
 
 /**
  * Class Secure3D
  *
  * @package PayUSdk\Api
  */
-class Secure3D extends AbstractModel implements Secure3DInterface
+class Secure3D extends PayUModel implements Secure3DInterface
 {
     /**
      * @return string

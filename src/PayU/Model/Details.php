@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace PayUSdk\Model;
 
 use PayUSdk\Api\Data\DetailsInterface;
-use PayUSdk\Framework\AbstractModel;
 use PayUSdk\Framework\Formatter;
 use PayUSdk\Framework\Validation\NumericValidator;
 
@@ -29,21 +28,21 @@ use PayUSdk\Framework\Validation\NumericValidator;
  * @property string $giftWrap
  * @property string $fee
  */
-class Details extends AbstractModel implements DetailsInterface
+class Details extends PayUModel implements DetailsInterface
 {
     /**
      * Amount of the subtotal of the items. **Required** if line items are specified.
      * 10 characters max, with support for integers.
      *
-     * @param float $subtotal
+     * @param string|float $subtotal
      * @return $this
      */
-    public function setSubtotal(float $subtotal): static
+    public function setSubtotal(string|float $subtotal): static
     {
         NumericValidator::validate($subtotal, "Subtotal");
-        $subtotal = Formatter::formatToPrice($subtotal);
+        $subtotal = Formatter::formatToPrice((float)$subtotal);
 
-        return $this->setData('subtotal', $subtotal);
+        return $this->setData(DetailsInterface::SUBTOTAL, $subtotal);
     }
 
     /**
@@ -54,21 +53,22 @@ class Details extends AbstractModel implements DetailsInterface
      */
     public function getSubtotal(): float
     {
-        return (float)$this->getData('subtotal');
+        return (float)$this->getData(DetailsInterface::SUBTOTAL);
     }
 
     /**
      * Amount charged for shipping.
      *
-     * @param string|double $shipping
+     * @param string|float $shipping
      *
      * @return $this
      */
-    public function setShipping($shipping)
+    public function setShipping(string|float $shipping): static
     {
         NumericValidator::validate($shipping, "Shipping");
-        $shipping = Formatter::formatToPrice($shipping);
-        return $this->setData('shipping', $shipping);
+        $shipping = Formatter::formatToPrice((float)$shipping);
+
+        return $this->setData(DetailsInterface::SHIPPING_FEE, $shipping);
     }
 
     /**
@@ -76,23 +76,24 @@ class Details extends AbstractModel implements DetailsInterface
      *
      * @return string
      */
-    public function getShipping()
+    public function getShipping(): float
     {
-        return $this->getData('shipping');
+        return (float)$this->getData(DetailsInterface::SHIPPING_FEE);
     }
 
     /**
      * Amount charged for tax.
      *
-     * @param string|double $tax
+     * @param string|float $tax
      *
      * @return $this
      */
-    public function setTax($tax)
+    public function setTax(string|float $tax): static
     {
         NumericValidator::validate($tax, "Tax");
-        $tax = Formatter::formatToPrice($tax);
-        return $this->setData('tax', $tax);
+        $tax = Formatter::formatToPrice((float)$tax);
+
+        return $this->setData(DetailsInterface::TAX, $tax);
     }
 
     /**
@@ -100,23 +101,24 @@ class Details extends AbstractModel implements DetailsInterface
      *
      * @return string
      */
-    public function getTax()
+    public function getTax(): float
     {
-        return $this->getData('tax');
+        return (float)$this->getData(DetailsInterface::TAX);
     }
 
     /**
      * Amount being charged for the handling fee.
      *
-     * @param string|double $handlingFee
+     * @param string|float $handlingFee
      *
      * @return $this
      */
-    public function setHandlingFee($handlingFee)
+    public function setHandlingFee(string|float $handlingFee): static
     {
         NumericValidator::validate($handlingFee, "Handling Fee");
-        $handlingFee = Formatter::formatToPrice($handlingFee);
-        return $this->setData('handling_fee', $handlingFee);
+        $handlingFee = Formatter::formatToPrice((float)$handlingFee);
+
+        return $this->setData(DetailsInterface::HANDLING_FEE, $handlingFee);
     }
 
     /**
@@ -124,23 +126,24 @@ class Details extends AbstractModel implements DetailsInterface
      *
      * @return string
      */
-    public function getHandlingFee()
+    public function getHandlingFee(): float
     {
-        return $this->getData('handling_fee');
+        return (float)$this->getData(DetailsInterface::HANDLING_FEE);
     }
 
     /**
      * Amount being discounted for the shipping fee.
      *
-     * @param string|double $shippingDiscount
+     * @param string|float $shippingDiscount
      *
      * @return $this
      */
-    public function setShippingDiscount($shippingDiscount)
+    public function setShippingDiscount(string|float $shippingDiscount): static
     {
         NumericValidator::validate($shippingDiscount, "Shipping Discount");
-        $shippingDiscount = Formatter::formatToPrice($shippingDiscount);
-        return $this->setData('shipping_discount', $shippingDiscount);
+        $shippingDiscount = Formatter::formatToPrice((float)$shippingDiscount);
+
+        return $this->setData(DetailsInterface::SHIPPING_DISCOUNT, $shippingDiscount);
     }
 
     /**
@@ -148,9 +151,9 @@ class Details extends AbstractModel implements DetailsInterface
      *
      * @return string
      */
-    public function getShippingDiscount()
+    public function getShippingDiscount(): float
     {
-        return $this->getData('shipping_discount');
+        return (float)$this->getData(DetailsInterface::SHIPPING_DISCOUNT);
     }
 
     /**
@@ -160,46 +163,48 @@ class Details extends AbstractModel implements DetailsInterface
      *
      * @return $this
      */
-    public function setGiftWrap($giftWrap)
+    public function setGiftWrap(string|float $giftWrap): static
     {
         NumericValidator::validate($giftWrap, "Gift Wrap");
-        $giftWrap = Formatter::formatToPrice($giftWrap);
-        return $this->setData('gift_wrap', $giftWrap);
+        $giftWrap = Formatter::formatToPrice((float)$giftWrap);
+
+        return $this->setData(DetailsInterface::GIFT_WRAP_FEE, $giftWrap);
     }
 
     /**
      * Amount being charged as gift wrap fee.
      *
-     * @return string
+     * @return float
      */
-    public function getGiftWrap()
+    public function getGiftWrap(): float
     {
-        return $this->getData('gift_wrap');
+        return (float)$this->getData(DetailsInterface::GIFT_WRAP_FEE);
     }
 
     /**
      * Fee charged by PayU. In case of a refund,
      * this is the fee amount refunded to the original recipient of the payment.
      *
-     * @param string|double $fee
+     * @param string|float $fee
      *
      * @return $this
      */
-    public function setFee($fee)
+    public function setFee(string|float $fee): static
     {
         NumericValidator::validate($fee, "Fee");
-        $fee = Formatter::formatToPrice($fee);
-        return $this->setData('fee', $fee);
+        $fee = Formatter::formatToPrice((float)$fee);
+
+        return $this->setData(DetailsInterface::PAYU_CHARGE, $fee);
     }
 
     /**
      * Fee charged by PayU. In case of a refund,
      * this is the fee amount refunded to the original recipient of the payment.
      *
-     * @return string
+     * @return float
      */
-    public function getFee()
+    public function getFee(): float
     {
-        return $this->getData('fee');
+        return (float)$this->getData(DetailsInterface::PAYU_CHARGE);
     }
 }

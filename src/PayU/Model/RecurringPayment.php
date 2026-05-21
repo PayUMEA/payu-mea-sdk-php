@@ -10,14 +10,13 @@ declare(strict_types=1);
 namespace PayUSdk\Model;
 
 use PayUSdk\Api\Data\RecurringPaymentInterface;
-use PayUSdk\Framework\AbstractModel;
 
 /**
  * Class RecurringDetails
  *
  * @package PaU\Api
  */
-class RecurringPayment extends AbstractModel implements RecurringPaymentInterface
+class RecurringPayment extends PayUModel implements RecurringPaymentInterface
 {
     /**
      * @return string

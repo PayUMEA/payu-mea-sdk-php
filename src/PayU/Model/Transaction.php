@@ -15,14 +15,13 @@ use PayUSdk\Api\Data\RecurringPaymentInterface;
 use PayUSdk\Api\Data\ShippingAddressInterface;
 use PayUSdk\Api\Data\TotalInterface;
 use PayUSdk\Api\Data\TransactionInterface;
-use PayUSdk\Framework\AbstractModel;
 
 /**
  * Class Transaction
  *
  * @package PaU\Model
  */
-class Transaction extends AbstractModel implements TransactionInterface
+class Transaction extends PayUModel implements TransactionInterface
 {
     /**
      * @return string

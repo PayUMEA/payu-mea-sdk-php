@@ -10,14 +10,13 @@ declare(strict_types=1);
 namespace PayUSdk\Model;
 
 use PayUSdk\Api\Data\CartInterface;
-use PayUSdk\Framework\AbstractModel;
 
 /**
  * Class Cart
  *
  * @package PayUSdk\Model
  */
-class Cart extends AbstractModel implements CartInterface
+class Cart extends PayUModel implements CartInterface
 {
     /**
      * @return float

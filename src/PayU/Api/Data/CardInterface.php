@@ -27,7 +27,7 @@ interface CardInterface
      * Constants for keys of data array. Identical to the name of the getter in snake case.
      */
     /*
-     * Id.
+     * Card Id.
      */
     public const ID = 'id';
     /*

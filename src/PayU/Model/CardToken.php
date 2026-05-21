@@ -10,14 +10,13 @@ declare(strict_types=1);
 namespace PayUSdk\Model;
 
 use PayUSdk\Api\Data\CardTokenInterface;
-use PayUSdk\Framework\AbstractModel;
 
 /**
  * Class CardToken
  *
  * @package PayPal\Model
  */
-class CardToken extends AbstractModel implements CardTokenInterface
+class CardToken extends PayUModel implements CardTokenInterface
 {
     /**
      * @param string $id

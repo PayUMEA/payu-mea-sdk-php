@@ -12,14 +12,13 @@ namespace PayUSdk\Model;
 use PayUSdk\Api\Data\AddressInterface;
 use PayUSdk\Api\Data\CustomerDetailInterface;
 use PayUSdk\Api\Data\PhoneInterface;
-use PayUSdk\Framework\AbstractModel;
 
 /**
  * Class CustomerDetail
  *
  * @package PayUSdk\Model
  */
-class CustomerDetail extends AbstractModel implements CustomerDetailInterface
+class CustomerDetail extends PayUModel implements CustomerDetailInterface
 {
     /**
      * @return string

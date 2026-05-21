@@ -31,7 +31,7 @@ interface BasketInterface
      */
     public const CURRENCY_CODE = 'currency_code';
     /*
-     * Currency code.
+     * Description of basket.
      */
     public const DESCRIPTION = 'description';
 

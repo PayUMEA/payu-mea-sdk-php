@@ -10,14 +10,13 @@ declare(strict_types=1);
 namespace PayUSdk\Model;
 
 use PayUSdk\Api\Data\ItemInterface;
-use PayUSdk\Framework\AbstractModel;
 
 /**
  * Class Item
  *
  * @package PayUSdk\Api
  */
-class Item extends AbstractModel implements ItemInterface
+class Item extends PayUModel implements ItemInterface
 {
     /**
      * @return string

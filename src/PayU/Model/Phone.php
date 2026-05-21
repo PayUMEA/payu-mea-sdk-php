@@ -10,14 +10,13 @@ declare(strict_types=1);
 namespace PayUSdk\Model;
 
 use PayUSdk\Api\Data\PhoneInterface;
-use PayUSdk\Framework\AbstractModel;
 
 /**
  * Class Phone
  *
  * @package PayUSdk\Model
  */
-class Phone extends AbstractModel implements PhoneInterface
+class Phone extends PayUModel implements PhoneInterface
 {
     /**
      * @return string

@@ -22,7 +22,7 @@ interface CurrencyInterface
      * Constants for keys of data array. Identical to the name of the getter in snake case.
      */
     /*
-     * Total.
+     * Currency code.
      */
     public const CODE = 'code';
 

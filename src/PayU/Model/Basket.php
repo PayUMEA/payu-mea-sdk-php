@@ -10,14 +10,13 @@ declare(strict_types=1);
 namespace PayUSdk\Model;
 
 use PayUSdk\Api\Data\BasketInterface;
-use PayUSdk\Framework\AbstractModel;
 
 /**
  * Class Tax
  *
  * @package PayUSdk\Model
  */
-class Basket extends AbstractModel implements BasketInterface
+class Basket extends PayUModel implements BasketInterface
 {
     /**
      * @return string
@@ -36,8 +35,6 @@ class Basket extends AbstractModel implements BasketInterface
     }
 
     /**
-     * Basket description
-     *
      * @return string
      */
     public function getDescription(): string
@@ -64,8 +61,6 @@ class Basket extends AbstractModel implements BasketInterface
     }
 
     /**
-     * Basket description
-     *
      * @param string $description
      * @return $this
      */
