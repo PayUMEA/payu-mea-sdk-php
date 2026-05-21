@@ -1,5 +1,10 @@
 # PayU MEA PHP SDK
 
+[![GitHub Stars](https://img.shields.io/github/stars/PayUMEA/payu-mea-sdk-php)](https://github.com/PayUMEA/payu-mea-sdk-php/stargazers)
+[![Total Downloads](https://img.shields.io/packagist/dt/payu-mea/payu-mea-sdk-php)](https://packagist.org/packages/payu-mea/payu-mea-sdk-php)
+[![GitHub Issues](https://img.shields.io/github/issues/PayUMEA/payu-mea-sdk-php)](https://github.com/PayUMEA/payu-mea-sdk-php/issues)
+[![GitHub Last Commit](https://img.shields.io/github/last-commit/PayUMEA/payu-mea-sdk-php)](https://github.com/PayUMEA/payu-mea-sdk-php/commits)
+
 __Welcome to PayU PHP SDK__. This repository contains PayU's PHP SDK and samples for both Enterprise and Redirect SOAP API.
 
 ## Please Note
