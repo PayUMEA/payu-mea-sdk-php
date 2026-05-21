@@ -93,8 +93,6 @@ class AbstractModel extends DataObject
         $this->unsetData($key);
     }
 
-
-
     public function toJson(array $keys = []): bool|string
     {
         $arr = $this->toArray($keys);
@@ -295,7 +293,7 @@ class AbstractModel extends DataObject
                 if (str_ends_with($typeRaw, '[]')) {
                     $typeRaw = substr($typeRaw, 0, -2);
                 }
-                
+
                 // Parse union types (e.g. Total|null) and strip nullable ? prefix
                 $types = explode('|', $typeRaw);
                 $type = null;
@@ -308,7 +306,7 @@ class AbstractModel extends DataObject
                         break;
                     }
                 }
-                
+
                 if ($type === null) {
                     return null;
                 }
@@ -316,7 +314,7 @@ class AbstractModel extends DataObject
                 if (in_array(strtolower($type), ['string', 'int', 'bool', 'float', 'array', 'mixed'])) {
                     return null;
                 }
-                
+
                 // Handle interfaces by stripping 'Interface' and using the corresponding PayUSdk\Model class
                 if (str_ends_with($type, 'Interface')) {
                     $concreteType = substr($type, 0, -9);
@@ -329,31 +327,31 @@ class AbstractModel extends DataObject
                 if (str_starts_with($type, '\\')) {
                     return $type;
                 }
-                
+
                 $refClass = new \ReflectionClass($class);
                 $namespace = $refClass->getNamespaceName();
-                
+
                 $namespacedClass = $namespace . '\\' . $type;
                 if (class_exists($namespacedClass)) {
                     return $namespacedClass;
                 }
-                
+
                 if (class_exists($type)) {
                     return $type;
                 }
-                
+
                 if (str_contains($namespace, 'PayU\\Test\\Model')) {
                     $mapped = 'PayU\\Test\\Model\\' . $type;
                     if (class_exists($mapped)) {
                         return $mapped;
                     }
                 }
-                
+
                 $sdkModel = 'PayUSdk\\Model\\' . $type;
                 if (class_exists($sdkModel)) {
                     return $sdkModel;
                 }
-                
+
                 $sdkFramework = 'PayUSdk\\Framework\\' . $type;
                 if (class_exists($sdkFramework)) {
                     return $sdkFramework;

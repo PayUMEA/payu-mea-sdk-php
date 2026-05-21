@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace PayUSdk\Model;
 
 use PayUSdk\Api\Data\CustomFieldsInterface;
-use PayUSdk\Model\PayUModel;
 
 /**
  * Class CustomFields
@@ -34,9 +33,9 @@ class CustomFields extends PayUModel implements CustomFieldsInterface
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getKey(): mixed
+    public function getKey(): string
     {
         return (string)$this->getData(CustomFieldsInterface::KEY);
     }

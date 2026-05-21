@@ -74,7 +74,7 @@ class Details extends PayUModel implements DetailsInterface
     /**
      * Amount charged for shipping.
      *
-     * @return string
+     * @return float
      */
     public function getShipping(): float
     {
@@ -99,7 +99,7 @@ class Details extends PayUModel implements DetailsInterface
     /**
      * Amount charged for tax.
      *
-     * @return string
+     * @return float
      */
     public function getTax(): float
     {
@@ -124,7 +124,7 @@ class Details extends PayUModel implements DetailsInterface
     /**
      * Amount being charged for the handling fee.
      *
-     * @return string
+     * @return float
      */
     public function getHandlingFee(): float
     {
@@ -149,7 +149,7 @@ class Details extends PayUModel implements DetailsInterface
     /**
      * Amount being discounted for the shipping fee.
      *
-     * @return string
+     * @return float
      */
     public function getShippingDiscount(): float
     {
@@ -206,5 +206,22 @@ class Details extends PayUModel implements DetailsInterface
     public function getFee(): float
     {
         return (float)$this->getData(DetailsInterface::PAYU_CHARGE);
+    }
+
+    /**
+     * @return float
+     */
+    public function getPayUFee(): float
+    {
+        return $this->getFee();
+    }
+
+    /**
+     * @param string|float $value
+     * @return $this
+     */
+    public function setPayUFee(string|float $value): static
+    {
+        return $this->setFee($value);
     }
 }

@@ -60,10 +60,10 @@ class ItemList extends PayUModel implements ItemListInterface
     /**
      * Remove Items from the list.
      *
-     * @param Item $item
+     * @param ItemInterface $item
      * @return $this
      */
-    public function removeItem(Item $item): static
+    public function removeItem(ItemInterface $item): static
     {
         $items = $this->getItems() ?? [];
         $items = array_filter($items, function ($existingItem) use ($item) {

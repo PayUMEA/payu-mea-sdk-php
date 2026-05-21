@@ -130,11 +130,6 @@ interface PaymentMethodInterface
     /**
      * @return string
      */
-    public function getReference(): string;
-
-    /**
-     * @return string
-     */
     public function getEbucksToken(): string;
 
     /**

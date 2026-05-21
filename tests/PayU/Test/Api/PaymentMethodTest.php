@@ -38,7 +38,7 @@ class PaymentMethodTest extends \PHPUnit\Framework\TestCase
      */
     public static function getJson()
     {
-        return '{"id":"TestSample","cardNumber":"TestSample","cardExpiry":"TestSample","cvv":"TestSample","information":"TestSample","amountInCents":"TestSample","nameOnCard":"TestSample","verified":"TestSample","description":"TestSample","pmId":"TestSample","defaultPM":"TestSample","reference":"TestSample","ebucksToken":"TestSample"}';
+        return '{"id":"TestSample","cardNumber":"TestSample","cardExpiry":"TestSample","cvv":"TestSample","information":"TestSample","amountInCents":1234,"nameOnCard":"TestSample","verified":"TestSample","description":"TestSample","pmId":"TestSample","defaultPM":"TestSample","reference":"TestSample","ebucksToken":"TestSample"}';
     }
 
     /**
@@ -77,7 +77,7 @@ class PaymentMethodTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($obj->getCardExpiry(), "TestSample");
         $this->assertEquals($obj->getCvv(), "TestSample");
         $this->assertEquals($obj->getInformation(), "TestSample");
-        $this->assertEquals($obj->getAmountInCents(), "TestSample");
+        $this->assertEquals($obj->getAmountInCents(), 1234);
         $this->assertEquals($obj->getNameOnCard(), "TestSample");
         $this->assertEquals($obj->getVerified(), "TestSample");
         $this->assertEquals($obj->getDescription(), "TestSample");

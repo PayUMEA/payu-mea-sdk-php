@@ -228,7 +228,7 @@ class PaymentMethod extends PayUModel implements PaymentMethodInterface
     /**
      * The payment method description set by the user
      *
-     * @param mixed $description
+     * @param string $description
      * @return $this
      */
     public function setDescription(string $description): static
@@ -291,7 +291,7 @@ class PaymentMethod extends PayUModel implements PaymentMethodInterface
     /**
      * eBucks funding instrument token
      *
-     * @param mixed $ebucksToken
+     * @param string $ebucksToken
      * @return $this
      */
     public function setEbucksToken(string $ebucksToken): static

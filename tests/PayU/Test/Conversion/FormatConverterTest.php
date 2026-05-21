@@ -129,7 +129,19 @@ class FormatConverterTest extends \PHPUnit\Framework\TestCase
             $expected = $values[1];
             $actual = $result->$getter();
             if ($expected === null) {
-                $this->assertNull($actual);
+                $reflection = new \ReflectionMethod($result, $getter);
+                $returnType = $reflection->getReturnType();
+                if ($returnType instanceof \ReflectionNamedType && !$returnType->allowsNull()) {
+                    if ($returnType->getName() === 'float') {
+                        $this->assertEquals(0.0, $actual);
+                    } elseif ($returnType->getName() === 'int') {
+                        $this->assertEquals(0, $actual);
+                    } else {
+                        $this->assertNull($actual);
+                    }
+                } else {
+                    $this->assertNull($actual);
+                }
             } else {
                 $this->assertEquals((float)$expected, (float)$actual);
             }

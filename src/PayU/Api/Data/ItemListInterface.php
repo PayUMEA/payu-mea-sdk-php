@@ -37,8 +37,8 @@ interface ItemListInterface
     public function setItems(array $items): static;
 
     /**
-     * @param Item $item
+     * @param ItemInterface $item
      * @return $this
      */
-    public function removeItem(Item $item): static;
+    public function removeItem(ItemInterface $item): static;
 }
