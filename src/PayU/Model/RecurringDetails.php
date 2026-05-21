@@ -145,7 +145,7 @@ class RecurringDetails extends AbstractModel
     }
 
     /**
-     * @param array|string $callCenterRepId
+     * @param array<int|string, mixed>|string $callCenterRepId
      * @return $this
      */
     public function setCallCenterRepIds(array|string $callCenterRepId): self
@@ -164,7 +164,7 @@ class RecurringDetails extends AbstractModel
     }
 
     /**
-     * @return array|null
+     * @return array<int|string, mixed>|null
      */
     public function getCallCenterRepIds(): ?array
     {

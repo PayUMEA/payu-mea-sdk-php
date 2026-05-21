@@ -19,7 +19,7 @@ use PayUSdk\Framework\Data\DataObject;
  * JSON encoding/decoding and array traversal
  *
  * @package PayUSdk\Framework
- *
+ * @phpstan-consistent-constructor
  */
 class AbstractModel extends DataObject
 {
@@ -163,7 +163,7 @@ class AbstractModel extends DataObject
     /**
      * Fills object value from Array list with recursive object conversion
      *
-     * @param array $arr
+     * @param array<string|int, mixed> $arr
      * @return $this
      */
     public function fromArray(array $arr): static
@@ -181,6 +181,7 @@ class AbstractModel extends DataObject
                                 $valueToSet = new $clazz();
                             }
                         } elseif ($this->isAssocArray($v)) {
+                            /** @var \PayUSdk\Framework\Data\DataObject $o */
                             $o = new $clazz();
                             if (method_exists($o, 'fromArray')) {
                                 $o->fromArray($v);
@@ -192,6 +193,7 @@ class AbstractModel extends DataObject
                             $list = [];
                             foreach ($v as $nk => $nv) {
                                 if (is_array($nv)) {
+                                    /** @var \PayUSdk\Framework\Data\DataObject $o */
                                     $o = new $clazz();
                                     if (method_exists($o, 'fromArray')) {
                                         $o->fromArray($nv);
@@ -395,7 +397,7 @@ class AbstractModel extends DataObject
     /**
      * Check if array is associative.
      *
-     * @param array $arr
+     * @param array<string|int, mixed> $arr
      * @return bool
      */
     protected function isAssocArray(array $arr): bool

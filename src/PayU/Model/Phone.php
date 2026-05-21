@@ -75,6 +75,6 @@ class Phone extends AbstractModel implements PhoneInterface
      */
     public function __toString(): string
     {
-        return $this->getNationalNumber() ?? '';
+        return (string)$this->getData(PhoneInterface::NATIONAL_NUMBER);
     }
 }

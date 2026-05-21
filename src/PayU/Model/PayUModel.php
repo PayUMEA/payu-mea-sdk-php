@@ -15,6 +15,7 @@ use PayUSdk\Framework\AbstractModel;
  * Class PayUModel
  *
  * @package PayUSdk\Model
+ * @phpstan-consistent-constructor
  */
 abstract class PayUModel extends AbstractModel
 {
@@ -40,6 +41,12 @@ abstract class PayUModel extends AbstractModel
         }
     }
 
+    /**
+     * Get list of objects from JSON or array
+     *
+     * @param mixed $input
+     * @return array<int, mixed>|null
+     */
     public static function getList(mixed $input): ?array
     {
         if ($input === null) {
@@ -50,12 +57,12 @@ abstract class PayUModel extends AbstractModel
             return [];
         }
 
-        if (is_object($input)) {
-            return [new static($input)];
-        }
-
         if ($input instanceof static) {
             return [$input];
+        }
+
+        if (is_object($input)) {
+            return [new static($input)];
         }
 
         $list = [];

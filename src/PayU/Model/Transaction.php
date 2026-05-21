@@ -69,7 +69,7 @@ class Transaction extends AbstractModel implements TransactionInterface
      */
     public function getAmount(): ?TotalInterface
     {
-        $total = $this->getTotal();
+        $total = $this->getData(TransactionInterface::TOTAL);
         return $total instanceof TotalInterface ? $total : null;
     }
 

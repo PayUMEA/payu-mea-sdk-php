@@ -153,7 +153,7 @@ class Reserve extends PayUModel
     }
 
     /**
-     * @return Response
+     * @return Response|null
      */
     public function getReturn(): mixed
     {
@@ -203,6 +203,16 @@ class Reserve extends PayUModel
         return $this->setData('transaction_record', $transactionRecord);
     }
 
+    /**
+     * @param string $method
+     * @param array<string, mixed>|string $payLoad
+     * @param array<string, string> $headers
+     * @param \PayUSdk\Framework\Soap\Context|null $apiContext
+     * @param \PayU\Transport\SoapCall|null $soapCall
+     * @param array<int, string> $handlers
+     * @param string $path
+     * @return string
+     */
     protected static function executeCall(
         $method,
         $payLoad,
@@ -218,6 +228,12 @@ class Reserve extends PayUModel
         return '{}';
     }
 
+    /**
+     * @param string $reference
+     * @param \PayUSdk\Framework\Soap\Context|null $apiContext
+     * @param \PayU\Transport\SoapCall|null $soapCall
+     * @return static
+     */
     public static function get($reference, $apiContext = null, $soapCall = null): static
     {
         $payload = [
@@ -229,6 +245,11 @@ class Reserve extends PayUModel
         return new static($json);
     }
 
+    /**
+     * @param \PayUSdk\Framework\Soap\Context|null $apiContext
+     * @param \PayU\Transport\SoapCall|null $soapCall
+     * @return static
+     */
     public function create($apiContext = null, $soapCall = null): static
     {
         $json = self::executeCall('doTransaction', $this->toArray(), [], $apiContext, $soapCall);
@@ -236,12 +257,22 @@ class Reserve extends PayUModel
         return $this;
     }
 
+    /**
+     * @param \PayUSdk\Framework\Soap\Context|null $apiContext
+     * @param \PayU\Transport\SoapCall|null $soapCall
+     * @return Capture
+     */
     public function capture($apiContext = null, $soapCall = null): Capture
     {
         $json = self::executeCall('doTransaction', $this->toArray(), [], $apiContext, $soapCall);
         return new Capture($json);
     }
 
+    /**
+     * @param \PayUSdk\Framework\Soap\Context|null $apiContext
+     * @param \PayU\Transport\SoapCall|null $soapCall
+     * @return static
+     */
     public function void($apiContext = null, $soapCall = null): static
     {
         $json = self::executeCall('doTransaction', $this->toArray(), [], $apiContext, $soapCall);

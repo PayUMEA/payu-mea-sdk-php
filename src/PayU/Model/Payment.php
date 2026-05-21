@@ -155,7 +155,7 @@ class Payment extends PayUModel
     }
 
     /**
-     * @return Response
+     * @return Response|null
      */
     public function getReturn(): mixed
     {
@@ -210,6 +210,7 @@ class Payment extends PayUModel
      */
     public function getEftProUrl(): ?string
     {
+        /** @var \PayUSdk\Framework\Data\DataObject|null $return */
         $return = $this->getReturn();
         if ($return) {
             if (method_exists($return, 'getPayURedirectUrl') && $return->getPayURedirectUrl()) {
@@ -227,6 +228,16 @@ class Payment extends PayUModel
         return null;
     }
 
+    /**
+     * @param string $method
+     * @param array<string, mixed>|string $payLoad
+     * @param array<string, string> $headers
+     * @param \PayUSdk\Framework\Soap\Context|null $apiContext
+     * @param \PayU\Transport\SoapCall|null $soapCall
+     * @param array<int, string> $handlers
+     * @param string $path
+     * @return string
+     */
     protected static function executeCall(
         $method,
         $payLoad,
@@ -242,6 +253,12 @@ class Payment extends PayUModel
         return '{}';
     }
 
+    /**
+     * @param string $reference
+     * @param \PayUSdk\Framework\Soap\Context|null $apiContext
+     * @param \PayU\Transport\SoapCall|null $soapCall
+     * @return static
+     */
     public static function get($reference, $apiContext = null, $soapCall = null): static
     {
         $payload = [
@@ -253,6 +270,11 @@ class Payment extends PayUModel
         return new static($json);
     }
 
+    /**
+     * @param \PayUSdk\Framework\Soap\Context|null $apiContext
+     * @param \PayU\Transport\SoapCall|null $soapCall
+     * @return static
+     */
     public function create($apiContext = null, $soapCall = null): static
     {
         $json = self::executeCall('doTransaction', $this->toArray(), [], $apiContext, $soapCall);

@@ -153,7 +153,7 @@ class Capture extends PayUModel
     }
 
     /**
-     * @return Response
+     * @return Response|null
      */
     public function getReturn(): mixed
     {
@@ -203,6 +203,16 @@ class Capture extends PayUModel
         return $this->setData('transaction_record', $transactionRecord);
     }
 
+    /**
+     * @param string $method
+     * @param array<string, mixed>|string $payLoad
+     * @param array<string, string> $headers
+     * @param \PayUSdk\Framework\Soap\Context|null $apiContext
+     * @param \PayU\Transport\SoapCall|null $soapCall
+     * @param array<int, string> $handlers
+     * @param string $path
+     * @return string
+     */
     protected static function executeCall(
         $method,
         $payLoad,
@@ -218,6 +228,12 @@ class Capture extends PayUModel
         return '{}';
     }
 
+    /**
+     * @param string $reference
+     * @param \PayUSdk\Framework\Soap\Context|null $apiContext
+     * @param \PayU\Transport\SoapCall|null $soapCall
+     * @return static
+     */
     public static function get($reference, $apiContext = null, $soapCall = null): static
     {
         $payload = [
@@ -229,6 +245,11 @@ class Capture extends PayUModel
         return new static($json);
     }
 
+    /**
+     * @param \PayUSdk\Framework\Soap\Context|null $apiContext
+     * @param \PayU\Transport\SoapCall|null $soapCall
+     * @return Refund
+     */
     public function refund($apiContext = null, $soapCall = null): Refund
     {
         $json = self::executeCall('doTransaction', $this->toArray(), [], $apiContext, $soapCall);

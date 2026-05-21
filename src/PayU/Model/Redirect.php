@@ -153,7 +153,7 @@ class Redirect extends PayUModel
     }
 
     /**
-     * @return Response
+     * @return Response|null
      */
     public function getReturn(): mixed
     {
@@ -204,6 +204,7 @@ class Redirect extends PayUModel
     }
 
     /**
+     * @param \PayUSdk\Framework\Soap\Context|null $apiContext
      * @return ?string
      */
     public function getPayURedirectUrl($apiContext = null): ?string
@@ -222,6 +223,16 @@ class Redirect extends PayUModel
         return sprintf('https://%s.payu.co.za/rpp.do?PayUReference=%s', $mode === 'sandbox' ? 'staging' : 'secure', $reference);
     }
 
+    /**
+     * @param string $method
+     * @param array<string, mixed>|string $payLoad
+     * @param array<string, string> $headers
+     * @param \PayUSdk\Framework\Soap\Context|null $apiContext
+     * @param \PayU\Transport\SoapCall|null $soapCall
+     * @param array<int, string> $handlers
+     * @param string $path
+     * @return string
+     */
     protected static function executeCall(
         $method,
         $payLoad,
@@ -237,6 +248,12 @@ class Redirect extends PayUModel
         return '{}';
     }
 
+    /**
+     * @param string $reference
+     * @param \PayUSdk\Framework\Soap\Context|null $apiContext
+     * @param \PayU\Transport\SoapCall|null $soapCall
+     * @return static
+     */
     public static function get($reference, $apiContext = null, $soapCall = null): static
     {
         $payload = [
@@ -248,6 +265,11 @@ class Redirect extends PayUModel
         return new static($json);
     }
 
+    /**
+     * @param \PayUSdk\Framework\Soap\Context|null $apiContext
+     * @param \PayU\Transport\SoapCall|null $soapCall
+     * @return static
+     */
     public function setup($apiContext = null, $soapCall = null): static
     {
         $json = self::executeCall('setTransaction', $this->toArray(), [], $apiContext, $soapCall);
@@ -255,6 +277,11 @@ class Redirect extends PayUModel
         return $this;
     }
 
+    /**
+     * @param \PayUSdk\Framework\Soap\Context|null $apiContext
+     * @param \PayU\Transport\SoapCall|null $soapCall
+     * @return static
+     */
     public function create($apiContext = null, $soapCall = null): static
     {
         $json = self::executeCall('doTransaction', $this->toArray(), [], $apiContext, $soapCall);

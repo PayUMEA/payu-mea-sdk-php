@@ -19,7 +19,7 @@ class UrlValidator
     /**
      * Helper method for validating URLs that will be used by this API in any requests.
      *
-     * @param string $url
+     * @param mixed $url
      * @param string|null $urlName
      * @throws \InvalidArgumentException
      * @return void
