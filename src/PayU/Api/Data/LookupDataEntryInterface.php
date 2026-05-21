@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -23,11 +24,11 @@ interface LookupDataEntryInterface
     /*
      * Array key.
      */
-    const KEY = 'key';
+    public const KEY = 'key';
     /*
      * Array value.
      */
-    const VALUE = 'value';
+    public const VALUE = 'value';
 
     /**
      * @return string string value
@@ -46,8 +47,8 @@ interface LookupDataEntryInterface
     public function setKey(string $key): static;
 
     /**
-     * @param string $value
+     * @param DetailsInterface $value
      * @return $this
      */
-    public function setValue(string $value): static;
+    public function setValue(DetailsInterface $value): static;
 }

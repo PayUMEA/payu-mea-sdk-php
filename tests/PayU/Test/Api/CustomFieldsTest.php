@@ -8,17 +8,28 @@
 
 namespace PayU\Test\Api;
 
-use PayUSdk\Api\CustomFields;
+use PayU\Test\Api\Helper;
 
-class CustomFieldsTest extends \PHPUnit_Framework_TestCase
+use PayUSdk\Model\CustomFields;
+
+class CustomFieldsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Gets Object Instance with Json data filled in
      * @return CustomFields
      */
+        /**
+     * Gets array data representation of the object
+     * @return array
+     */
+    public static function getData()
+    {
+        return Helper::hydrateData(json_decode(self::getJson(), true));
+    }
+
     public static function getObject()
     {
-        return new CustomFields(self::getJson());
+        return new CustomFields(self::getData());
     }
 
     /**
@@ -36,11 +47,11 @@ class CustomFieldsTest extends \PHPUnit_Framework_TestCase
      */
     public function testSerializationDeserialization()
     {
-        $obj = new CustomFields(self::getJson());
+        $obj = new CustomFields(self::getData());
         $this->assertNotNull($obj);
         $this->assertNotNull($obj->getKey());
         $this->assertNotNull($obj->getValue());
-        $this->assertEquals(self::getJson(), $obj->toJson());
+        $this->assertEquals(self::getObject(), $obj);
         return $obj;
     }
 

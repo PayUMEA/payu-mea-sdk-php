@@ -1,33 +1,29 @@
 <?php
+
 /**
- * PayU MEA PHP SDK
- *
- * @copyright  Copyright (c) 2016 PayU
- * @license    http://opensource.org/licenses/LGPL-3.0  Open Software License (LGPL 3.0)
- * @link http://www.payu.co.za
- * @link http://help.payu.co.za/developers
- * @author Kenneth Onah <kenneth@netcraft-devops.com>
+ * Copyright © 2023 PayU Financial Services. All rights reserved.
+ * See LICENSE for license details.
  */
+
+declare(strict_types=1);
 
 namespace PayUSdk\Framework\Soap;
 
 use Exception;
+use PayUSdk\Framework\Authentication;
 use PayUSdk\Framework\Core\ConfigManager;
 use PayUSdk\Framework\Core\CredentialManager;
-use PayUSdk\Framework\Authentication;
 use PayUSdk\Framework\Exception\InvalidCredentialException;
 
 /**
- * Class Context
- *
- * Call level parameters such as credentials, request-id etc
+ * SDK level parameters such as credentials, request-id etc
  *
  * @package PayU\Soap
  */
 class Context
 {
-    const ENTERPRISE = 'enterprise';
-    const REDIRECT = 'redirect';
+    public const ENTERPRISE = 'enterprise';
+    public const REDIRECT = 'redirect';
 
     /**
      * Unique request id to be used for this call
@@ -36,23 +32,22 @@ class Context
      *
      * @var ?string $requestId
      */
-    private ?string $requestId = '';
+    private ?string $requestId = null;
 
     /**
      * Determines how to make API calls. Default integration method is Redirect Payment Page (RPP)
      *
-     * @var ?string
+     * @var string
      */
-    private ?string $integration = '';
+    private string $integration = '';
 
     /**
      * PayU configuration Account Id placeholder. This enable multi-tenancy in the SDK, i.e multiple accounts can be
      * used within the SDK.
      *
-     * @var ?string
+     * @var string
      */
-    private ?string $accountId = '';
-
+    private string $accountId = '';
 
     /**
      * Construct
@@ -80,16 +75,25 @@ class Context
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
     public function getRequestHeaders(): array
     {
         $result = ConfigManager::getInstance()->get('http.headers');
         $headers = [];
 
-        foreach ($result as $header => $value) {
-            $headerName = ltrim($header, 'http.headers');
-            $headers[$headerName] = $value;
+        if (is_iterable($result)) {
+            foreach ($result as $header => $value) {
+                $headerStr = (string)$header;
+                if (str_starts_with($headerStr, 'http.headers.')) {
+                    $headerName = substr($headerStr, strlen('http.headers.'));
+                } elseif (str_starts_with($headerStr, 'http.headers')) {
+                    $headerName = substr($headerStr, strlen('http.headers'));
+                } else {
+                    $headerName = $headerStr;
+                }
+                $headers[$headerName] = $value;
+            }
         }
 
         return $headers;
@@ -164,9 +168,9 @@ class Context
     /**
      * Sets the request ID
      *
-     * @param string $requestId the value to use
+     * @param ?string $requestId the value to use
      */
-    public function setRequestId(string $requestId): void
+    public function setRequestId(?string $requestId): void
     {
         $this->requestId = $requestId;
     }
@@ -174,7 +178,7 @@ class Context
     /**
      * Sets Config
      *
-     * @param array $config SDK configuration parameters
+     * @param array<string, mixed> $config SDK configuration parameters
      */
     public function setConfig(array $config): void
     {
@@ -184,7 +188,7 @@ class Context
     /**
      * Gets Configurations hashmap
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function getConfigHashmap(): array
     {
@@ -194,12 +198,17 @@ class Context
     /**
      * Gets a specific configuration from key
      *
-     * @param $searchKey
-     * @return string|array
+     * @param string $searchKey
+     * @return string|array<string, mixed>
      */
-    public function get($searchKey): string|array
+    public function get(string $searchKey): string|array
     {
-        return ConfigManager::getInstance()->get($searchKey);
+        $result = ConfigManager::getInstance()->get($searchKey);
+        if (is_bool($result)) {
+            return '';
+        }
+        /** @var array<string, mixed>|string $result */
+        return $result;
     }
 
     /**

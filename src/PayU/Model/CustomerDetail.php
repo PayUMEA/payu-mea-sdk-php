@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -11,14 +12,13 @@ namespace PayUSdk\Model;
 use PayUSdk\Api\Data\AddressInterface;
 use PayUSdk\Api\Data\CustomerDetailInterface;
 use PayUSdk\Api\Data\PhoneInterface;
-use PayUSdk\Framework\AbstractModel;
 
 /**
  * Class CustomerDetail
  *
  * @package PayUSdk\Model
  */
-class CustomerDetail extends AbstractModel implements CustomerDetailInterface
+class CustomerDetail extends PayUModel implements CustomerDetailInterface
 {
     /**
      * @return string
@@ -27,7 +27,6 @@ class CustomerDetail extends AbstractModel implements CustomerDetailInterface
     {
         return $this->getData(CustomerDetailInterface::EMAIL);
     }
-
 
     /**
      * @return string
@@ -58,7 +57,14 @@ class CustomerDetail extends AbstractModel implements CustomerDetailInterface
      */
     public function getPhone(): PhoneInterface
     {
-        return $this->getData(CustomerDetailInterface::PHONE);
+        $phone = $this->getData(CustomerDetailInterface::PHONE);
+        if ($phone === null) {
+            return new Phone();
+        }
+        if (is_string($phone)) {
+            return new Phone(['national_number' => $phone]);
+        }
+        return $phone;
     }
 
     /**
@@ -74,7 +80,14 @@ class CustomerDetail extends AbstractModel implements CustomerDetailInterface
      */
     public function getAddress(): AddressInterface
     {
-        return $this->getData(CustomerDetailInterface::ADDRESS);
+        $address = $this->getData(CustomerDetailInterface::ADDRESS);
+        if ($address === null) {
+            return new Address();
+        }
+        if (is_string($address)) {
+            return new Address(['line1' => $address]);
+        }
+        return $address;
     }
 
     /**
@@ -149,7 +162,7 @@ class CustomerDetail extends AbstractModel implements CustomerDetailInterface
     }
 
     /**
-     * @param AddressInterface $address
+     * @param string $identification
      * @return $this
      */
     public function setRegionalId(string $identification): static

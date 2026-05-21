@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -24,8 +25,8 @@ use PayUSdk\Model\PaymentMethod;
 class EbucksDataHandler implements BuilderInterface
 {
     /**
-     * @param array $buildSubject
-     * @return array
+     * @param array<string, mixed> $buildSubject
+     * @return array<string, mixed>
      */
     public function build(array $buildSubject): array
     {
@@ -34,8 +35,13 @@ class EbucksDataHandler implements BuilderInterface
         $paymentMethod = $customer ? $customer->getPaymentMethod() : null;
         $total = $buildSubject['subject']->getTransaction()->getTotal();
 
-        if (PaymentMethod::TYPE_EBUCKS === $paymentMethod && $customer) {
+        if (PaymentMethod::TYPE_EBUCKS === $paymentMethod) {
+            /** @var \PayUSdk\Model\Customer $customer */
             $ebucks = $customer->getFundingInstrument()->getEbucks();
+
+            if ($ebucks === null) {
+                return [];
+            }
 
             $data = match ($ebucks->getAction()) {
                 EbucksInterface::AUTHENTICATE_ACCOUNT => [

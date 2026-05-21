@@ -1,13 +1,11 @@
 <?php
+
 /**
- * PayU MEA PHP SDK
- *
- * @copyright  Copyright (c) 2016 PayU
- * @license    http://opensource.org/licenses/LGPL-3.0  Open Software License (LGPL 3.0)
- * @link http://www.payu.co.za
- * @link http://help.payu.co.za/developers
- * @author Kenneth Onah <kenneth@netcraft-devops.com>
+ * Copyright © 2023 PayU Financial Services. All rights reserved.
+ * See LICENSE for license details.
  */
+
+declare(strict_types=1);
 
 namespace PayUSdk\Framework\Validation;
 
@@ -21,12 +19,12 @@ class ArgumentValidator
     /**
      * Helper method for validating an argument that will be used by this API in any requests.
      *
-     * @param $argument     mixed The object to be validated
-     * @param $argumentName string|null The name of the argument.
+     * @param mixed $argument     mixed The object to be validated
+     * @param string|null $argumentName string|null The name of the argument.
      *                      This will be placed in the exception message for easy reference
      * @return bool
      */
-    public static function validate($argument, $argumentName = null)
+    public static function validate(mixed $argument, ?string $argumentName = null): bool
     {
         if ($argument === null) {
             // Error if Object Null

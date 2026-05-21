@@ -1,9 +1,9 @@
 <?php
 namespace PayU\Test\Model;
 
-use PayUSdk\Model\ArrayHelper;
+use PayUSdk\Framework\ArrayHelper;
 
-class ArrayHelperTest extends \PHPUnit_Framework_TestCase
+class ArrayHelperTest extends \PHPUnit\Framework\TestCase
 {
 
     public function testIsAssocArray()

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -22,7 +23,7 @@ class JsonConverter
      * This method should only be used by \Magento\Framework\DataObject::toJson
      * All other cases should use \Magento\Framework\Serialize\Serializer\Json::serialize directly
      *
-     * @param string|int|float|bool|array|null $data
+     * @param string|int|float|bool|array<string, mixed>|null $data
      * @return bool|string
      * @throws InvalidArgumentException
      */
@@ -33,4 +34,3 @@ class JsonConverter
         return $serializer->serialize($data);
     }
 }
-

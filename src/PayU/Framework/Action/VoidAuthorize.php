@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -14,6 +15,7 @@ namespace PayUSdk\Framework\Action;
  * Void an authorize action.
  *
  * @package PayUSdk\Framework\Action
+ *
  */
 class VoidAuthorize extends BaseAction
 {

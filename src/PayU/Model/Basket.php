@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -9,21 +10,20 @@ declare(strict_types=1);
 namespace PayUSdk\Model;
 
 use PayUSdk\Api\Data\BasketInterface;
-use PayUSdk\Framework\AbstractModel;
 
 /**
  * Class Tax
  *
  * @package PayUSdk\Model
  */
-class Basket extends AbstractModel implements BasketInterface
+class Basket extends PayUModel implements BasketInterface
 {
     /**
      * @return string
      */
     public function getAmountInCents(): string
     {
-        return $this->getData(BasketInterface::AMOUNT_IN_CENTS);
+        return (string)$this->getData(BasketInterface::AMOUNT_IN_CENTS);
     }
 
     /**
@@ -31,17 +31,15 @@ class Basket extends AbstractModel implements BasketInterface
      */
     public function getCurrencyCode(): string
     {
-        return $this->getData(BasketInterface::CURRENCY_CODE);
+        return (string)$this->getData(BasketInterface::CURRENCY_CODE);
     }
 
     /**
-     * Basket description
-     *
      * @return string
      */
     public function getDescription(): string
     {
-        return $this->getData(BasketInterface::DESCRIPTION);
+        return (string)$this->getData(BasketInterface::DESCRIPTION);
     }
 
     /**
@@ -63,8 +61,6 @@ class Basket extends AbstractModel implements BasketInterface
     }
 
     /**
-     * Basket description
-     *
      * @param string $description
      * @return $this
      */

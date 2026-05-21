@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -37,7 +38,7 @@ class FraudServiceDataHandler implements BuilderInterface
 
             $items = [];
             $cart = $transaction->getCart();
-            $itemList = $cart ? $cart->getItems(): null;
+            $itemList = $cart ? $cart->getItems() : null;
 
             if ($itemList) {
                 if (is_array($itemList->getItems())) {

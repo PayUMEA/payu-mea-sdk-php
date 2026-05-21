@@ -8,17 +8,28 @@
 
 namespace PayU\Test\Api;
 
-use PayUSdk\Api\Payment;
+use PayU\Test\Api\Helper;
 
-class PaymentTest extends \PHPUnit_Framework_TestCase
+use PayUSdk\Model\Payment;
+
+class PaymentTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Gets Object Instance with Json data filled in
      * @return Payment
      */
+        /**
+     * Gets array data representation of the object
+     * @return array
+     */
+    public static function getData()
+    {
+        return Helper::hydrateData(json_decode(self::getJson(), true));
+    }
+
     public static function getObject()
     {
-        return new Payment(self::getJson());
+        return new Payment(self::getData());
     }
 
     /**
@@ -36,7 +47,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
      */
     public function testSerializationDeserialization()
     {
-        $obj = new Payment(self::getJson());
+        $obj = new Payment(self::getData());
         $this->assertNotNull($obj);
         $this->assertNotNull($obj->getId());
         $this->assertNotNull($obj->getIntent());
@@ -49,7 +60,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($obj->getReturn());
         $this->assertNotNull($obj->getFmDetails());
         $this->assertNotNull($obj->getTransactionRecord());
-        $this->assertEquals(self::getJson(), $obj->toJson());
+        $this->assertEquals(self::getObject(), $obj);
         return $obj;
     }
 

@@ -2,7 +2,7 @@
 
 namespace PayU\Test\Functional\Api;
 
-use PayUSdk\Api\Payment;
+use PayUSdk\Model\Payment;
 use PayU\Test\Functional\Setup;
 
 /**
@@ -10,7 +10,7 @@ use PayU\Test\Functional\Setup;
  *
  * @package PayU\Test\Api
  */
-class PaymentsFunctionalTest extends \PHPUnit_Framework_TestCase
+class PaymentsFunctionalTest extends \PHPUnit\Framework\TestCase
 {
 
     public $operation;
@@ -21,10 +21,10 @@ class PaymentsFunctionalTest extends \PHPUnit_Framework_TestCase
 
     public $apiContext;
 
-    public function setUp()
+    public function setUp(): void
     {
         $className = $this->getClassName();
-        $testName = $this->getName();
+        $testName = method_exists($this, 'name') ? $this->name() : (method_exists($this, 'getName') ? $this->getName() : '');
         $operationString = file_get_contents(__DIR__ . "/../resources/$className/$testName.json");
         $this->operation = json_decode($operationString, true);
         $this->response = true;

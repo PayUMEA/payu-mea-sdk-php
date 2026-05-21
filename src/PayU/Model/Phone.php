@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -9,14 +10,13 @@ declare(strict_types=1);
 namespace PayUSdk\Model;
 
 use PayUSdk\Api\Data\PhoneInterface;
-use PayUSdk\Framework\AbstractModel;
 
 /**
  * Class Phone
  *
  * @package PayUSdk\Model
  */
-class Phone extends AbstractModel implements PhoneInterface
+class Phone extends PayUModel implements PhoneInterface
 {
     /**
      * @return string
@@ -67,5 +67,13 @@ class Phone extends AbstractModel implements PhoneInterface
     public function setExtension(string $extension): static
     {
         return $this->setData(PhoneInterface::EXTENSION, $extension);
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return (string)$this->getData(PhoneInterface::NATIONAL_NUMBER);
     }
 }

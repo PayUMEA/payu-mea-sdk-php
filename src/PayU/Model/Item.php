@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -9,15 +10,13 @@ declare(strict_types=1);
 namespace PayUSdk\Model;
 
 use PayUSdk\Api\Data\ItemInterface;
-use PayUSdk\Framework\AbstractModel;
-use PayUSdk\Framework\Formatter;
 
 /**
  * Class Item
  *
  * @package PayUSdk\Api
  */
-class Item extends AbstractModel implements ItemInterface
+class Item extends PayUModel implements ItemInterface
 {
     /**
      * @return string
@@ -40,7 +39,7 @@ class Item extends AbstractModel implements ItemInterface
      */
     public function getQuantity(): int
     {
-        return $this->getData(ItemInterface::QUANTITY);
+        return (int)$this->getData(ItemInterface::QUANTITY);
     }
 
     /**
@@ -48,7 +47,7 @@ class Item extends AbstractModel implements ItemInterface
      */
     public function getPrice(): float
     {
-        return $this->getData(ItemInterface::PRICE);
+        return (float)$this->getData(ItemInterface::PRICE);
     }
 
     /**
@@ -56,7 +55,7 @@ class Item extends AbstractModel implements ItemInterface
      */
     public function getCostPrice(): float
     {
-        return $this->getData(ItemInterface::COST_PRICE);
+        return (float)$this->getData(ItemInterface::COST_PRICE);
     }
 
     /**
@@ -64,7 +63,7 @@ class Item extends AbstractModel implements ItemInterface
      */
     public function getTotal(): float
     {
-        return $this->getData(ItemInterface::TOTAL);
+        return (float)$this->getData(ItemInterface::TOTAL);
     }
 
     /**

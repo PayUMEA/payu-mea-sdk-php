@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -20,6 +21,7 @@ use SoapFault;
  * Payment/Sale action.
  *
  * @package PayUSdk\Framework\Action
+ *
  */
 class Sale extends BaseAction implements ActionInterface
 {
@@ -32,6 +34,7 @@ class Sale extends BaseAction implements ActionInterface
      */
     public function execute(string $action): ResponseInterface
     {
+        /** @var \PayUSdk\Framework\Response $response */
         $response = $this->adapter->create(
             [
                 'subject' => $this,
@@ -45,11 +48,12 @@ class Sale extends BaseAction implements ActionInterface
     }
 
     /**
-     * @param $response
+     * @param ResponseInterface $response
      * @return string
      */
-    protected function getEftProUrl($response): string
+    protected function getEftProUrl(ResponseInterface $response): string
     {
+        assert($response instanceof \PayUSdk\Framework\Data\DataObject);
         return isset($response['redirect']) ? $response['redirect']['url'] : '';
     }
 }

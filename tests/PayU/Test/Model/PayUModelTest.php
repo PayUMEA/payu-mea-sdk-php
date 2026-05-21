@@ -145,13 +145,13 @@ class ListModelTestClass extends PayUModel
  * Test class for PayPalModel.
  *
  */
-class PayUModelTest extends PHPUnit_Framework_TestCase
+class PayUModelTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
     }
 
@@ -159,7 +159,7 @@ class PayUModelTest extends PHPUnit_Framework_TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
     }
 
@@ -286,28 +286,28 @@ class PayUModelTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array('[[]]', 1, array(array())),
-            array('[{}]', 1, array(new PayUModel())),
-            array('[{"id":"123"}]', 1, array(new PayUModel(array('id' => '123')))),
-            array('{"id":"123"}', 1, array(new PayUModel(array('id' => '123')))),
+            array('[{}]', 1, array(new SimpleModelTestClass())),
+            array('[{"id":"123"}]', 1, array(new SimpleModelTestClass(array('id' => '123')))),
+            array('{"id":"123"}', 1, array(new SimpleModelTestClass(array('id' => '123')))),
             array('[]', 0, array()),
-            array('{}', 1, array(new PayUModel())),
+            array('{}', 1, array(new SimpleModelTestClass())),
             array(array(), 0, array()),
-            array(array("id" => "123"), 1, array(new PayUModel(array('id' =>'123')))),
+            array(array("id" => "123"), 1, array(new SimpleModelTestClass(array('id' =>'123')))),
             array(null, 0, null),
             array('',0, array()),
-            array('[[], {"id":"123"}]', 2, array(array(), new PayUModel(array("id"=> "123")))),
+            array('[[], {"id":"123"}]', 2, array(array(), new SimpleModelTestClass(array("id"=> "123")))),
             array('[{"id":"123"}, {"id":"321"}]', 2,
                     array(
-                        new PayUModel(array("id" => "123")),
-                        new PayUModel(array("id" => "321"))
+                        new SimpleModelTestClass(array("id" => "123")),
+                        new SimpleModelTestClass(array("id" => "321"))
                     )
             ),
             array(array(array("id" => "123"), array("id" => "321")), 2,
                 array(
-                    new PayUModel(array("id" => "123")),
-                    new PayUModel(array("id" => "321"))
+                    new SimpleModelTestClass(array("id" => "123")),
+                    new SimpleModelTestClass(array("id" => "321"))
                 )),
-            array(new PayUModel('{"id": "123"}'), 1, array(new PayUModel(array("id" => "123"))))
+            array(new SimpleModelTestClass('{"id": "123"}'), 1, array(new SimpleModelTestClass(array("id" => "123"))))
         );
     }
 
@@ -327,7 +327,7 @@ class PayUModelTest extends PHPUnit_Framework_TestCase
      */
     public function testGetList($input, $count, $expected)
     {
-        $result = PayUModel::getList($input);
+        $result = SimpleModelTestClass::getList($input);
         $this->assertEquals($expected, $result);
         if ($input) {
             $this->assertNotNull($result);
@@ -338,12 +338,12 @@ class PayUModelTest extends PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider getInvalidProvider
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Invalid JSON String
      * @param string|null $input
      */
     public function testGetListInvalidInput($input)
     {
-        $result = PayUModel::getList($input);
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage("Invalid JSON String");
+        $result = SimpleModelTestClass::getList($input);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -27,7 +28,7 @@ class NetworkException extends \Exception
      *
      * @var string
      */
-    private string $data;
+    private mixed $data;
 
     /**
      * Default Constructor
@@ -36,7 +37,7 @@ class NetworkException extends \Exception
      * @param string $message
      * @param int $code
      */
-    public function __construct($url, $message, $code = 0)
+    public function __construct(string $url, string $message, int $code = 0)
     {
         parent::__construct($message, $code);
 
@@ -46,9 +47,9 @@ class NetworkException extends \Exception
     /**
      * Gets Data
      *
-     * @return string
+     * @return mixed
      */
-    public function getData(): string
+    public function getData(): mixed
     {
         return $this->data;
     }
@@ -56,9 +57,10 @@ class NetworkException extends \Exception
     /**
      * Sets Data
      *
-     * @param $data
+     * @param mixed $data
+     * @return void
      */
-    public function setData($data)
+    public function setData(mixed $data): void
     {
         $this->data = $data;
     }

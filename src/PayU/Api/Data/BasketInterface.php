@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -24,15 +25,15 @@ interface BasketInterface
     /*
      * Amount in cents.
      */
-    const AMOUNT_IN_CENTS = 'amount_in_cents';
+    public const AMOUNT_IN_CENTS = 'amount_in_cents';
     /*
      * Currency code.
      */
-    const CURRENCY_CODE = 'currency_code';
+    public const CURRENCY_CODE = 'currency_code';
     /*
-     * Currency code.
+     * Description of basket.
      */
-    const DESCRIPTION = 'description';
+    public const DESCRIPTION = 'description';
 
     /**
      * @return string Basket amount in cents

@@ -1,20 +1,16 @@
 <?php
+
 /**
- * PayU MEA PHP SDK
- *
- * @copyright  Copyright (c) 2016 PayU
- * @license    http://opensource.org/licenses/LGPL-3.0  Open Software License (LGPL 3.0)
- * @link       http://www.payu.co.za
- * @link       http://help.payu.co.za/developers
- * @author     Kenneth Onah <kenneth@netcraft-devops.com>
+ * Copyright © 2023 PayU Financial Services. All rights reserved.
+ * See LICENSE for license details.
  */
+
+declare(strict_types=1);
 
 namespace PayUSdk\Framework;
 
 /**
- * Class UserAgent
- *
- * Generates User Agent for curl requests
+ * Generates User Agent header for requests
  *
  * @package PayUSdk\Framework
  */
@@ -30,32 +26,32 @@ class UserAgent
      */
     public static function getValue($sdkName, $sdkVersion)
     {
-        $featureList = array(
+        $featureList = [
             'platform-ver=' . PHP_VERSION,
             'bit=' . self::_getPHPBit(),
             'os=' . str_replace(' ', '_', php_uname('s') . ' UserAgent.php' . php_uname('r')),
             'machine=' . php_uname('m')
-        );
+        ];
         if (extension_loaded('soap')) {
             $soapVersion = SOAP_1_2;
             $featureList[] = 'soap=' . $soapVersion;
         }
 
-        return sprintf("PayU SDK/%s %s (%s)", $sdkName, $sdkVersion, implode('; ', $featureList));
+        return sprintf("PayUSDK/%s %s (%s)", $sdkName, $sdkVersion, implode('; ', $featureList));
     }
 
     /**
      * Gets PHP Bit version
      *
-     * @return int|string
+     * @return int
      */
-    private static function _getPHPBit()
+    private static function _getPHPBit(): int
     {
         switch (PHP_INT_SIZE) {
             case 4:
-                return '32';
+                return 32;
             case 8:
-                return '64';
+                return 64;
             default:
                 return PHP_INT_SIZE;
         }

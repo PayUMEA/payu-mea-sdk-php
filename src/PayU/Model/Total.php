@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -10,7 +11,6 @@ namespace PayUSdk\Model;
 
 use PayUSdk\Api\Data\CurrencyInterface;
 use PayUSdk\Api\Data\TotalInterface;
-use PayUSdk\Framework\AbstractModel;
 use PayUSdk\Framework\Formatter;
 use PayUSdk\Framework\Validation\NumericValidator;
 
@@ -19,7 +19,7 @@ use PayUSdk\Framework\Validation\NumericValidator;
  *
  * @package PayUSdk\Model
  */
-class Total extends AbstractModel implements TotalInterface
+class Total extends PayUModel implements TotalInterface
 {
     /**
      * @return string

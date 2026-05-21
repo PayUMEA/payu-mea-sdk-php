@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -38,7 +39,7 @@ use PayUSdk\Framework\Gateway\Request\VoidDataHandler;
 class BuilderComposite implements BuilderInterface
 {
     /**
-     * @var BuilderInterface[]
+     * @var array<string, array<string, string>>
      */
     private array $builders = [
         'sale' => [
@@ -91,28 +92,27 @@ class BuilderComposite implements BuilderInterface
     ];
 
     /**
-     * @param array $builders
+     * @param array<string, array<string, string>> $builders
      */
     public function __construct(
         array $builders = []
-    )
-    {
-        $this->builders = $this->builders + $builders;
+    ) {
+        $this->builders = array_merge($this->builders, $builders);
     }
 
     /**
      * Builds request data
      *
-     * @param array $buildSubject
-     * @return array
+     * @param array<string, mixed> $buildSubject
+     * @return array<string, mixed>
      */
     public function build(array $buildSubject): array
     {
         $result = [];
-        $builders = $this->builders[$buildSubject['action']] ?? throw new LocalizedException(
+        $buildersConfig = $this->builders[$buildSubject['action']] ?? throw new LocalizedException(
             "No data handler found for {$buildSubject['action']} transaction."
         );
-        $builders = $this->createDataBuilders($builders);
+        $builders = $this->createDataBuilders($buildersConfig);
 
         foreach ($builders as $builder) {
             // @TODO implement exceptions catching
@@ -125,9 +125,9 @@ class BuilderComposite implements BuilderInterface
     /**
      * Merge function for builders
      *
-     * @param array $result
-     * @param array $builder
-     * @return array
+     * @param array<string, mixed> $result
+     * @param array<string, mixed> $builder
+     * @return array<string, mixed>
      */
     protected function merge(array $result, array $builder): array
     {
@@ -135,8 +135,8 @@ class BuilderComposite implements BuilderInterface
     }
 
     /**
-     * @param array $builders
-     * @return array
+     * @param array<string, string> $builders
+     * @return array<string, BuilderInterface>
      */
     protected function createDataBuilders(array $builders): array
     {

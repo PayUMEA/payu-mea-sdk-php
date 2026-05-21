@@ -1,13 +1,11 @@
 <?php
+
 /**
- * PayU MEA PHP SDK
- *
- * @copyright  Copyright (c) 2016 PayU
- * @license    http://opensource.org/licenses/LGPL-3.0  Open Software License (LGPL 3.0)
- * @link       http://www.payu.co.za
- * @link       http://help.payu.co.za/developers
- * @author     Kenneth Onah <kenneth@netcraft-devops.com>
+ * Copyright © 2023 PayU Financial Services. All rights reserved.
+ * See LICENSE for license details.
  */
+
+declare(strict_types=1);
 
 namespace PayUSdk\Framework;
 
@@ -42,9 +40,9 @@ class XMLHelper
     private $preserveWhitespace = false;
 
     /**
-     * @param string $xml the IPN xm to parse
+     * @param \SimpleXMLElement $xml
      *
-     * @return array|bool
+     * @return \stdClass|bool
      */
     public static function parseXMLToArray(SimpleXMLElement $xml): bool|stdClass
     {
@@ -52,18 +50,39 @@ class XMLHelper
             return false;
         }
 
-        $data = array();
-        $data[$xml['Stage']->getName()] = $xml['Stage']->__toString();
+        $data = [];
+        if (isset($xml['Stage'])) {
+            $data[$xml['Stage']->getName()] = $xml['Stage']->__toString();
+        }
 
         foreach ($xml as $element) {
             if ($element->children()) {
                 foreach ($element as $child) {
                     if ($child->attributes()) {
                         foreach ($child->attributes() as $key => $value) {
-                            $data[$element->getName()][$child->getName()][$key] = $value->__toString();
+                            /** @var array<string, mixed> $data */
+                            if (!isset($data[$element->getName()])) {
+                                $data[$element->getName()] = [];
+                            }
+                            $elementData = &$data[$element->getName()];
+                            if (is_array($elementData)) {
+                                if (!isset($elementData[$child->getName()])) {
+                                    $elementData[$child->getName()] = [];
+                                }
+                                $childData = &$elementData[$child->getName()];
+                                if (is_array($childData)) {
+                                    $childData[$key] = $value->__toString();
+                                }
+                            }
                         }
                     } else {
-                        $data[$element->getName()][$child->getName()] = $child->__toString();
+                        if (!isset($data[$element->getName()])) {
+                            $data[$element->getName()] = [];
+                        }
+                        $elementData = &$data[$element->getName()];
+                        if (is_array($elementData)) {
+                            $elementData[$child->getName()] = $child->__toString();
+                        }
                     }
                 }
             } else {
@@ -71,10 +90,10 @@ class XMLHelper
             }
         }
 
-        $data = json_encode($data);
+        $jsonData = json_encode($data);
 
-        if (JsonValidator::validate($data)) {
-            return json_decode($data);
+        if (is_string($jsonData) && JsonValidator::validate($jsonData)) {
+            return (object)json_decode($jsonData);
         }
 
         return false;
@@ -83,7 +102,7 @@ class XMLHelper
     /**
      * @param int $indent
      */
-    public function setIndentSize($indent)
+    public function setIndentSize($indent): void
     {
         $this->indent = intval($indent);
     }
@@ -91,7 +110,7 @@ class XMLHelper
     /**
      * @param string $indentCharacter
      */
-    public function setIndentCharacter($indentCharacter)
+    public function setIndentCharacter($indentCharacter): void
     {
         $this->padChar = $indentCharacter;
     }
@@ -100,7 +119,7 @@ class XMLHelper
      * @param string $xml
      * @return string
      */
-    public function prettyPrint($xml)
+    public function prettyPrint(string $xml): string
     {
         $output = '';
         $this->depth = 0;
@@ -120,11 +139,11 @@ class XMLHelper
 
     /**
      * @param string $xml
-     * @return array
+     * @return string[]
      */
-    private function getXmlParts($xml)
+    private function getXmlParts(string $xml): array
     {
-        $withNewLines = preg_replace('/(>)(<)(\/*)/', "$1\n$2$3", trim($xml));
+        $withNewLines = (string)preg_replace('/(>)(<)(\/*)/', "$1\n$2$3", trim($xml));
         return explode("\n", $withNewLines);
     }
 
@@ -152,7 +171,7 @@ class XMLHelper
     /**
      * @param string $part
      */
-    private function runPre($part)
+    private function runPre(string $part): void
     {
         if ($this->isClosingTag($part)) {
             $this->depth--;
@@ -162,7 +181,7 @@ class XMLHelper
     /**
      * @param string $part
      */
-    private function runPost($part)
+    private function runPost(string $part): void
     {
         if ($this->isOpeningTag($part)) {
             $this->depth++;

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -21,9 +22,9 @@ interface CurrencyInterface
      * Constants for keys of data array. Identical to the name of the getter in snake case.
      */
     /*
-     * Total.
+     * Currency code.
      */
-    const CODE = 'code';
+    public const CODE = 'code';
 
     /**
      * @return string Currency code in ISO format

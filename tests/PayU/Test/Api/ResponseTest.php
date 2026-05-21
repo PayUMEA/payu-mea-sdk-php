@@ -8,17 +8,28 @@
 
 namespace PayU\Test\Api;
 
-use PayUSdk\Api\Response;
+use PayU\Test\Api\Helper;
 
-class ResponseTest extends \PHPUnit_Framework_TestCase
+use PayUSdk\Model\Response;
+
+class ResponseTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Gets Object Instance with Json data filled in
      * @return Response
      */
+        /**
+     * Gets array data representation of the object
+     * @return array
+     */
+    public static function getData()
+    {
+        return Helper::hydrateData(json_decode(self::getJson(), true));
+    }
+
     public static function getObject()
     {
-        return new Response(self::getJson());
+        return new Response(self::getData());
     }
 
     /**
@@ -36,7 +47,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
      */
     public function testSerializationDeserialization()
     {
-        $obj = new Response(self::getJson());
+        $obj = new Response(self::getData());
         $this->assertNotNull($obj);
         $this->assertNotNull($obj->getDisplayMessage());
         $this->assertNotNull($obj->getMerchantReference());
@@ -54,7 +65,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($obj->getRecurringDetails());
         $this->assertNotNull($obj->getRedirect());
         $this->assertNotNull($obj->getFraud());
-        $this->assertEquals(self::getJson(), $obj->toJson());
+        $this->assertEquals(self::getObject(), $obj);
         return $obj;
     }
 
@@ -74,11 +85,11 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($obj->getTransactionState(), "TestSample");
         $this->assertEquals($obj->getBasket(), BasketTest::getObject());
         $this->assertEquals($obj->getSecure3D(), Secure3DTest::getObject());
-        $this->assertEquals($obj->getCustomFields(), CustomFieldsTest::getObject());
+        $this->assertEquals($obj->getCustomFields(), CustomFieldsTest::getData());
         $this->assertEquals($obj->getLookupData(), LookupDataTest::getObject());
         $this->assertEquals($obj->getPaymentMethodsUsed(), PaymentMethodTest::getObject());
-        $this->assertEquals($obj->getRecurringDetails(), RecurringDetailsTest::getObject());
-        $this->assertEquals($obj->getRedirect(), EFTBaseTest::getObject());
-        $this->assertEquals($obj->getFraud(), FmDetailsTest::getObject());
+        $this->assertEquals($obj->getRecurringDetails(), new \PayUSdk\Model\RecurringPayment(RecurringDetailsTest::getData()));
+        $this->assertEquals($obj->getRedirect(), new \PayUSdk\Model\BaseEft(EFTBaseTest::getData()));
+        $this->assertEquals($obj->getFraud(), new \PayUSdk\Model\FraudService(FmDetailsTest::getData()));
     }
 }

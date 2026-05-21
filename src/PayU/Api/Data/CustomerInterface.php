@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -23,15 +24,15 @@ interface CustomerInterface
     /*
      * Payment method.
      */
-    const PAYMENT_METHOD = 'payment_method';
+    public const PAYMENT_METHOD = 'payment_method';
     /*
      * Type.
      */
-    const FUNDING_INSTRUMENT = 'funding_instrument';
+    public const FUNDING_INSTRUMENT = 'funding_instrument';
     /*
      * Type.
      */
-    const CUSTOMER_DETAIL = 'customer_detail';
+    public const CUSTOMER_DETAIL = 'customer_detail';
 
     /**
      * Payment method being used - Credit card, PayU Wallet payment, Eft.

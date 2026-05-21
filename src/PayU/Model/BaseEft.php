@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -11,7 +12,6 @@ namespace PayUSdk\Model;
 use PayUSdk\Api\Data\CurrencyInterface;
 use PayUSdk\Api\Data\EftInterface;
 use PayUSdk\Api\Data\TotalInterface;
-use PayUSdk\Framework\AbstractModel;
 use PayUSdk\Framework\Formatter;
 use PayUSdk\Framework\Validation\NumericValidator;
 
@@ -20,7 +20,7 @@ use PayUSdk\Framework\Validation\NumericValidator;
  *
  * @package PayU\Amount
  */
-class BaseEft extends AbstractModel implements EftInterface
+class BaseEft extends PayUModel implements EftInterface
 {
     /**
      * @return string

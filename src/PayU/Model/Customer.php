@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -11,14 +12,13 @@ namespace PayUSdk\Model;
 use PayUSdk\Api\Data\CustomerDetailInterface;
 use PayUSdk\Api\Data\CustomerInterface;
 use PayUSdk\Api\Data\FundingInstrumentInterface;
-use PayUSdk\Framework\AbstractModel;
 
 /**
  * Class Customer
  *
  * @package PayUSdk\Model
  */
-class Customer extends AbstractModel implements CustomerInterface
+class Customer extends PayUModel implements CustomerInterface
 {
     /**
      * @return ?string

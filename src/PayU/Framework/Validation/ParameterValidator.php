@@ -1,19 +1,17 @@
 <?php
+
 /**
- * PayU MEA PHP SDK
- *
- * @copyright  Copyright (c) 2016 PayU
- * @license    http://opensource.org/licenses/LGPL-3.0  Open Software License (LGPL 3.0)
- * @link http://www.payu.co.za
- * @link http://help.payu.co.za/developers
- * @author Kenneth Onah <kenneth@netcraft-devops.com>
+ * Copyright © 2023 PayU Financial Services. All rights reserved.
+ * See LICENSE for license details.
  */
+
+declare(strict_types=1);
 
 namespace PayUSdk\Framework\Validation;
 
-use PayU\Exception\InvalidArgumentException;
-use PayU\Exception\RequiredArgumentException;
-use PayU\Resource;
+use PayUSdk\Framework\Data\DataObject;
+use PayUSdk\Framework\Exception\InvalidArgumentException;
+use PayUSdk\Framework\Exception\RequiredArgumentException;
 
 /**
  * Class ParameterValidator
@@ -22,22 +20,37 @@ use PayU\Resource;
  */
 class ParameterValidator
 {
-    private $doTransaction = array(
-        'payment' => array('intent', 'customer', 'transaction', 'redirect_urls'),
-        'reserve' => array(),
-        'credit' => array(),
-        'reserve_cancel' => array(),
-        'finalize' => array()
-    );
+    /**
+     * @var array<string, string[]>
+     */
+    private array $doTransaction = [
+        'payment' => ['intent', 'customer', 'transaction', 'redirect_urls'],
+        'reserve' => [],
+        'credit' => [],
+        'reserve_cancel' => [],
+        'finalize' => []
+    ];
 
-    private $setTransaction = array(
-        'payment' => array('intent', 'customer', 'transaction', 'redirect_urls'),
-        'reserve' => array('intent', 'customer', 'transaction', 'redirect_urls')
-    );
+    /**
+     * @var array<string, string[]>
+     */
+    private array $setTransaction = [
+        'payment' => ['intent', 'customer', 'transaction', 'redirect_urls'],
+        'reserve' => ['intent', 'customer', 'transaction', 'redirect_urls']
+    ];
 
-    private $getTransaction = array();
+    /**
+     * @var array<string, string[]>
+     */
+    private array $getTransaction = [];
 
-    public function validate(Resource $resource, $methodName)
+    /**
+     * @param DataObject $resource
+     * @param string $methodName
+     * @return void
+     * @throws InvalidArgumentException|RequiredArgumentException
+     */
+    public function validate(DataObject $resource, string $methodName): void
     {
         $params = $this->$methodName;
         $properties = $resource->toArray();
@@ -45,17 +58,26 @@ class ParameterValidator
         if (isset($properties['intent'])) {
             switch ($properties['intent']) {
                 case 'payment':
-                    call_user_func(array($this, 'checkRequiredParameter'), array_keys($properties), $params[$properties['intent']]);
+                    /** @var string[] $keys */
+                    $keys = (array)array_keys($properties);
+                    $this->checkRequiredParameter($keys, $params[$properties['intent']]);
                     break;
                 default:
-                    new InvalidArgumentException('Unknown SOAP method action requested');
+                    throw new InvalidArgumentException('Unknown SOAP method action requested');
             }
         }
     }
 
-    private function checkRequiredParameter($properties, $params)
+    /**
+     * @param string[] $properties
+     * @param string[] $params
+     * @return void
+     * @throws RequiredArgumentException
+     */
+    private function checkRequiredParameter(array $properties, array $params): void
     {
-        if ($properties != $params)
+        if ($properties != $params) {
             throw new RequiredArgumentException('One of the required parameter is missing: ' . implode(', ', $params));
+        }
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -10,14 +11,13 @@ namespace PayUSdk\Model;
 
 use PayUSdk\Api\Data\DetailsInterface;
 use PayUSdk\Api\Data\LookupDataEntryInterface;
-use PayUSdk\Framework\AbstractModel;
 
 /**
  * Class LookupDataEntry
  *
  * @package PayUSdk\Model
  */
-class LookupDataEntry extends AbstractModel implements LookupDataEntryInterface
+class LookupDataEntry extends PayUModel implements LookupDataEntryInterface
 {
     /**
      * @param string $key
@@ -42,7 +42,7 @@ class LookupDataEntry extends AbstractModel implements LookupDataEntryInterface
      * @param DetailsInterface $value
      * @return $this
      */
-    public function setValue($value): static
+    public function setValue(DetailsInterface $value): static
     {
         return $this->setData(LookupDataEntryInterface::VALUE, $value);
     }

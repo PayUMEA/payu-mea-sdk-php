@@ -8,17 +8,28 @@
 
 namespace PayU\Test\Api;
 
-use PayUSdk\Api\Ebucks;
+use PayU\Test\Api\Helper;
 
-class EbucksTest extends \PHPUnit_Framework_TestCase
+use PayUSdk\Model\Ebucks;
+
+class EbucksTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Gets Object Instance with Json data filled in
      * @return Ebucks
      */
+        /**
+     * Gets array data representation of the object
+     * @return array
+     */
+    public static function getData()
+    {
+        return Helper::hydrateData(json_decode(self::getJson(), true));
+    }
+
     public static function getObject()
     {
-        return new Ebucks(self::getJson());
+        return new Ebucks(self::getData());
     }
 
     /**
@@ -36,7 +47,7 @@ class EbucksTest extends \PHPUnit_Framework_TestCase
      */
     public function testSerializationDeserialization()
     {
-        $obj = new Ebucks(self::getJson());
+        $obj = new Ebucks(self::getData());
         $this->assertNotNull($obj);
         $this->assertNotNull($obj->getAction());
         $this->assertNotNull($obj->getAuthenticateAccountType());
@@ -49,7 +60,7 @@ class EbucksTest extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($obj->getEbucksOTP());
         $this->assertNotNull($obj->getEbucksAccountNumber());
         $this->assertNotNull($obj->getEbucksMemberIdentifier());
-        $this->assertEquals(self::getJson(), $obj->toJson());
+        $this->assertEquals(self::getObject(), $obj);
         return $obj;
     }
 

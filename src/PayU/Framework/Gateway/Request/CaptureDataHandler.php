@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -23,14 +24,14 @@ use PayUSdk\Model\PaymentMethod;
 class CaptureDataHandler implements BuilderInterface
 {
     /**
-     * @param array $buildSubject
-     * @return array
+     * @param array<string, mixed> $buildSubject
+     * @return array<string, mixed>
      */
     public function build(array $buildSubject): array
     {
         $transactionType = $buildSubject['subject']->getTransactionType();
         $customer = $buildSubject['subject']->getCustomer();
-        $transaction = $buildSubject['subject']->getTransaction();;
+        $transaction = $buildSubject['subject']->getTransaction();
         $total = $transaction->getTotal();
         $amount = Formatter::formatToInteger((float)$total->getAmount());
         $payuReference = $buildSubject['subject']->getPayUReference();
@@ -47,7 +48,6 @@ class CaptureDataHandler implements BuilderInterface
                 'amountInCents' => $amount
             ],
         ];
-
 
         if ($transactionType === TransactionInterface::TYPE_FINALIZE) {
             $paymentMethod = $customer->getPaymentMethod();

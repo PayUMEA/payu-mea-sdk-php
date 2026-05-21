@@ -1,12 +1,12 @@
 <?php
 
-use PayU\Exception\ServerMaintenanceException;
+use PayUSdk\Framework\Exception\ServerMaintenanceException;
 
 /**
  * Test class for ServerMaintenanceException.
  *
  */
-class ServerMaintenanceExceptionTest extends \PHPUnit_Framework_TestCase
+class ServerMaintenanceExceptionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var ServerMaintenanceException
@@ -17,7 +17,7 @@ class ServerMaintenanceExceptionTest extends \PHPUnit_Framework_TestCase
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new ServerMaintenanceException('Test ServerMaintenanceException');
     }
@@ -26,7 +26,7 @@ class ServerMaintenanceExceptionTest extends \PHPUnit_Framework_TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
     }
 

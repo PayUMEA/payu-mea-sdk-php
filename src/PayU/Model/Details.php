@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -10,7 +11,6 @@ namespace PayUSdk\Model;
 
 use PayUSdk\Api\Data\DetailsInterface;
 use PayUSdk\Framework\Formatter;
-use PayUSdk\Framework\AbstractModel;
 use PayUSdk\Framework\Validation\NumericValidator;
 
 /**
@@ -20,191 +20,208 @@ use PayUSdk\Framework\Validation\NumericValidator;
  *
  * @package PayUSdk\Model
  *
- * @property string subtotal
- * @property string shipping
- * @property string tax
- * @property string handlingFee
- * @property string shippingDiscount
- * @property string giftWrap
- * @property string fee
+ * @property string $subtotal
+ * @property string $shipping
+ * @property string $tax
+ * @property string $handlingFee
+ * @property string $shippingDiscount
+ * @property string $giftWrap
+ * @property string $fee
  */
-class Details extends AbstractModel implements DetailsInterface
+class Details extends PayUModel implements DetailsInterface
 {
     /**
      * Amount of the subtotal of the items. **Required** if line items are specified.
      * 10 characters max, with support for integers.
      *
-     * @param float $subtotal
+     * @param string|float $subtotal
      * @return $this
      */
-    public function setSubtotal(float $subtotal): static
+    public function setSubtotal(string|float $subtotal): static
     {
         NumericValidator::validate($subtotal, "Subtotal");
-        $subtotal = Formatter::formatToPrice($subtotal);
+        $subtotal = Formatter::formatToPrice((float)$subtotal);
 
-        return $this->setData();
+        return $this->setData(DetailsInterface::SUBTOTAL, $subtotal);
     }
 
     /**
      * Amount of the subtotal of the items. **Required** if line items are specified.
      * 10 characters max, with support for integers.
      *
-     * @return string
+     * @return float
      */
     public function getSubtotal(): float
     {
-        return $this->subtotal;
+        return (float)$this->getData(DetailsInterface::SUBTOTAL);
     }
 
     /**
      * Amount charged for shipping.
      *
-     * @param string|double $shipping
+     * @param string|float $shipping
      *
      * @return $this
      */
-    public function setShipping($shipping)
+    public function setShipping(string|float $shipping): static
     {
         NumericValidator::validate($shipping, "Shipping");
-        $shipping = Formatter::formatToPrice($shipping);
-        $this->shipping = $shipping;
-        return $this;
+        $shipping = Formatter::formatToPrice((float)$shipping);
+
+        return $this->setData(DetailsInterface::SHIPPING_FEE, $shipping);
     }
 
     /**
      * Amount charged for shipping.
      *
-     * @return string
+     * @return float
      */
-    public function getShipping()
+    public function getShipping(): float
     {
-        return $this->shipping;
+        return (float)$this->getData(DetailsInterface::SHIPPING_FEE);
     }
 
     /**
      * Amount charged for tax.
      *
-     * @param string|double $tax
+     * @param string|float $tax
      *
      * @return $this
      */
-    public function setTax($tax)
+    public function setTax(string|float $tax): static
     {
         NumericValidator::validate($tax, "Tax");
-        $tax = Formatter::formatToPrice($tax);
-        $this->tax = $tax;
-        return $this;
+        $tax = Formatter::formatToPrice((float)$tax);
+
+        return $this->setData(DetailsInterface::TAX, $tax);
     }
 
     /**
      * Amount charged for tax.
      *
-     * @return string
+     * @return float
      */
-    public function getTax()
+    public function getTax(): float
     {
-        return $this->tax;
+        return (float)$this->getData(DetailsInterface::TAX);
     }
 
     /**
      * Amount being charged for the handling fee.
      *
-     * @param string|double $handlingFee
+     * @param string|float $handlingFee
      *
      * @return $this
      */
-    public function setHandlingFee($handlingFee)
+    public function setHandlingFee(string|float $handlingFee): static
     {
         NumericValidator::validate($handlingFee, "Handling Fee");
-        $handlingFee = Formatter::formatToPrice($handlingFee);
-        $this->handlingFee = $handlingFee;
-        return $this;
+        $handlingFee = Formatter::formatToPrice((float)$handlingFee);
+
+        return $this->setData(DetailsInterface::HANDLING_FEE, $handlingFee);
     }
 
     /**
      * Amount being charged for the handling fee.
      *
-     * @return string
+     * @return float
      */
-    public function getHandlingFee()
+    public function getHandlingFee(): float
     {
-        return $this->handlingFee;
+        return (float)$this->getData(DetailsInterface::HANDLING_FEE);
     }
 
     /**
      * Amount being discounted for the shipping fee.
      *
-     * @param string|double $shippingDiscount
+     * @param string|float $shippingDiscount
      *
      * @return $this
      */
-    public function setShippingDiscount($shippingDiscount)
+    public function setShippingDiscount(string|float $shippingDiscount): static
     {
         NumericValidator::validate($shippingDiscount, "Shipping Discount");
-        $shippingDiscount = Formatter::formatToPrice($shippingDiscount);
-        $this->shippingDiscount = $shippingDiscount;
-        return $this;
+        $shippingDiscount = Formatter::formatToPrice((float)$shippingDiscount);
+
+        return $this->setData(DetailsInterface::SHIPPING_DISCOUNT, $shippingDiscount);
     }
 
     /**
      * Amount being discounted for the shipping fee.
      *
-     * @return string
+     * @return float
      */
-    public function getShippingDiscount()
+    public function getShippingDiscount(): float
     {
-        return $this->shippingDiscount;
+        return (float)$this->getData(DetailsInterface::SHIPPING_DISCOUNT);
     }
 
     /**
      * Amount being charged as gift wrap fee.
      *
-     * @param string|double $gift_wrap
+     * @param string|double $giftWrap
      *
      * @return $this
      */
-    public function setGiftWrap($giftWrap)
+    public function setGiftWrap(string|float $giftWrap): static
     {
         NumericValidator::validate($giftWrap, "Gift Wrap");
-        $giftWrap = Formatter::formatToPrice($giftWrap);
-        $this->giftWrap = $giftWrap;
-        return $this;
+        $giftWrap = Formatter::formatToPrice((float)$giftWrap);
+
+        return $this->setData(DetailsInterface::GIFT_WRAP_FEE, $giftWrap);
     }
 
     /**
      * Amount being charged as gift wrap fee.
      *
-     * @return string
+     * @return float
      */
-    public function getGiftWrap()
+    public function getGiftWrap(): float
     {
-        return $this->giftWrap;
+        return (float)$this->getData(DetailsInterface::GIFT_WRAP_FEE);
     }
 
     /**
      * Fee charged by PayU. In case of a refund,
      * this is the fee amount refunded to the original recipient of the payment.
      *
-     * @param string|double $fee
+     * @param string|float $fee
      *
      * @return $this
      */
-    public function setFee($fee)
+    public function setFee(string|float $fee): static
     {
         NumericValidator::validate($fee, "Fee");
-        $fee = Formatter::formatToPrice($fee);
-        $this->fee = $fee;
-        return $this;
+        $fee = Formatter::formatToPrice((float)$fee);
+
+        return $this->setData(DetailsInterface::PAYU_CHARGE, $fee);
     }
 
     /**
      * Fee charged by PayU. In case of a refund,
      * this is the fee amount refunded to the original recipient of the payment.
      *
-     * @return string
+     * @return float
      */
-    public function getFee()
+    public function getFee(): float
     {
-        return $this->fee;
+        return (float)$this->getData(DetailsInterface::PAYU_CHARGE);
+    }
+
+    /**
+     * @return float
+     */
+    public function getPayUFee(): float
+    {
+        return $this->getFee();
+    }
+
+    /**
+     * @param string|float $value
+     * @return $this
+     */
+    public function setPayUFee(string|float $value): static
+    {
+        return $this->setFee($value);
     }
 }

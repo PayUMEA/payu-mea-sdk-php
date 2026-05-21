@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -23,6 +24,17 @@ class InvalidCredentialException extends \Exception
      */
     public function __construct(?string $message = null, int $code = 0)
     {
-        parent::__construct($message, $code);
+        parent::__construct($message ?? "", $code);
+    }
+
+    /**
+     * prints error message
+     *
+     * @return string
+     */
+    public function errorMessage(): string
+    {
+        return 'Error in line ' . $this->getLine() . ' in ' . $this->getFile()
+            . ': <b>' . $this->getMessage() . '</b>';
     }
 }

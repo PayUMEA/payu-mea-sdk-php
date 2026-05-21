@@ -8,17 +8,28 @@
 
 namespace PayU\Test\Api;
 
-use PayUSdk\Api\PaymentMethod;
+use PayU\Test\Api\Helper;
 
-class PaymentMethodTest extends \PHPUnit_Framework_TestCase
+use PayUSdk\Model\PaymentMethod;
+
+class PaymentMethodTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Gets Object Instance with Json data filled in
      * @return PaymentMethod
      */
+        /**
+     * Gets array data representation of the object
+     * @return array
+     */
+    public static function getData()
+    {
+        return Helper::hydrateData(json_decode(self::getJson(), true));
+    }
+
     public static function getObject()
     {
-        return new PaymentMethod(self::getJson());
+        return new PaymentMethod(self::getData());
     }
 
     /**
@@ -27,7 +38,7 @@ class PaymentMethodTest extends \PHPUnit_Framework_TestCase
      */
     public static function getJson()
     {
-        return '{"id":"TestSample","cardNumber":"TestSample","cardExpiry":"TestSample","cvv":"TestSample","information":"TestSample","amountInCents":"TestSample","nameOnCard":"TestSample","verified":"TestSample","description":"TestSample","pmId":"TestSample","defaultPM":"TestSample","reference":"TestSample","ebucksToken":"TestSample"}';
+        return '{"id":"TestSample","cardNumber":"TestSample","cardExpiry":"TestSample","cvv":"TestSample","information":"TestSample","amountInCents":1234,"nameOnCard":"TestSample","verified":"TestSample","description":"TestSample","pmId":"TestSample","defaultPM":"TestSample","reference":"TestSample","ebucksToken":"TestSample"}';
     }
 
     /**
@@ -36,7 +47,7 @@ class PaymentMethodTest extends \PHPUnit_Framework_TestCase
      */
     public function testSerializationDeserialization()
     {
-        $obj = new PaymentMethod(self::getJson());
+        $obj = new PaymentMethod(self::getData());
         $this->assertNotNull($obj);
         $this->assertNotNull($obj->getId());
         $this->assertNotNull($obj->getCardNumber());
@@ -51,7 +62,7 @@ class PaymentMethodTest extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($obj->getDefaultPM());
         $this->assertNotNull($obj->getReference());
         $this->assertNotNull($obj->getEbucksToken());
-        $this->assertEquals(self::getJson(), $obj->toJson());
+        $this->assertEquals(self::getObject(), $obj);
         return $obj;
     }
 
@@ -66,7 +77,7 @@ class PaymentMethodTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($obj->getCardExpiry(), "TestSample");
         $this->assertEquals($obj->getCvv(), "TestSample");
         $this->assertEquals($obj->getInformation(), "TestSample");
-        $this->assertEquals($obj->getAmountInCents(), "TestSample");
+        $this->assertEquals($obj->getAmountInCents(), 1234);
         $this->assertEquals($obj->getNameOnCard(), "TestSample");
         $this->assertEquals($obj->getVerified(), "TestSample");
         $this->assertEquals($obj->getDescription(), "TestSample");

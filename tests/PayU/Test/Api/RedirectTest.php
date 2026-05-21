@@ -8,17 +8,28 @@
 
 namespace PayU\Test\Api;
 
-use PayUSdk\Api\Redirect;
+use PayU\Test\Api\Helper;
 
-class RedirectTest extends \PHPUnit_Framework_TestCase
+use PayUSdk\Model\Redirect;
+
+class RedirectTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Gets Object Instance with Json data filled in
      * @return Redirect
      */
+        /**
+     * Gets array data representation of the object
+     * @return array
+     */
+    public static function getData()
+    {
+        return Helper::hydrateData(json_decode(self::getJson(), true));
+    }
+
     public static function getObject()
     {
-        return new Redirect(self::getJson());
+        return new Redirect(self::getData());
     }
 
     /**
@@ -36,7 +47,7 @@ class RedirectTest extends \PHPUnit_Framework_TestCase
      */
     public function testSerializationDeserialization()
     {
-        $obj = new Redirect(self::getJson());
+        $obj = new Redirect(self::getData());
         $this->assertNotNull($obj);
         $this->assertNotNull($obj->getId());
         $this->assertNotNull($obj->getIntent());
@@ -49,7 +60,7 @@ class RedirectTest extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($obj->getReturn());
         $this->assertNotNull($obj->getFmDetails());
         $this->assertNotNull($obj->getTransactionRecord());
-        $this->assertEquals(self::getJson(), $obj->toJson());
+        $this->assertEquals(self::getObject(), $obj);
         return $obj;
     }
 

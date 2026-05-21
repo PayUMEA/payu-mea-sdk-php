@@ -1,13 +1,17 @@
 <?php
 
-use PayU\Core\CredentialManager;
+namespace PayU\Test\Core;
+
+use PayUSdk\Framework\Core\CredentialManager;
+use PayUSdk\Framework\Authentication;
+use PayUSdk\Framework\Exception\InvalidCredentialException;
 
 /**
  * Test class for CredentialManager.
  *
  * @runTestsInSeparateProcesses
  */
-class CredentialManagerTest extends \PHPUnit_Framework_TestCase
+class CredentialManagerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var CredentialManager
@@ -37,7 +41,7 @@ class CredentialManagerTest extends \PHPUnit_Framework_TestCase
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = CredentialManager::getInstance($this->config);
     }
@@ -46,7 +50,7 @@ class CredentialManagerTest extends \PHPUnit_Framework_TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
     }
 
@@ -66,19 +70,19 @@ class CredentialManagerTest extends \PHPUnit_Framework_TestCase
     {
         $cred = $this->object->getCredentialObject('acct1');
         $this->assertNotNull($cred);
-        $this->assertAttributeEquals('100032', 'username', $cred);
-        $this->assertAttributeEquals('PypWWegU', 'password', $cred);
-        $this->assertAttributeEquals('{CE62CE80-0EFD-4035-87C1-8824C5C46E7F}', 'safekey', $cred);
+        $this->assertEquals('100032', $cred->getUsername());
+        $this->assertEquals('PypWWegU', $cred->getPassword());
+        $this->assertEquals('{CE62CE80-0EFD-4035-87C1-8824C5C46E7F}', $cred->getSafekey());
     }
 
     /**
      * @after testGetDefaultCredentialObject
      *
-     * @throws \PayU\Exception\InvalidCredentialException
+     * @throws InvalidCredentialException
      */
     public function testSetCredentialObject()
     {
-        $authObject = $this->getMockBuilder('\PayU\Auth\BasicAuth')
+        $authObject = $this->getMockBuilder(Authentication::class)
             ->disableOriginalConstructor()
             ->getMock();
         $cred = $this->object->setCredentialObject($authObject)->getCredentialObject();
@@ -90,11 +94,11 @@ class CredentialManagerTest extends \PHPUnit_Framework_TestCase
     /**
      * @after testGetDefaultCredentialObject
      *
-     * @throws \PayU\Exception\InvalidCredentialException
+     * @throws InvalidCredentialException
      */
     public function testSetCredentialObjectWithUserId()
     {
-        $authObject = $this->getMockBuilder('\PayU\Auth\BasicAuth')
+        $authObject = $this->getMockBuilder(Authentication::class)
             ->disableOriginalConstructor()
             ->getMock();
         $cred = $this->object->setCredentialObject($authObject, 'sample')->getCredentialObject('sample');
@@ -105,11 +109,11 @@ class CredentialManagerTest extends \PHPUnit_Framework_TestCase
     /**
      * @after testGetDefaultCredentialObject
      *
-     * @throws \PayU\Exception\InvalidCredentialException
+     * @throws InvalidCredentialException
      */
     public function testSetCredentialObjectWithoutDefault()
     {
-        $authObject = $this->getMockBuilder('\PayU\Auth\BasicAuth')
+        $authObject = $this->getMockBuilder(Authentication::class)
             ->disableOriginalConstructor()
             ->getMock();
         $cred = $this->object->setCredentialObject($authObject, null, false)->getCredentialObject();
@@ -123,7 +127,7 @@ class CredentialManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetInvalidCredentialObject()
     {
-        $this->setExpectedException('PayU\Exception\InvalidCredentialException');
+        $this->expectException(InvalidCredentialException::class);
         $cred = $this->object->getCredentialObject('invalid_biz_api1.gmail.com');
     }
 
@@ -134,9 +138,9 @@ class CredentialManagerTest extends \PHPUnit_Framework_TestCase
     {
         $cred = $this->object->getCredentialObject();
         $this->assertNotNull($cred);
-        $this->assertAttributeEquals('100032', 'username', $cred);
-        $this->assertAttributeEquals('PypWWegU', 'password', $cred);
-        $this->assertAttributeEquals('{CE62CE80-0EFD-4035-87C1-8824C5C46E7F}', 'safekey', $cred);
+        $this->assertEquals('100032', $cred->getUsername());
+        $this->assertEquals('PypWWegU', $cred->getPassword());
+        $this->assertEquals('{CE62CE80-0EFD-4035-87C1-8824C5C46E7F}', $cred->getSafekey());
     }
 
     /**
@@ -148,10 +152,10 @@ class CredentialManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertNotNull($cred);
 
-        $this->assertAttributeEquals($this->config['acct1.username'], 'username', $cred);
+        $this->assertEquals($this->config['acct1.username'], $cred->getUsername());
 
-        $this->assertAttributeEquals($this->config['acct1.password'], 'password', $cred);
+        $this->assertEquals($this->config['acct1.password'], $cred->getPassword());
 
-        $this->assertAttributeEquals($this->config['acct1.safekey'], 'safekey', $cred);
+        $this->assertEquals($this->config['acct1.safekey'], $cred->getSafekey());
     }
 }

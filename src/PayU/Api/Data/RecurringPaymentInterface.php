@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -23,39 +24,39 @@ interface RecurringPaymentInterface
     /*
      * Recurring frequency.
      */
-    const RECURRENCES = 'recurrences';
+    public const RECURRENCES = 'recurrences';
     /*
      * Bank statement description.
      */
-    const STATEMENT_DESCRIPTION = 'statement_description';
+    public const STATEMENT_DESCRIPTION = 'statement_description';
     /*
      * Who manages the recurring payment.
      */
-    const MANAGED_BY = 'managed_by';
+    public const MANAGED_BY = 'managed_by';
     /*
      * Start date for recurring payment.
      */
-    const START_DATE = 'start_date';
+    public const START_DATE = 'start_date';
     /*
      * Is user anonymous.
      */
-    const ANONYMOUS_USER = 'anonymous_user';
+    public const ANONYMOUS_USER = 'anonymous_user';
     /*
      * Start date for recurring payment.
      */
-    const FREQUENCY = 'frequency';
+    public const FREQUENCY = 'frequency';
     /*
      * Day when payment is debited.
      */
-    const DEDUCTION_DAY = 'deduction_day';
+    public const DEDUCTION_DAY = 'deduction_day';
     /*
      * Call center representative id.
      */
-    const REPRESENTATIVE_IDS = 'representative_ids';
+    public const REPRESENTATIVE_IDS = 'representative_ids';
     /*
      * Recurring payment token.
      */
-    const PAYMENT_TOKEN = 'payment_token';
+    public const PAYMENT_TOKEN = 'payment_token';
 
     /**
      * Number of recurrences
@@ -113,7 +114,7 @@ interface RecurringPaymentInterface
      * `callcenter.allowed.reps` list. If there are no IDs in the `callcenter.allowed.reps` list the
      * callCenterRepId can be an empty string.
      *
-     * @return ?array
+     * @return array<int, string>|null
      */
     public function getCallCenterRepIds(): ?array;
 
@@ -167,7 +168,7 @@ interface RecurringPaymentInterface
     public function setDeductionDay(string $deductionDay): static;
 
     /**
-     * @param array $callCenterRepId
+     * @param array<int, string> $callCenterRepId
      * @return $this
      */
     public function setCallCenterRepIds(array $callCenterRepId): static;

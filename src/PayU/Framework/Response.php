@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -36,7 +37,18 @@ class Response extends AbstractModel implements ResponseInterface
      */
     public function getSuccessful(): ?bool
     {
-        return $this->getData('successful');
+        $val = $this->getData('successful');
+        if ($val === null || $val === '') {
+            return null;
+        }
+        if (is_string($val)) {
+            $res = filter_var($val, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+            if ($res === null) {
+                return (bool)$val;
+            }
+            return $res;
+        }
+        return (bool)$val;
     }
 
     /**
@@ -164,7 +176,7 @@ class Response extends AbstractModel implements ResponseInterface
      */
     public function getRedirect(): BaseEft
     {
-        $eft = $this->getData('eft') ?? [];
+        $eft = $this->getData('eft') ?? $this->getData('redirect') ?? [];
 
         return new BaseEft($eft);
     }
@@ -182,7 +194,7 @@ class Response extends AbstractModel implements ResponseInterface
     /**
      * Custom key-value pair fields.
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function getCustomFields(): array
     {
@@ -202,10 +214,63 @@ class Response extends AbstractModel implements ResponseInterface
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
     public function getPaymentData(): array
     {
-        return self::toFlatArray($this->toArray());
+        /** @var array<string, mixed> $data */
+        $data = $this->toArray();
+        return self::toFlatArray($data);
+    }
+
+    /**
+     * @param string $url
+     * @return $this
+     */
+    public function setPayURedirectUrl(string $url): static
+    {
+        return $this->setData('payu_redirect_url', $url);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPayURedirectUrl(): ?string
+    {
+        return $this->getData('payu_redirect_url');
+    }
+
+    /**
+     * @param string $url
+     * @return $this
+     */
+    public function setEftProUrl(string $url): static
+    {
+        return $this->setData('eft_pro_url', $url);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getEftProUrl(): ?string
+    {
+        return $this->getData('eft_pro_url');
+    }
+
+    /**
+     * Check if payment failed
+     *
+     * @return bool
+     */
+    public function isPaymentTransactionFailed(): bool
+    {
+        $state = $this->getTransactionState();
+        $successful = $this->getSuccessful();
+
+        return ($successful === true || $successful === false)
+            && in_array(
+                $state,
+                ['FAILED', 'EXPIRED', 'TIMEOUT']
+            );
     }
 }

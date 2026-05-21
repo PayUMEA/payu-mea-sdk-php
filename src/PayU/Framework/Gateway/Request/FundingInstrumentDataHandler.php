@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -23,8 +24,8 @@ use PayUSdk\Model\PaymentMethod;
 class FundingInstrumentDataHandler implements BuilderInterface
 {
     /**
-     * @param array $buildSubject
-     * @return array
+     * @param array<string, mixed> $buildSubject
+     * @return array<string, mixed>
      */
     public function build(array $buildSubject): array
     {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -18,7 +19,7 @@ namespace PayUSdk\Framework;
 enum Constants
 {
     public const SDK_NAME = 'PayU-MEA-PHP-SDK';
-    public const SDK_VERSION = '0.2.0';
+    public const SDK_VERSION = '2.0.6';
     public const STAGING_REDIRECT_ENDPOINT = 'https://staging.payu.co.za/service/rpp.do';
     public const STAGING_WSDL_ENDPOINT = 'https://staging.payu.co.za/service/PayUAPI?wsdl';
     public const PROD_REDIRECT_ENDPOINT = 'https://secure.payu.co.za/service/rpp.do';

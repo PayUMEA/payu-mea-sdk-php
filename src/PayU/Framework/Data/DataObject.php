@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -8,7 +9,6 @@ declare(strict_types=1);
 
 namespace PayUSdk\Framework\Data;
 
-use ArrayAccess;
 use InvalidArgumentException;
 use PayUSdk\Framework\Exception\LocalizedException;
 use PayUSdk\Framework\Serialize\JsonConverter;
@@ -17,21 +17,21 @@ use PayUSdk\Framework\Serialize\JsonConverter;
  * Universal data container with array access implementation
  *
  * @api
- * @SuppressWarnings(PHPMD.NumberOfChildren)
+ * @implements \ArrayAccess<string, mixed>
  */
-class DataObject implements ArrayAccess
+class DataObject implements \ArrayAccess
 {
     /**
      * Object attributes
      *
-     * @var array
+     * @var array<string, mixed>
      */
     protected array $_data = [];
 
     /**
      * Setter/Getter underscore transformation cache
      *
-     * @var array
+     * @var array<string, string>
      */
     protected static array $_underscoreCache = [];
 
@@ -41,7 +41,7 @@ class DataObject implements ArrayAccess
      * By default, is looking for first argument as array and assigns it as object attributes
      * This behavior may change in child classes
      *
-     * @param array $data
+     * @param array<string, mixed> $data
      */
     public function __construct(array $data = [])
     {
@@ -53,7 +53,7 @@ class DataObject implements ArrayAccess
      *
      * Retains previous data in the object.
      *
-     * @param array $arr
+     * @param array<string, mixed> $arr
      * @return $this
      */
     public function addData(array $arr): static
@@ -64,7 +64,7 @@ class DataObject implements ArrayAccess
         }
 
         foreach ($arr as $index => $value) {
-            $this->setData($index, $value);
+            $this->setData((string)$index, $value);
         }
 
         return $this;
@@ -75,16 +75,15 @@ class DataObject implements ArrayAccess
      *
      * The $key parameter can be string or array.
      * If $key is string, the attribute value will be overwritten by $value
-     *
      * If $key is an array, it will overwrite all the data in the object.
      *
-     * @param array|string $key
+     * @param string|array<string, mixed> $key
      * @param mixed|null $value
      * @return $this
      */
     public function setData(array|string $key, mixed $value = null): static
     {
-        if ($key === (array)$key) {
+        if (is_array($key)) {
             $this->_data = $key;
         } else {
             $this->_data[$key] = $value;
@@ -96,10 +95,10 @@ class DataObject implements ArrayAccess
     /**
      * Unset data from the object.
      *
-     * @param array|string|null $key
+     * @param array<int, string>|string|null $key
      * @return $this
      */
-    public function unsetData(array|string $key = null): static
+    public function unsetData(array|string|null $key = null): static
     {
         if ($key === null) {
             $this->setData([]);
@@ -107,7 +106,7 @@ class DataObject implements ArrayAccess
             if (isset($this->_data[$key]) || array_key_exists($key, $this->_data)) {
                 unset($this->_data[$key]);
             }
-        } elseif ($key === (array)$key) {
+        } elseif (is_array($key)) {
             foreach ($key as $element) {
                 $this->unsetData($element);
             }
@@ -130,29 +129,25 @@ class DataObject implements ArrayAccess
      * @param string $key
      * @param int|string|null $index
      * @return mixed
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings"PHPMD.CyclomaticComplexity"
      */
-    public function getData(string $key = '', int|string $index = null): mixed
+    public function getData(string $key = '', int|string|null $index = null): mixed
     {
         if ('' === $key) {
             return $this->_data;
         }
 
         /* process a/b/c key as ['a']['b']['c'] */
-        if ($key !== null && str_contains($key, '/')) {
-            $data = $this->getDataByPath($key);
-        } else {
-            $data = $this->_getData($key);
-        }
+        $data = str_contains($key, '/') ? $this->getDataByPath($key) : $this->_getData($key);
 
         if ($index !== null) {
-            if ($data === (array)$data) {
+            if (is_array($data)) {
                 $data = $data[$index] ?? null;
             } elseif (is_string($data)) {
                 $data = explode(PHP_EOL, $data);
                 $data = $data[$index] ?? null;
             } elseif ($data instanceof DataObject) {
-                $data = $data->getData($index);
+                $data = $data->getData((string)$index);
             } else {
                 $data = null;
             }
@@ -176,7 +171,7 @@ class DataObject implements ArrayAccess
         $data = $this->_data;
 
         foreach ($keys as $key) {
-            if ((array)$data === $data && isset($data[$key])) {
+            if (is_array($data) && isset($data[$key])) {
                 $data = $data[$key];
             } elseif ($data instanceof DataObject) {
                 $data = $data->getDataByKey($key);
@@ -218,13 +213,15 @@ class DataObject implements ArrayAccess
      * Set object data with calling setter method
      *
      * @param string $key
-     * @param mixed|array $args
+     * @param array<int, mixed> $args
      * @return $this
      */
     public function setDataUsingMethod(string $key, array $args = []): static
     {
-        $method = 'set' . ($key !== null ? str_replace('_', '', ucwords($key, '_')) : '');
-        $this->{$method}($args);
+        $method = 'set' . str_replace('_', '', ucwords($key, '_'));
+        if (method_exists($this, $method)) {
+            $this->{$method}($args);
+        }
 
         return $this;
     }
@@ -238,9 +235,11 @@ class DataObject implements ArrayAccess
      */
     public function getDataUsingMethod(string $key, mixed $args = null): mixed
     {
-        $method = 'get' . ($key !== null ? str_replace('_', '', ucwords($key, '_')) : '');
-
-        return $this->{$method}($args);
+        $method = 'get' . str_replace('_', '', ucwords($key, '_'));
+        if (method_exists($this, $method)) {
+            return $this->{$method}($args);
+        }
+        return null;
     }
 
     /**
@@ -253,7 +252,7 @@ class DataObject implements ArrayAccess
      */
     public function hasData(string $key = ''): bool
     {
-        if (empty($key) || !is_string($key)) {
+        if (empty($key)) {
             return !empty($this->_data);
         }
 
@@ -263,8 +262,8 @@ class DataObject implements ArrayAccess
     /**
      * Convert array of object data with to array with keys requested in $keys array
      *
-     * @param array $keys array of required keys
-     * @return array
+     * @param array<int, string> $keys array of required keys
+     * @return array<string, mixed>
      */
     public function toArray(array $keys = []): array
     {
@@ -286,8 +285,8 @@ class DataObject implements ArrayAccess
     }
 
     /**
-     * @param array $data
-     * @return array
+     * @param array<mixed, mixed> $data
+     * @return array<mixed, mixed>
      */
     public function traverseArray(array $data = []): array
     {
@@ -309,38 +308,29 @@ class DataObject implements ArrayAccess
     }
 
     /**
-     * The "__" style wrapper for toArray method
-     *
-     * @param  array $keys
-     * @return array
-     */
-    public function convertToArray(array $keys = []): array
-    {
-        return $this->toArray($keys);
-    }
-
-    /**
      * Convert nested array into flat array.
      *
-     * @param array $data
-     * @return array
+     * @param array<string, mixed> $data
+     * @return array<string, mixed>
      */
-    public static function toFlatArray($data = [])
+    public static function toFlatArray(array $data = []): array
     {
+        $flat = [];
         foreach ($data as $key => $value) {
             if (is_array($value)) {
                 $value = self::toFlatArray($value);
-                unset($data[$key]);
-                $data = array_merge($data, $value);
+                $flat = array_merge($flat, $value);
+            } else {
+                $flat[(string)$key] = $value;
             }
         }
-        return $data;
+        return $flat;
     }
 
     /**
      * Convert object data to JSON
      *
-     * @param array $keys array of required keys
+     * @param array<int, string> $keys array of required keys
      * @return bool|string
      * @throws InvalidArgumentException
      */
@@ -349,18 +339,6 @@ class DataObject implements ArrayAccess
         $data = $this->toArray($keys);
 
         return JsonConverter::convert($data);
-    }
-
-    /**
-     * The "__" style wrapper for toJson
-     *
-     * @param array $keys
-     * @return bool|string
-     * @throws InvalidArgumentException
-     */
-    public function convertToJson(array $keys = []): bool|string
-    {
-        return $this->toJson($keys);
     }
 
     /**
@@ -374,12 +352,12 @@ class DataObject implements ArrayAccess
     public function toString(string $format = ''): string
     {
         if (empty($format)) {
-            $result = implode(', ', $this->getData());
+            $result = implode(', ', (array)$this->getData());
         } else {
             preg_match_all('/\{\{([a-z0-9_]+)\}\}/is', $format, $matches);
             foreach ($matches[1] as $var) {
                 $data = $this->getData($var) ?? '';
-                $format = str_replace('{{' . $var . '}}', $data, $format);
+                $format = str_replace('{{' . $var . '}}', (string)$data, $format);
             }
             $result = $format;
         }
@@ -391,7 +369,7 @@ class DataObject implements ArrayAccess
      * Set/Get attribute wrapper
      *
      * @param string $method
-     * @param array $args
+     * @param array<int, mixed> $args
      * @return mixed
      * @throws LocalizedException
      */
@@ -419,7 +397,7 @@ class DataObject implements ArrayAccess
         }
 
         throw new LocalizedException(
-            sprintf('Invalid method %1::%2', get_class($this), $method)
+            sprintf('Invalid method %s::%s', get_class($this), $method)
         );
     }
 
@@ -430,11 +408,7 @@ class DataObject implements ArrayAccess
      */
     public function isEmpty(): bool
     {
-        if (empty($this->_data)) {
-            return true;
-        }
-
-        return false;
+        return empty($this->_data);
     }
 
     /**
@@ -452,7 +426,7 @@ class DataObject implements ArrayAccess
             return self::$_underscoreCache[$name];
         }
 
-        $result = strtolower(trim(preg_replace('/([A-Z]|[0-9]+)/', "_$1", $name), '_'));
+        $result = strtolower(trim((string)preg_replace('/([A-Z]|[0-9]+)/', "_$1", $name), '_'));
         self::$_underscoreCache[$name] = $result;
 
         return $result;
@@ -463,7 +437,7 @@ class DataObject implements ArrayAccess
      *
      * Example: key1="value1" key2="value2" ...
      *
-     * @param array $keys array of accepted keys
+     * @param array<int, string> $keys array of accepted keys
      * @param string $valueSeparator separator between key and value
      * @param string $fieldSeparator separator between key/value pairs
      * @param string $quote quoting sign
@@ -474,8 +448,7 @@ class DataObject implements ArrayAccess
         string $valueSeparator = '=',
         string $fieldSeparator = ' ',
         string $quote = '"'
-    ): string
-    {
+    ): string {
         $data = [];
 
         if (empty($keys)) {
@@ -494,9 +467,9 @@ class DataObject implements ArrayAccess
     /**
      * Present object data as string in debug mode
      *
-     * @param mixed|null $data
-     * @param array $objects
-     * @return array|string
+     * @param mixed $data
+     * @param array<string, bool> $objects
+     * @return array<string, mixed>|string
      */
     public function debug(mixed $data = null, array &$objects = []): array|string
     {
@@ -513,13 +486,15 @@ class DataObject implements ArrayAccess
 
         $debug = [];
 
-        foreach ($data as $key => $value) {
-            if (is_scalar($value)) {
-                $debug[$key] = $value;
-            } elseif (is_array($value)) {
-                $debug[$key] = $this->debug($value, $objects);
-            } elseif ($value instanceof DataObject) {
-                $debug[$key . ' (' . get_class($value) . ')'] = $value->debug(null, $objects);
+        if (is_iterable($data)) {
+            foreach ($data as $key => $value) {
+                if (is_scalar($value)) {
+                    $debug[(string)$key] = $value;
+                } elseif (is_array($value)) {
+                    $debug[(string)$key] = $this->debug($value, $objects);
+                } elseif ($value instanceof DataObject) {
+                    $debug[(string)$key . ' (' . get_class($value) . ')'] = $value->debug(null, $objects);
+                }
             }
         }
 
@@ -529,55 +504,47 @@ class DataObject implements ArrayAccess
     /**
      * Implementation of \ArrayAccess::offsetSet()
      *
-     * @param string $offset
+     * @param mixed $offset
      * @param mixed $value
      * @return void
-     * @link http://www.php.net/manual/en/arrayaccess.offsetset.php
      */
-    #[\ReturnTypeWillChange]
-    public function offsetSet($offset, mixed $value): void
+    public function offsetSet(mixed $offset, mixed $value): void
     {
-        $this->_data[$offset] = $value;
+        $this->_data[(string)$offset] = $value;
     }
 
     /**
      * Implementation of \ArrayAccess::offsetExists()
      *
-     * @param string $offset
+     * @param mixed $offset
      * @return bool
-     * @link http://www.php.net/manual/en/arrayaccess.offsetexists.php
      */
-    #[\ReturnTypeWillChange]
-    public function offsetExists($offset): bool
+    public function offsetExists(mixed $offset): bool
     {
-        return isset($this->_data[$offset]) || array_key_exists($offset, $this->_data);
+        return isset($this->_data[(string)$offset]) || array_key_exists((string)$offset, $this->_data);
     }
 
     /**
      * Implementation of \ArrayAccess::offsetUnset()
      *
-     * @param string $offset
+     * @param mixed $offset
      * @return void
-     * @link http://www.php.net/manual/en/arrayaccess.offsetunset.php
      */
-    #[\ReturnTypeWillChange]
-    public function offsetUnset($offset): void
+    public function offsetUnset(mixed $offset): void
     {
-        unset($this->_data[$offset]);
+        unset($this->_data[(string)$offset]);
     }
 
     /**
      * Implementation of \ArrayAccess::offsetGet()
      *
-     * @param string $offset
+     * @param mixed $offset
      * @return mixed
-     * @link http://www.php.net/manual/en/arrayaccess.offsetget.php
      */
-    #[\ReturnTypeWillChange]
-    public function offsetGet($offset): mixed
+    public function offsetGet(mixed $offset): mixed
     {
-        if (isset($this->_data[$offset])) {
-            return $this->_data[$offset];
+        if (isset($this->_data[(string)$offset])) {
+            return $this->_data[(string)$offset];
         }
 
         return null;

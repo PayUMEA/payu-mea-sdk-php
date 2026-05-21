@@ -8,17 +8,28 @@
 
 namespace PayU\Test\Api;
 
-use PayUSdk\Api\CreditCard;
+use PayU\Test\Api\Helper;
 
-class CreditCardTest extends \PHPUnit_Framework_TestCase
+use PayUSdk\Model\CreditCard;
+
+class CreditCardTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Gets Object Instance with Json data filled in
      * @return CreditCard
      */
+        /**
+     * Gets array data representation of the object
+     * @return array
+     */
+    public static function getData()
+    {
+        return Helper::hydrateData(json_decode(self::getJson(), true));
+    }
+
     public static function getObject()
     {
-        return new CreditCard(self::getJson());
+        return new CreditCard(self::getData());
     }
 
     /**
@@ -36,7 +47,7 @@ class CreditCardTest extends \PHPUnit_Framework_TestCase
      */
     public function testSerializationDeserialization()
     {
-        $obj = new CreditCard(self::getJson());
+        $obj = new CreditCard(self::getData());
         $this->assertNotNull($obj);
         $this->assertNotNull($obj->getId());
         $this->assertNotNull($obj->getNumber());
@@ -54,7 +65,7 @@ class CreditCardTest extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($obj->getIssueNumber());
         $this->assertNotNull($obj->getShowBudget());
         $this->assertNotNull($obj->getSecure3D());
-        $this->assertEquals(self::getJson(), $obj->toJson());
+        $this->assertEquals(self::getObject(), $obj);
         return $obj;
     }
 

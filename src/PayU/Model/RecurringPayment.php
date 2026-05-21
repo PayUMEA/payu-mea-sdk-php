@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -9,14 +10,13 @@ declare(strict_types=1);
 namespace PayUSdk\Model;
 
 use PayUSdk\Api\Data\RecurringPaymentInterface;
-use PayUSdk\Framework\AbstractModel;
 
 /**
  * Class RecurringDetails
  *
  * @package PaU\Api
  */
-class RecurringPayment extends AbstractModel implements RecurringPaymentInterface
+class RecurringPayment extends PayUModel implements RecurringPaymentInterface
 {
     /**
      * @return string
@@ -75,11 +75,15 @@ class RecurringPayment extends AbstractModel implements RecurringPaymentInterfac
     }
 
     /**
-     * @return ?array
+     * @return array<int, string>|null
      */
     public function getCallCenterRepIds(): ?array
     {
-        return $this->getData(RecurringPaymentInterface::REPRESENTATIVE_IDS);
+        $ids = $this->getData(RecurringPaymentInterface::REPRESENTATIVE_IDS);
+        if ($ids === null) {
+            return null;
+        }
+        return is_array($ids) ? $ids : [$ids];
     }
 
     /**
@@ -156,7 +160,7 @@ class RecurringPayment extends AbstractModel implements RecurringPaymentInterfac
     }
 
     /**
-     * @param array $callCenterRepId
+     * @param array<int, string> $callCenterRepId
      * @return $this
      */
     public function setCallCenterRepIds(array $callCenterRepId): static

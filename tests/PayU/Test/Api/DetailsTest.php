@@ -8,19 +8,30 @@
 
 namespace PayU\Test\Api;
 
-use PayUSdk\Api\Details;
+use PayU\Test\Api\Helper;
+
+use PayUSdk\Model\Details;
 
 
-class DetailsTest extends \PHPUnit_Framework_TestCase
+class DetailsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Gets Object Instance with Json data filled in
      *
      * @return Details
      */
+        /**
+     * Gets array data representation of the object
+     * @return array
+     */
+    public static function getData()
+    {
+        return Helper::hydrateData(json_decode(self::getJson(), true));
+    }
+
     public static function getObject()
     {
-        return new Details(self::getJson());
+        return new Details(self::getData());
     }
 
     /**
@@ -40,7 +51,7 @@ class DetailsTest extends \PHPUnit_Framework_TestCase
      */
     public function testSerializationDeserialization()
     {
-        $obj = new Details(self::getJson());
+        $obj = new Details(self::getData());
         $this->assertNotNull($obj);
         $this->assertNotNull($obj->getSubtotal());
         $this->assertNotNull($obj->getShipping());
@@ -49,7 +60,7 @@ class DetailsTest extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($obj->getShippingDiscount());
         $this->assertNotNull($obj->getGiftWrap());
         $this->assertNotNull($obj->getFee());
-        $this->assertEquals(self::getJson(), $obj->toJson());
+        $this->assertEquals(self::getObject(), $obj);
         return $obj;
     }
 

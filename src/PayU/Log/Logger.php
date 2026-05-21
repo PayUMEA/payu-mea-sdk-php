@@ -23,7 +23,7 @@ use Psr\Log\LogLevel;
 class Logger implements LoggerInterface
 {
     /**
-     * @var array Indexed list of all log levels.
+     * @var array<int, string> Indexed list of all log levels.
      */
     private array $loggingLevels = [
         LogLevel::EMERGENCY,

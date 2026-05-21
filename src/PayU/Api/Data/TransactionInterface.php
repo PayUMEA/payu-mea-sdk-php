@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -21,14 +22,14 @@ interface TransactionInterface
     /**#@+
      * Types of transactions.
      */
-    const TYPE_PAYMENT = 'PAYMENT'; // authorize & capture
-    const TYPE_RESERVE = 'RESERVE'; // authorize
-    const TYPE_CREDIT = 'CREDIT'; // refund
-    const TYPE_FINALIZE = 'FINALIZE'; // capture an authorized payment
-    const TYPE_RESERVE_CANCEL = 'RESERVE_CANCEL'; // cancel an authorization
-    const TYPE_DEBIT_ORDER = 'DEBIT_ORDER'; // Recurring payment
-    const TYPE_ONCE_OFF_PAYMENT_AND_DEBIT_ORDER = 'ONCE_OFF_PAYMENT_AND_DEBIT_ORDER'; // debit order with payment
-    const TYPE_ONCE_OFF_RESERVE_AND_DEBIT_ORDER = 'ONCE_OFF_RESERVE_AND_DEBIT_ORDER'; // debit order with reserve
+    public const TYPE_PAYMENT = 'PAYMENT'; // authorize & capture
+    public const TYPE_RESERVE = 'RESERVE'; // authorize
+    public const TYPE_CREDIT = 'CREDIT'; // refund
+    public const TYPE_FINALIZE = 'FINALIZE'; // capture an authorized payment
+    public const TYPE_RESERVE_CANCEL = 'RESERVE_CANCEL'; // cancel an authorization
+    public const TYPE_DEBIT_ORDER = 'DEBIT_ORDER'; // Recurring payment
+    public const TYPE_ONCE_OFF_PAYMENT_AND_DEBIT_ORDER = 'ONCE_OFF_PAYMENT_AND_DEBIT_ORDER'; // debit order with payment
+    public const TYPE_ONCE_OFF_RESERVE_AND_DEBIT_ORDER = 'ONCE_OFF_RESERVE_AND_DEBIT_ORDER'; // debit order with reserve
 
     public const STATE_EXPIRED = 'EXPIRED';
 
@@ -38,35 +39,35 @@ interface TransactionInterface
     /*
      * Transaction reference id.
      */
-    const DEMO = 'demo';
+    public const DEMO = 'demo';
     /*
      * Transaction reference id.
      */
-    const REFERENCE = 'reference';
+    public const REFERENCE = 'reference';
     /*
      * Short description of transaction.
      */
-    const DESCRIPTION = 'description';
+    public const DESCRIPTION = 'description';
     /*
      * Cart.
      */
-    const CART = 'cart';
+    public const CART = 'cart';
     /*
      * Total to be paid.
      */
-    const TOTAL = 'total';
+    public const TOTAL = 'total';
     /*
      * Fraud management details.
      */
-    const FRAUD_SERVICE = 'fraud_service';
+    public const FRAUD_SERVICE = 'fraud_service';
     /*
      * Shipping Address information.
      */
-    const SHIPPING_INFO = 'shipping_info';
+    public const SHIPPING_INFO = 'shipping_info';
     /*
      * Recurring payment details.
      */
-    const RECURRING_PAYMENT = 'recurring_payment';
+    public const RECURRING_PAYMENT = 'recurring_payment';
 
     /**
      * @return string Demo transaction

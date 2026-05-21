@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -24,8 +25,12 @@ class NumericValidator
      * @param string|null $argumentName
      * @return bool
      */
-    public static function validate(mixed $argument, string $argumentName = null): bool
+    public static function validate(mixed $argument, ?string $argumentName = null): bool
     {
+        if ($argument === null || (is_string($argument) && trim($argument) === '')) {
+            return true;
+        }
+
         if (!is_numeric($argument)) {
             throw new InvalidArgumentException("$argumentName is not a valid numeric value");
         }

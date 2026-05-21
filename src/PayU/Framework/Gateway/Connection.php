@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -24,16 +25,14 @@ use SoapFault;
 class Connection implements ConnectionInterface
 {
     /**
-     * HTTP status codes for which a retry must be attempted
-     * retry is currently attempted for BuilderComposite timeout, Bad Gateway,
-     * Service Unavailable and Gateway timeout errors.
-     */
-    private static array $retryCodes = ['408', '502', '503', '504',];
-
-    /**
      * @var LoggingManager
      */
     private LoggingManager $logger;
+
+    /**
+     * @var BuilderComposite
+     */
+    protected BuilderComposite $requestBuilder;
 
     /**
      * Default Constructor
@@ -46,21 +45,21 @@ class Connection implements ConnectionInterface
     public function __construct(
         protected readonly Context $context,
         protected readonly Config  $config,
-        protected ?BuilderComposite $requestBuilder = null
+        ?BuilderComposite $requestBuilder = null
     ) {
         if (!extension_loaded("soap")) {
             throw new ConfigurationException("SOAP extension is not available/enabled on the server");
         }
 
         $this->logger = LoggingManager::getInstance();
-        $this->requestBuilder = $this->requestBuilder ?? new BuilderComposite();
+        $this->requestBuilder = $requestBuilder ?? new BuilderComposite();
     }
 
     /**
      * Executes an HTTP request
      *
-     * @param array $arguments connection arguments
-     * @return array
+     * @param array<string, mixed> $arguments connection arguments
+     * @return array<string, mixed>
      * @throws SoapFault|InvalidCredentialException
      */
     public function execute(array $arguments): array
@@ -87,10 +86,13 @@ class Connection implements ConnectionInterface
             $this->logger->debug($header);
         }
 
+        $credential = $context->getCredential();
+        assert($credential !== null);
+
         $payload = array_merge(
             [
                 'Api' => Client::API_VERSION,
-                'Safekey' => $context->getCredential()->getSafekey(),
+                'Safekey' => $credential->getSafekey(),
             ],
             $payload
         );
@@ -107,7 +109,7 @@ class Connection implements ConnectionInterface
     /**
      * Gets all Http Headers
      *
-     * @return array
+     * @return string[]
      */
     private function getHttpHeaders(): array
     {

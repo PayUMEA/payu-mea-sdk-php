@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -9,14 +10,13 @@ declare(strict_types=1);
 namespace PayUSdk\Model;
 
 use PayUSdk\Api\Data\Secure3DInterface;
-use PayUSdk\Framework\AbstractModel;
 
 /**
  * Class Secure3D
  *
  * @package PayUSdk\Api
  */
-class Secure3D extends AbstractModel implements Secure3DInterface
+class Secure3D extends PayUModel implements Secure3DInterface
 {
     /**
      * @return string
@@ -36,7 +36,7 @@ class Secure3D extends AbstractModel implements Secure3DInterface
 
     /**
      * @param string $id
-     * @return $this|Secure3D
+     * @return $this
      */
     public function setId(string $id): static
     {
@@ -44,12 +44,11 @@ class Secure3D extends AbstractModel implements Secure3DInterface
     }
 
     /**
-     * @param $url
+     * @param string $url
      * @return $this
      */
-    public function setUrl($url): static
+    public function setUrl(string $url): static
     {
         return $this->setData(Secure3DInterface::secure_3d_url, $url);
     }
 }
-

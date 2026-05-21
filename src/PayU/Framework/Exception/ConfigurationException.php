@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -23,6 +24,6 @@ class ConfigurationException extends \Exception
      */
     public function __construct(?string $message = null, int $code = 0)
     {
-        parent::__construct($message, $code);
+        parent::__construct($message ?? "", $code);
     }
 }

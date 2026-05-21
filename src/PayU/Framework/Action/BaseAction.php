@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -11,8 +12,8 @@ namespace PayUSdk\Framework\Action;
 use PayUSdk\Api\ActionInterface;
 use PayUSdk\Api\AdapterInterface;
 use PayUSdk\Api\ResponseInterface;
-use PayUSdk\Framework\Data\DataObject;
 use PayUSdk\Framework\Adapter;
+use PayUSdk\Framework\Data\DataObject;
 use PayUSdk\Framework\Exception\ConfigurationException;
 use PayUSdk\Framework\Exception\InvalidCredentialException;
 use SoapFault;
@@ -20,21 +21,25 @@ use SoapFault;
 /**
  * Class BaseAction
  *
- * Base class of all actions requested by the client
+ * @package PayUSdk\Framework\Action
  *
- * @package PayUSdk\Framework\Adapter
  */
 abstract class BaseAction extends DataObject implements ActionInterface
 {
     /**
+     * @var AdapterInterface
+     */
+    protected AdapterInterface $adapter;
+
+    /**
      * @param ?AdapterInterface $adapter
-     * @param array $data
+     * @param array<string, mixed> $data
      */
     public function __construct(
-        protected ?AdapterInterface $adapter = null,
+        ?AdapterInterface $adapter = null,
         array $data = []
     ) {
-        $this->adapter = $this->adapter ?? new Adapter();
+        $this->adapter = $adapter ?? new Adapter();
 
         parent::__construct($data);
     }
@@ -55,5 +60,19 @@ abstract class BaseAction extends DataObject implements ActionInterface
                 'context' => $this->getContext()
             ]
         );
+    }
+
+    /**
+     * @return \PayUSdk\Framework\Soap\Context
+     */
+    public function getContext(): \PayUSdk\Framework\Soap\Context
+    {
+        $context = $this->getData('context');
+        if (!($context instanceof \PayUSdk\Framework\Soap\Context)) {
+            $context = new \PayUSdk\Framework\Soap\Context();
+            $this->setData('context', $context);
+        }
+
+        return $context;
     }
 }

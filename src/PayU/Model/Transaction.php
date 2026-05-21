@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -14,14 +15,13 @@ use PayUSdk\Api\Data\RecurringPaymentInterface;
 use PayUSdk\Api\Data\ShippingAddressInterface;
 use PayUSdk\Api\Data\TotalInterface;
 use PayUSdk\Api\Data\TransactionInterface;
-use PayUSdk\Framework\AbstractModel;
 
 /**
  * Class Transaction
  *
  * @package PaU\Model
  */
-class Transaction extends AbstractModel implements TransactionInterface
+class Transaction extends PayUModel implements TransactionInterface
 {
     /**
      * @return string
@@ -61,6 +61,15 @@ class Transaction extends AbstractModel implements TransactionInterface
     public function getTotal(): TotalInterface
     {
         return $this->getData(TransactionInterface::TOTAL);
+    }
+
+    /**
+     * @return TotalInterface|null
+     */
+    public function getAmount(): ?TotalInterface
+    {
+        $total = $this->getData(TransactionInterface::TOTAL);
+        return $total instanceof TotalInterface ? $total : null;
     }
 
     /**
@@ -133,12 +142,38 @@ class Transaction extends AbstractModel implements TransactionInterface
     }
 
     /**
+     * @param TotalInterface $amount
+     * @return $this
+     */
+    public function setAmount(TotalInterface $amount): static
+    {
+        return $this->setTotal($amount);
+    }
+
+    /**
      * @param FraudServiceInterface $fraudService
      * @return $this
      */
     public function setFraudService(FraudServiceInterface $fraudService): static
     {
         return $this->setData(TransactionInterface::FRAUD_SERVICE, $fraudService);
+    }
+
+    /**
+     * @return ?FraudServiceInterface
+     */
+    public function getFraudManagement(): ?FraudServiceInterface
+    {
+        return $this->getFraudService();
+    }
+
+    /**
+     * @param FraudServiceInterface $fraudService
+     * @return $this
+     */
+    public function setFraudManagement(FraudServiceInterface $fraudService): static
+    {
+        return $this->setFraudService($fraudService);
     }
 
     /**

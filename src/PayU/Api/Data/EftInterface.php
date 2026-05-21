@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -28,15 +29,15 @@ interface EftInterface
     /*
      * Amount to pay.
      */
-    const AMOUNT = 'amount';
+    public const AMOUNT = 'amount';
     /*
      * The type of EFT.
      */
-    const TYPE = 'type';
+    public const TYPE = 'type';
     /*
      * Bank name.
      */
-    const BANK_NAME = 'bank_name';
+    public const BANK_NAME = 'bank_name';
 
     /**
      * @return string The amount to pay via EFT

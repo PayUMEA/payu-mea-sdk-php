@@ -8,17 +8,28 @@
 
 namespace PayU\Test\Api;
 
-use PayUSdk\Api\Basket;
+use PayU\Test\Api\Helper;
 
-class BasketTest extends \PHPUnit_Framework_TestCase
+use PayUSdk\Model\Basket;
+
+class BasketTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Gets Object Instance with Json data filled in
      * @return Basket
      */
+        /**
+     * Gets array data representation of the object
+     * @return array
+     */
+    public static function getData()
+    {
+        return Helper::hydrateData(json_decode(self::getJson(), true));
+    }
+
     public static function getObject()
     {
-        return new Basket(self::getJson());
+        return new Basket(self::getData());
     }
 
     /**
@@ -36,12 +47,12 @@ class BasketTest extends \PHPUnit_Framework_TestCase
      */
     public function testSerializationDeserialization()
     {
-        $obj = new Basket(self::getJson());
+        $obj = new Basket(self::getData());
         $this->assertNotNull($obj);
         $this->assertNotNull($obj->getAmountInCents());
         $this->assertNotNull($obj->getCurrencyCode());
         $this->assertNotNull($obj->getDescription());
-        $this->assertEquals(self::getJson(), $obj->toJson());
+        $this->assertEquals(self::getObject(), $obj);
         return $obj;
     }
 

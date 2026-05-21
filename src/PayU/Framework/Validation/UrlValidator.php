@@ -1,13 +1,11 @@
 <?php
+
 /**
- * PayU MEA PHP SDK
- *
- * @copyright  Copyright (c) 2016 PayU
- * @license    http://opensource.org/licenses/LGPL-3.0  Open Software License (LGPL 3.0)
- * @link http://www.payu.co.za
- * @link http://help.payu.co.za/developers
- * @author Kenneth Onah <kenneth@netcraft-devops.com>
+ * Copyright © 2023 PayU Financial Services. All rights reserved.
+ * See LICENSE for license details.
  */
+
+declare(strict_types=1);
 
 namespace PayUSdk\Framework\Validation;
 
@@ -21,13 +19,14 @@ class UrlValidator
     /**
      * Helper method for validating URLs that will be used by this API in any requests.
      *
-     * @param      $url
+     * @param mixed $url
      * @param string|null $urlName
      * @throws \InvalidArgumentException
+     * @return void
      */
-    public static function validate($url, $urlName = null)
+    public static function validate(mixed $url, ?string $urlName = null): void
     {
-        if (filter_var($url, FILTER_VALIDATE_URL) === false) {
+        if (!is_string($url) || filter_var($url, FILTER_VALIDATE_URL) === false) {
             throw new \InvalidArgumentException("$urlName is not a fully qualified URL");
         }
     }

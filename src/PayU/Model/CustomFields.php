@@ -1,75 +1,59 @@
 <?php
+
 /**
- * PayU MEA PHP SDK
- *
- * @copyright  Copyright (c) 2016 PayU
- * @license    http://opensource.org/licenses/LGPL-3.0  Open Software License (LGPL 3.0)
- * @link       http://www.payu.co.za
- * @link       http://help.payu.co.za/developers
- * @author     Kenneth Onah <kenneth@netcraft-devops.com>
+ * Copyright © 2023 PayU Financial Services. All rights reserved.
+ * See LICENSE for license details.
  */
 
-namespace PayUSdk\Api;
+declare(strict_types=1);
 
-use PayU\Exception\InvalidArgumentException;
-use PayUSdk\Model\PayUModel;
-use PayU\Validation\JsonValidator;
+namespace PayUSdk\Model;
+
+use PayUSdk\Api\Data\CustomFieldsInterface;
 
 /**
  * Class CustomFields
  *
- * CustomFields class contains key-value pair details,
+ * CustomFields class contains client key-value pair data,
  *
  * @package PayUSdk\Api
  *
- * @property string key
- * @property string value
+ * @property string $key
+ * @property string $value
  */
-class CustomFields extends PayUModel
+class CustomFields extends PayUModel implements CustomFieldsInterface
 {
     /**
-     * JSON String key
-     *
      * @param string $key
      * @return $this
      */
     public function setKey(string $key): static
     {
-        $this->key = $key;
-
-        return $this;
+        return $this->setData(CustomFieldsInterface::KEY, $key);
     }
 
     /**
-     * JSON String key
-     *
      * @return string
      */
     public function getKey(): string
     {
-        return $this->key;
+        return (string)$this->getData(CustomFieldsInterface::KEY);
     }
 
     /**
-     * JSON string value
-     *
-     * @param string $value
+     * @param mixed $value
      * @return $this
      */
-    public function setValue(string $value): static
+    public function setValue(mixed $value): static
     {
-        $this->value = $value;
-
-        return $this;
+        return $this->setData(CustomFieldsInterface::VALUE, $value);
     }
 
     /**
-     * JSON string value
-     *
-     * @return string
+     * @return mixed
      */
-    public function getValue(): string
+    public function getValue(): mixed
     {
-        return $this->value;
+        return (string)$this->getData(CustomFieldsInterface::VALUE);
     }
 }

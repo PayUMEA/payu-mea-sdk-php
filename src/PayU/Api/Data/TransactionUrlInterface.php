@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -23,49 +24,49 @@ interface TransactionUrlInterface
     /*
      * PayU response url.
      */
-    const RESPONSE_URL = 'return_url';
+    public const RESPONSE_URL = 'return_url';
     /*
      * PayU Cancel url.
      */
-    const CANCEL_URL = 'cancel_url';
+    public const CANCEL_URL = 'cancel_url';
     /*
      * PayU Instant Payment Notification (IPN) url.
      */
-    const NOTIFICATION_URL = 'notification_url';
+    public const NOTIFICATION_URL = 'notification_url';
 
     /**
      * Url where the customer should be redirected to after approving the payment
-     * @return string Payment transaction response url
+     * @return string|null Payment transaction response url
      */
-    public function getResponseUrl(): string;
+    public function getResponseUrl(): ?string;
 
     /**
      * Url where the customer should be redirected to after canceling the payment.
-     * @return string Payment transaction cancel url
+     * @return string|null Payment transaction cancel url
      */
-    public function getCancelUrl(): string;
+    public function getCancelUrl(): ?string;
 
     /**
      * Url where the Instant Payment Notification requests are sent.
-     * @return string Payment transaction notification url
+     * @return string|null Payment transaction notification url
      */
-    public function getNotificationUrl(): string;
+    public function getNotificationUrl(): ?string;
 
     /**
-     * @param string $responseUrl
+     * @param string|null $responseUrl
      * @return $this
      */
-    public function setResponseUrl(string $responseUrl): static;
+    public function setResponseUrl(?string $responseUrl): static;
 
     /**
-     * @param string $cancelUrl
+     * @param string|null $cancelUrl
      * @return $this
      */
-    public function setCancelUrl(string $cancelUrl): static;
+    public function setCancelUrl(?string $cancelUrl): static;
 
     /**
-     * @param string $notificationUrl
+     * @param string|null $notificationUrl
      * @return $this
      */
-    public function setNotificationUrl(string $notificationUrl): static;
+    public function setNotificationUrl(?string $notificationUrl): static;
 }

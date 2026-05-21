@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -19,13 +20,13 @@ use PayUSdk\Framework\Exception\ConfigurationException;
  */
 class Config
 {
-    const HEADER_SEPARATOR = ';';
+    public const HEADER_SEPARATOR = ';';
 
     /**
      * Some default options for SOAPClient
      * These are typically overridden by ConnectionManager
      *
-     * @var array
+     * @var array<string, mixed>
      */
     public array $defaultSoapClientOptions = [
         'cache_wsdl' => WSDL_CACHE_BOTH,
@@ -37,12 +38,12 @@ class Config
     ];
 
     /**
-     * @var array
+     * @var array<string, mixed>
      */
     private array $headers = [];
 
     /**
-     * @var array
+     * @var array<string, mixed>
      */
     private array $soapOptions;
 
@@ -56,7 +57,7 @@ class Config
      *
      * @param ?string $gatewayUrl
      * @param string $method SOAP method (doTransaction, setTransaction etc) default doTransaction
-     * @param array $configs All Configurations
+     * @param array<string, mixed> $configs All Configurations
      */
     public function __construct(
         protected ?string $gatewayUrl = null,
@@ -66,28 +67,26 @@ class Config
         $this->soapOptions = $this->getHttpConstantsFromConfigs(
             'http.',
             $configs
-            ) + $this->defaultSoapClientOptions;
+        ) + $this->defaultSoapClientOptions;
     }
 
     /**
      * Retrieves an array of constant key, and value based on Prefix
      *
      * @param string $prefix HTTP configuration prefix
-     * @param array $configs configuration options
-     * @return array
+     * @param array<string, mixed> $configs configuration options
+     * @return array<string, mixed>
      */
     public function getHttpConstantsFromConfigs(string $prefix, array $configs = []): array
     {
         $arr = [];
 
-        if ($prefix != null && is_array($configs)) {
-            foreach ($configs as $k => $v) {
-                // Check if it startsWith
-                if (str_starts_with($k, $prefix)) {
-                    $newKey = ltrim($k, $prefix);
-                    if (defined($newKey)) {
-                        $arr[constant($newKey)] = $v;
-                    }
+        foreach ($configs as $k => $v) {
+            // Check if it startsWith
+            if (str_starts_with($k, $prefix)) {
+                $newKey = substr($k, strlen($prefix));
+                if (defined($newKey)) {
+                    $arr[constant($newKey)] = $v;
                 }
             }
         }
@@ -128,7 +127,7 @@ class Config
     /**
      * Gets all Headers
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function getHeaders()
     {
@@ -138,9 +137,10 @@ class Config
     /**
      * Set Headers
      *
-     * @param array $headers
+     * @param array<string, mixed> $headers
+     * @return void
      */
-    public function setHeaders(array $headers = array())
+    public function setHeaders(array $headers = []): void
     {
         $this->headers = $headers;
     }
@@ -148,13 +148,13 @@ class Config
     /**
      * Get Header by Name
      *
-     * @param $name
+     * @param string $name
      * @return string|null
      */
-    public function getHeader($name)
+    public function getHeader(string $name): ?string
     {
         if (array_key_exists($name, $this->headers)) {
-            return $this->headers[$name];
+            return (string)$this->headers[$name];
         }
         return null;
     }
@@ -162,11 +162,12 @@ class Config
     /**
      * Adds a Header
      *
-     * @param      $name
-     * @param      $value
+     * @param string $name
+     * @param string|int|float|bool $value
      * @param bool $overWrite allows you to override header value
+     * @return void
      */
-    public function addHeader($name, $value, $overWrite = true)
+    public function addHeader(string $name, $value, bool $overWrite = true): void
     {
         if (!array_key_exists($name, $this->headers) || $overWrite) {
             $this->headers[$name] = $value;
@@ -178,9 +179,10 @@ class Config
     /**
      * Removes a Header
      *
-     * @param $name
+     * @param string $name
+     * @return void
      */
-    public function removeHeader($name)
+    public function removeHeader(string $name): void
     {
         unset($this->headers[$name]);
     }
@@ -188,7 +190,7 @@ class Config
     /**
      * Gets all SOAP options
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function getSoapOptions(): array
     {
@@ -198,7 +200,7 @@ class Config
     /**
      * Set SOAP Options. Overrides all SOAP options
      *
-     * @param array $options
+     * @param array<string, mixed> $options
      */
     public function setSoapOptions(array $options): void
     {
@@ -239,14 +241,15 @@ class Config
     /**
      * Set ssl parameters for certificate based client authentication
      *
-     * @param      $certPath
-     * @param null $passPhrase
+     * @param string $certPath
+     * @param string|null $passPhrase
      */
-    public function setSSLCert($certPath, $passPhrase = null): void
+    public function setSSLCert(string $certPath, ?string $passPhrase = null): void
     {
-        $this->soapOptions['local_cert'] = realpath($certPath);
+        $realpath = realpath($certPath);
+        $this->soapOptions['local_cert'] = $realpath !== false ? $realpath : $certPath;
 
-        if (isset($passPhrase) && trim($passPhrase) != "") {
+        if ($passPhrase !== null && trim($passPhrase) !== "") {
             $this->soapOptions['passphrase'] = $passPhrase;
         }
     }
@@ -273,7 +276,7 @@ class Config
 
         if (isset($urlParts["user"])) {
             $this->soapOptions['proxy_login'] = $urlParts["user"];
-            $this->soapOptions['proxy_password'] = $urlParts["pass"];
+            $this->soapOptions['proxy_password'] = $urlParts["pass"] ?? '';
         }
     }
 

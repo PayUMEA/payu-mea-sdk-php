@@ -8,17 +8,28 @@
 
 namespace PayU\Test\Api;
 
-use PayUSdk\Api\Merchant;
+use PayU\Test\Api\Helper;
 
-class MerchantTest extends \PHPUnit_Framework_TestCase
+use PayUSdk\Model\Merchant;
+
+class MerchantTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Gets Object Instance with Json data filled in
      * @return Merchant
      */
+        /**
+     * Gets array data representation of the object
+     * @return array
+     */
+    public static function getData()
+    {
+        return Helper::hydrateData(json_decode(self::getJson(), true));
+    }
+
     public static function getObject()
     {
-        return new Merchant(self::getJson());
+        return new Merchant(self::getData());
     }
 
     /**
@@ -36,7 +47,7 @@ class MerchantTest extends \PHPUnit_Framework_TestCase
      */
     public function testSerializationDeserialization()
     {
-        $obj = new Merchant(self::getJson());
+        $obj = new Merchant(self::getData());
         $this->assertNotNull($obj);
         $this->assertNotNull($obj->getEmail());
         $this->assertNotNull($obj->getMerchantId());
@@ -44,7 +55,7 @@ class MerchantTest extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($obj->getLastName());
         $this->assertNotNull($obj->getAccountNumber());
         $this->assertNotNull($obj->getPhone());
-        $this->assertEquals(self::getJson(), $obj->toJson());
+        $this->assertEquals(self::getObject(), $obj);
         return $obj;
     }
 

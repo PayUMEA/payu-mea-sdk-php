@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -21,33 +22,33 @@ interface AddressInterface
      * Constants for keys of data array. Identical to the name of the getter in snake case.
      */
     /*
-     * Line 1.
+     * Address Line 1.
      */
-    const LINE1 = 'line1';
+    public const LINE1 = 'line1';
     /*
-     * Line 2.
+     * Address Line 2.
      */
-    const LINE2 = 'line2';
-    /*
-     * City.
-     */
-    const CITY = 'city';
+    public const LINE2 = 'line2';
     /*
      * City.
      */
-    const PHONE = 'phone';
+    public const CITY = 'city';
+    /*
+     * City.
+     */
+    public const PHONE = 'phone';
     /*
      * Country code.
      */
-    const COUNTRY_CODE = 'country_code';
+    public const COUNTRY_CODE = 'country_code';
     /*
      * Postal code.
      */
-    const POSTAL_CODE = 'postal_code';
+    public const POSTAL_CODE = 'postal_code';
     /*
      * State.
      */
-    const STATE = 'state';
+    public const STATE = 'state';
 
     /**
      * @return string Address line 1.

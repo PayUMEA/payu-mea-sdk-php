@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -16,11 +17,11 @@ namespace PayUSdk\Api\Data;
  */
 interface EbucksInterface
 {
-    const PAYMENT = 'PAYMENT';
-    const VALIDATE_OTP = 'VALIDATE_OTP';
-    const GENERATE_OTP = 'GENERATE_OTP';
-    const RESET_PASSWORD = 'RESET_PASSWORD';
-    const AUTHENTICATE_ACCOUNT = 'AUTHENTICATE_ACCOUNT';
+    public const PAYMENT = 'PAYMENT';
+    public const VALIDATE_OTP = 'VALIDATE_OTP';
+    public const GENERATE_OTP = 'GENERATE_OTP';
+    public const RESET_PASSWORD = 'RESET_PASSWORD';
+    public const AUTHENTICATE_ACCOUNT = 'AUTHENTICATE_ACCOUNT';
 
     /**#@+
      * Constants for keys of data array. Identical to the name of the getter in snake case.
@@ -28,53 +29,62 @@ interface EbucksInterface
     /*
      * Action being performed.
      */
-    const ACTION = 'action';
+    public const ACTION = 'action';
     /*
      * The type of action performed (authentication).
      */
-    const AUTHENTICATE_ACCOUNT_TYPE = 'authenticate_account_type';
+    public const AUTHENTICATE_ACCOUNT_TYPE = 'authenticate_account_type';
     /*
      * eBucks member's card number.
      */
-    const EBUCKS_MEMBER_IDENTIFIER = 'ebucks_member_identifier';
+    public const EBUCKS_MEMBER_IDENTIFIER = 'ebucks_member_identifier';
     /*
      * PIN for eBucks card.
      */
-    const EBUCKS_PIN = 'ebucks_pin';
+    public const EBUCKS_PIN = 'ebucks_pin';
     /*
      * The type of action performed (generate OTP).
      */
-    const GENERATE_OTP_TYPE = 'generate_otp_type';
+    public const GENERATE_OTP_TYPE = 'generate_otp_type';
     /*
      * Amounts in eBucks.
      */
-    const EBUCKS_AMOUNT = 'ebucks_amount';
+    public const EBUCKS_AMOUNT = 'ebucks_amount';
     /*
      * The type of action performed (reset password).
      */
-    const RESET_PASSWORD_TYPE = 'reset_password_type';
+    public const RESET_PASSWORD_TYPE = 'reset_password_type';
     /*
      * The type of action performed (validate OTP).
      */
-    const VALIDATE_OTP_TYPE = 'validate_otp_type';
+    public const VALIDATE_OTP_TYPE = 'validate_otp_type';
     /*
      * OTP provided by the customer.
      */
-    const EBUCKS_OTP = 'ebucks_otp';
+    public const EBUCKS_OTP = 'ebucks_otp';
     /*
      * eBucks account number
      */
-    const EBUCKS_ACCOUNT_NUMBER = 'ebucks_account_number';
+    public const EBUCKS_ACCOUNT_NUMBER = 'ebucks_account_number';
     /*
      * eBucks destination account number
      */
-    const EBUCKS_DESTINATION = 'ebucks_destination';
+    public const EBUCKS_DESTINATION = 'ebucks_destination';
+    /*
+     * PayU Reference
+     */
+    public const PAYU_REFERENCE = 'payu_reference';
 
     /**
      * @return string The Type of action being performed.
      * Valid types [AUTHENTICATE_ACCOUNT, GENERATE_OTP, RESET_PASSWORD, VALIDATE_OTP]
      */
     public function getAction(): string;
+
+    /**
+     * @return string
+     */
+    public function getPayUReference(): string;
 
     /**
      * @return string Metadata for identifying the type of action performed.
@@ -191,4 +201,10 @@ interface EbucksInterface
      * @return $this
      */
     public function setEbucksDestination(string $ebucksDestination): static;
+
+    /**
+     * @param string $payUReference
+     * @return $this
+     */
+    public function setPayUReference(string $payUReference): static;
 }

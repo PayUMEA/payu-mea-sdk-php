@@ -8,17 +8,28 @@
 
 namespace PayU\Test\Api;
 
-use PayUSdk\Api\Secure3D;
+use PayU\Test\Api\Helper;
 
-class Secure3DTest extends \PHPUnit_Framework_TestCase
+use PayUSdk\Model\Secure3D;
+
+class Secure3DTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Gets Object Instance with Json data filled in
      * @return Secure3D
      */
+        /**
+     * Gets array data representation of the object
+     * @return array
+     */
+    public static function getData()
+    {
+        return Helper::hydrateData(json_decode(self::getJson(), true));
+    }
+
     public static function getObject()
     {
-        return new Secure3D(self::getJson());
+        return new Secure3D(self::getData());
     }
 
     /**
@@ -36,11 +47,11 @@ class Secure3DTest extends \PHPUnit_Framework_TestCase
      */
     public function testSerializationDeserialization()
     {
-        $obj = new Secure3D(self::getJson());
+        $obj = new Secure3D(self::getData());
         $this->assertNotNull($obj);
         $this->assertNotNull($obj->getSecure3DId());
         $this->assertNotNull($obj->getSecure3DUrl());
-        $this->assertEquals(self::getJson(), $obj->toJson());
+        $this->assertEquals(self::getObject(), $obj);
         return $obj;
     }
 

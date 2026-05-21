@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -51,14 +52,14 @@ class GatewayConfigHandler implements HandlerInterface
         $headers = $this->apiContext->getRequestHeaders();
 
         foreach ($headers as $key => $value) {
-            $config->addHeader($key, $value);
+            $config->addHeader((string)$key, $value);
         }
     }
 
     /**
      * Get base endpoint for SOAP WSDL service
      *
-     * @param array $config
+     * @param array<string, mixed> $config
      *
      * @return string $baseEndpoint the WSDL endpoint
      * @throws ConfigurationException

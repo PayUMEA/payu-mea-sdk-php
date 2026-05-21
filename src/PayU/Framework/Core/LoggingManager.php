@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © 2023 PayU Financial Services. All rights reserved.
  * See LICENSE for license details.
@@ -21,7 +22,7 @@ use Psr\Log\LoggerInterface;
 class LoggingManager
 {
     /**
-     * @var array of logging manager instances with class name as key
+     * @var array<string, mixed>
      */
     private static array $instances = [];
 
@@ -64,9 +65,9 @@ class LoggingManager
      * Returns the singleton object
      *
      * @param string $loggerName
-     * @return $this
+     * @return self
      */
-    public static function getInstance(string $loggerName = __CLASS__): LoggingManager|static
+    public static function getInstance(string $loggerName = __CLASS__): self
     {
         if (array_key_exists($loggerName, LoggingManager::$instances)) {
             return LoggingManager::$instances[$loggerName];
@@ -76,6 +77,14 @@ class LoggingManager
         LoggingManager::$instances[$loggerName] = $instance;
 
         return $instance;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLoggerName(): string
+    {
+        return $this->loggerName;
     }
 
     /**
