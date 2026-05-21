@@ -8,17 +8,28 @@
 
 namespace PayU\Test\Api;
 
-use PayUSdk\Api\CreditCardToken;
+use PayU\Test\Api\Helper;
 
-class CreditCardTokenTest extends \PHPUnit_Framework_TestCase
+use PayUSdk\Model\CreditCardToken;
+
+class CreditCardTokenTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Gets Object Instance with Json data filled in
      * @return CreditCardToken
      */
+        /**
+     * Gets array data representation of the object
+     * @return array
+     */
+    public static function getData()
+    {
+        return Helper::hydrateData(json_decode(self::getJson(), true));
+    }
+
     public static function getObject()
     {
-        return new CreditCardToken(self::getJson());
+        return new CreditCardToken(self::getData());
     }
 
     /**
@@ -36,7 +47,7 @@ class CreditCardTokenTest extends \PHPUnit_Framework_TestCase
      */
     public function testSerializationDeserialization()
     {
-        $obj = new CreditCardToken(self::getJson());
+        $obj = new CreditCardToken(self::getData());
         $this->assertNotNull($obj);
         $this->assertNotNull($obj->getCreditCardId());
         $this->assertNotNull($obj->getLast4());
@@ -44,7 +55,7 @@ class CreditCardTokenTest extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($obj->getCvv2());
         $this->assertNotNull($obj->getExpireMonth());
         $this->assertNotNull($obj->getExpireYear());
-        $this->assertEquals(self::getJson(), $obj->toJson());
+        $this->assertEquals(self::getObject(), $obj);
         return $obj;
     }
 

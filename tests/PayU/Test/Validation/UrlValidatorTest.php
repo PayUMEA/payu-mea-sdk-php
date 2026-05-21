@@ -1,9 +1,9 @@
 <?php
 namespace PayU\Test\Validation;
 
-use PayU\Validation\UrlValidator;
+use PayUSdk\Framework\Validation\UrlValidator;
 
-class UrlValidatorTest extends \PHPUnit_Framework_TestCase
+class UrlValidatorTest extends \PHPUnit\Framework\TestCase
 {
 
     public static function positiveProvider()
@@ -33,21 +33,21 @@ class UrlValidatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     *
      * @dataProvider positiveProvider
      */
     public function testValidate($input)
     {
         UrlValidator::validate($input, "Test Value");
+        $this->addToAssertionCount(1);
     }
 
     /**
      *
      * @dataProvider invalidProvider
-     * @expectedException \InvalidArgumentException
      */
     public function testValidateException($input)
     {
+        $this->expectException(\InvalidArgumentException::class);
         UrlValidator::validate($input, "Test Value");
     }
 }

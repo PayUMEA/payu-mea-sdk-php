@@ -28,6 +28,14 @@ class CurrencyTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @return string
+     */
+    public static function getJson()
+    {
+        return '{"code":"ZAR"}';
+    }
+
+    /**
      * Tests for Serialization and Deserialization Issues
      * @return Currency
      */

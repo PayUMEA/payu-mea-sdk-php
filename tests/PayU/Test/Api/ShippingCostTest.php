@@ -8,17 +8,28 @@
 
 namespace PayU\Test\Api;
 
-use PayUSdk\Api\ShippingCost;
+use PayU\Test\Api\Helper;
 
-class ShippingCostTest extends \PHPUnit_Framework_TestCase
+use PayUSdk\Model\ShippingCost;
+
+class ShippingCostTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Gets Object Instance with Json data filled in
      * @return ShippingCost
      */
+        /**
+     * Gets array data representation of the object
+     * @return array
+     */
+    public static function getData()
+    {
+        return Helper::hydrateData(json_decode(self::getJson(), true));
+    }
+
     public static function getObject()
     {
-        return new ShippingCost(self::getJson());
+        return new ShippingCost(self::getData());
     }
 
     /**
@@ -27,7 +38,7 @@ class ShippingCostTest extends \PHPUnit_Framework_TestCase
      */
     public static function getJson()
     {
-        return '{"amount":' . AmountTest::getJson() . ',"tax":' . TaxTest::getJson() . '}';
+        return '{"amount":' . TotalTest::getJson() . ',"tax":' . TaxTest::getJson() . '}';
     }
 
     /**
@@ -36,11 +47,11 @@ class ShippingCostTest extends \PHPUnit_Framework_TestCase
      */
     public function testSerializationDeserialization()
     {
-        $obj = new ShippingCost(self::getJson());
+        $obj = new ShippingCost(self::getData());
         $this->assertNotNull($obj);
         $this->assertNotNull($obj->getAmount());
         $this->assertNotNull($obj->getTax());
-        $this->assertEquals(self::getJson(), $obj->toJson());
+        $this->assertEquals(self::getObject(), $obj);
         return $obj;
     }
 
@@ -50,7 +61,7 @@ class ShippingCostTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetters($obj)
     {
-        $this->assertEquals($obj->getAmount(), AmountTest::getObject());
+        $this->assertEquals($obj->getAmount(), TotalTest::getObject());
         $this->assertEquals($obj->getTax(), TaxTest::getObject());;
     }
 }

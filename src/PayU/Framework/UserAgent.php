@@ -37,7 +37,7 @@ class UserAgent
             $featureList[] = 'soap=' . $soapVersion;
         }
 
-        return sprintf("PayU SDK/%s %s (%s)", $sdkName, $sdkVersion, implode('; ', $featureList));
+        return sprintf("PayUSDK/%s %s (%s)", $sdkName, $sdkVersion, implode('; ', $featureList));
     }
 
     /**

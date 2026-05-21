@@ -27,6 +27,10 @@ class NumericValidator
      */
     public static function validate(mixed $argument, ?string $argumentName = null): bool
     {
+        if ($argument === null || (is_string($argument) && trim($argument) === '')) {
+            return true;
+        }
+
         if (!is_numeric($argument)) {
             throw new InvalidArgumentException("$argumentName is not a valid numeric value");
         }

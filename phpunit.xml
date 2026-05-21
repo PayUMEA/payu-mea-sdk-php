@@ -3,7 +3,7 @@
          stopOnFailure="false">
 
     <php>
-        <env name="SOAP_MODE" value="sandbox" />
+        <env name="SOAP_MODE" value="mock" />
         <env name="XDEBUG_MODE" value="coverage" />
         <!-- You can also set INI settings here -->
         <ini name="memory_limit" value="512M" />

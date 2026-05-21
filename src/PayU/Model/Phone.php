@@ -68,4 +68,12 @@ class Phone extends PayUModel implements PhoneInterface
     {
         return $this->setData(PhoneInterface::EXTENSION, $extension);
     }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return (string)$this->getData(PhoneInterface::NATIONAL_NUMBER);
+    }
 }

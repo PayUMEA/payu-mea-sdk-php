@@ -8,17 +8,28 @@
 
 namespace PayU\Test\Api;
 
-use PayUSdk\Api\Phone;
+use PayU\Test\Api\Helper;
 
-class PhoneTest extends \PHPUnit_Framework_TestCase
+use PayUSdk\Model\Phone;
+
+class PhoneTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Gets Object Instance with Json data filled in
      * @return Phone
      */
+        /**
+     * Gets array data representation of the object
+     * @return array
+     */
+    public static function getData()
+    {
+        return Helper::hydrateData(json_decode(self::getJson(), true));
+    }
+
     public static function getObject()
     {
-        return new Phone(self::getJson());
+        return new Phone(self::getData());
     }
 
     /**
@@ -36,12 +47,12 @@ class PhoneTest extends \PHPUnit_Framework_TestCase
      */
     public function testSerializationDeserialization()
     {
-        $obj = new Phone(self::getJson());
+        $obj = new Phone(self::getData());
         $this->assertNotNull($obj);
         $this->assertNotNull($obj->getCountryCode());
         $this->assertNotNull($obj->getNationalNumber());
         $this->assertNotNull($obj->getExtension());
-        $this->assertEquals(self::getJson(), $obj->toJson());
+        $this->assertEquals(self::getObject(), $obj);
         return $obj;
     }
 

@@ -63,7 +63,7 @@ class ConfigManager
             $this->addConfigs($configs);
         }
 
-        return self::$instance;
+        return $this;
     }
 
     /**
@@ -78,7 +78,7 @@ class ConfigManager
     {
         $this->configs = $configs + $this->configs;
 
-        return self::$instance;
+        return $this;
     }
 
     /**
@@ -138,7 +138,7 @@ class ConfigManager
             foreach ($this->configs as $key => $value) {
                 $pos = strpos((string)$key, '.');
 
-                if (str_contains((string)$key, "acct") && $pos !== false) {
+                if ((str_contains((string)$key, "acct") || str_contains((string)$key, "account")) && $pos !== false) {
                     $arr[] = substr((string)$key, 0, $pos);
                 }
             }

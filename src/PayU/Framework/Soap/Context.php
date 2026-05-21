@@ -30,9 +30,9 @@ class Context
      * The user can either generate one as per application
      * needs or let the SDK generate one
      *
-     * @var string $requestId
+     * @var ?string $requestId
      */
-    private string $requestId = '';
+    private ?string $requestId = null;
 
     /**
      * Determines how to make API calls. Default integration method is Redirect Payment Page (RPP)
@@ -84,7 +84,14 @@ class Context
 
         if (is_iterable($result)) {
             foreach ($result as $header => $value) {
-                $headerName = ltrim((string)$header, 'http.headers');
+                $headerStr = (string)$header;
+                if (str_starts_with($headerStr, 'http.headers.')) {
+                    $headerName = substr($headerStr, strlen('http.headers.'));
+                } elseif (str_starts_with($headerStr, 'http.headers')) {
+                    $headerName = substr($headerStr, strlen('http.headers'));
+                } else {
+                    $headerName = $headerStr;
+                }
                 $headers[$headerName] = $value;
             }
         }
@@ -161,9 +168,9 @@ class Context
     /**
      * Sets the request ID
      *
-     * @param string $requestId the value to use
+     * @param ?string $requestId the value to use
      */
-    public function setRequestId(string $requestId): void
+    public function setRequestId(?string $requestId): void
     {
         $this->requestId = $requestId;
     }

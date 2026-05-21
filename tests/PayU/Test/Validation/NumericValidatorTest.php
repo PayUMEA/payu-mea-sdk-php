@@ -1,9 +1,9 @@
 <?php
 namespace PayU\Test\Validation;
 
-use PayU\Validation\NumericValidator;
+use PayUSdk\Framework\Validation\NumericValidator;
 
-class NumericValidatorTest extends \PHPUnit_Framework_TestCase
+class NumericValidatorTest extends \PHPUnit\Framework\TestCase
 {
 
     public static function positiveProvider()
@@ -52,10 +52,10 @@ class NumericValidatorTest extends \PHPUnit_Framework_TestCase
     /**
      *
      * @dataProvider invalidProvider
-     * @expectedException \InvalidArgumentException
      */
     public function testValidateException($input)
     {
+        $this->expectException(\InvalidArgumentException::class);
         NumericValidator::validate($input, "Test Value");
     }
 }

@@ -8,17 +8,28 @@
 
 namespace PayU\Test\Api;
 
-use PayUSdk\Api\Transaction;
+use PayU\Test\Api\Helper;
 
-class TransactionTest extends \PHPUnit_Framework_TestCase
+use PayUSdk\Model\Transaction;
+
+class TransactionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Gets Object Instance with Json data filled in
      * @return Transaction
      */
+        /**
+     * Gets array data representation of the object
+     * @return array
+     */
+    public static function getData()
+    {
+        return Helper::hydrateData(json_decode(self::getJson(), true));
+    }
+
     public static function getObject()
     {
-        return new Transaction(self::getJson());
+        return new Transaction(self::getData());
     }
 
     /**
@@ -27,7 +38,7 @@ class TransactionTest extends \PHPUnit_Framework_TestCase
      */
     public static function getJson()
     {
-        return '{"showBudget":"TestSample","referenceId":"TestSample","description":"TestSample","invoiceNumber":"TestSample","itemList":' . ItemListTest::getJson() . ',"merchant":' . MerchantTest::getJson() . ',"amount":' . AmountTest::getJson() . ',"shippingInfo":' . ShippingInfoTest::getJson() . ',"transactionRecord":' . TransactionRecordTest::getJson() . ',"fraudManagement":' . FmDetailsTest::getJson() . '}';
+        return '{"showBudget":"TestSample","referenceId":"TestSample","description":"TestSample","invoiceNumber":"TestSample","itemList":' . ItemListTest::getJson() . ',"merchant":' . MerchantTest::getJson() . ',"amount":' . TotalTest::getJson() . ',"shippingInfo":' . ShippingInfoTest::getJson() . ',"transactionRecord":' . TransactionRecordTest::getJson() . ',"fraudManagement":' . FmDetailsTest::getJson() . '}';
     }
 
     /**
@@ -36,7 +47,7 @@ class TransactionTest extends \PHPUnit_Framework_TestCase
      */
     public function testSerializationDeserialization()
     {
-        $obj = new Transaction(self::getJson());
+        $obj = new Transaction(self::getData());
         $this->assertNotNull($obj);
         $this->assertNotNull($obj->getShowBudget());
         $this->assertNotNull($obj->getReferenceId());
@@ -48,7 +59,7 @@ class TransactionTest extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($obj->getShippingInfo());
         $this->assertNotNull($obj->getTransactionRecord());
         $this->assertNotNull($obj->getFraudManagement());
-        $this->assertEquals(self::getJson(), $obj->toJson());
+        $this->assertEquals(self::getObject(), $obj);
         return $obj;
     }
 
@@ -64,9 +75,9 @@ class TransactionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($obj->getInvoiceNumber(), "TestSample");
         $this->assertEquals($obj->getItemList(), ItemListTest::getObject());
         $this->assertEquals($obj->getMerchant(), MerchantTest::getObject());
-        $this->assertEquals($obj->getAmount(), AmountTest::getObject());
-        $this->assertEquals($obj->getShippingInfo(), ShippingInfoTest::getObject());
+        $this->assertEquals($obj->getAmount(), TotalTest::getObject());
+        $this->assertEquals($obj->getShippingInfo(), new \PayUSdk\Model\ShippingAddress(ShippingInfoTest::getData()));
         $this->assertEquals($obj->getTransactionRecord(), TransactionRecordTest::getObject());
-        $this->assertEquals($obj->getFraudManagement(), FmDetailsTest::getObject());
+        $this->assertEquals($obj->getFraudManagement(), new \PayUSdk\Model\FraudService(FmDetailsTest::getData()));
     }
 }

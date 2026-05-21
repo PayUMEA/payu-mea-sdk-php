@@ -8,17 +8,28 @@
 
 namespace PayU\Test\Api;
 
-use PayUSdk\Api\CustomerInfo;
+use PayU\Test\Api\Helper;
 
-class CustomerInfoTest extends \PHPUnit_Framework_TestCase
+use PayUSdk\Model\CustomerInfo;
+
+class CustomerInfoTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Gets Object Instance with Json data filled in
      * @return CustomerInfo
      */
+        /**
+     * Gets array data representation of the object
+     * @return array
+     */
+    public static function getData()
+    {
+        return Helper::hydrateData(json_decode(self::getJson(), true));
+    }
+
     public static function getObject()
     {
-        return new CustomerInfo(self::getJson());
+        return new CustomerInfo(self::getData());
     }
 
     /**
@@ -36,7 +47,7 @@ class CustomerInfoTest extends \PHPUnit_Framework_TestCase
      */
     public function testSerializationDeserialization()
     {
-        $obj = new CustomerInfo(self::getJson());
+        $obj = new CustomerInfo(self::getData());
         $this->assertNotNull($obj);
         $this->assertNotNull($obj->getEmail());
         $this->assertNotNull($obj->getAccountNumber());
@@ -47,7 +58,7 @@ class CustomerInfoTest extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($obj->getCountryCode());
         $this->assertNotNull($obj->getCountryOfResidence());
         $this->assertNotNull($obj->getBillingAddress());
-        $this->assertEquals(self::getJson(), $obj->toJson());
+        $this->assertEquals(self::getObject(), $obj);
         return $obj;
     }
 
@@ -65,6 +76,6 @@ class CustomerInfoTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($obj->getPhone(), "TestSample");
         $this->assertEquals($obj->getCountryCode(), "TestSample");
         $this->assertEquals($obj->getCountryOfResidence(), "TestSample");
-        $this->assertEquals($obj->getBillingAddress(), AddressTest::getObject());
+        $this->assertEquals($obj->getBillingAddress(), BillingAddressTest::getObject());
     }
 }

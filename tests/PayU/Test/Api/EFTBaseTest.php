@@ -8,17 +8,28 @@
 
 namespace PayU\Test\Api;
 
-use PayUSdk\Api\EFTBase;
+use PayU\Test\Api\Helper;
 
-class EFTBaseTest extends \PHPUnit_Framework_TestCase
+use PayUSdk\Model\EFTBase;
+
+class EFTBaseTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Gets Object Instance with Json data filled in
      * @return EFTBase
      */
+        /**
+     * Gets array data representation of the object
+     * @return array
+     */
+    public static function getData()
+    {
+        return Helper::hydrateData(json_decode(self::getJson(), true));
+    }
+
     public static function getObject()
     {
-        return new EFTBase(self::getJson());
+        return new EFTBase(self::getData());
     }
 
     /**
@@ -36,14 +47,14 @@ class EFTBaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testSerializationDeserialization()
     {
-        $obj = new EFTBase(self::getJson());
+        $obj = new EFTBase(self::getData());
         $this->assertNotNull($obj);
         $this->assertNotNull($obj->getAmount());
         $this->assertNotNull($obj->getMethod());
         $this->assertNotNull($obj->getType());
         $this->assertNotNull($obj->getUrl());
         $this->assertNotNull($obj->getBankName());
-        $this->assertEquals(self::getJson(), $obj->toJson());
+        $this->assertEquals(self::getObject(), $obj);
         return $obj;
     }
 

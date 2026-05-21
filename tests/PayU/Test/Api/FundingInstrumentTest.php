@@ -8,17 +8,28 @@
 
 namespace PayU\Test\Api;
 
-use PayUSdk\Api\FundingInstrument;
+use PayU\Test\Api\Helper;
 
-class FundingInstrumentTest extends \PHPUnit_Framework_TestCase
+use PayUSdk\Model\FundingInstrument;
+
+class FundingInstrumentTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Gets Object Instance with Json data filled in
      * @return FundingInstrument
      */
+        /**
+     * Gets array data representation of the object
+     * @return array
+     */
+    public static function getData()
+    {
+        return Helper::hydrateData(json_decode(self::getJson(), true));
+    }
+
     public static function getObject()
     {
-        return new FundingInstrument(self::getJson());
+        return new FundingInstrument(self::getData());
     }
 
     /**
@@ -36,7 +47,7 @@ class FundingInstrumentTest extends \PHPUnit_Framework_TestCase
      */
     public function testSerializationDeserialization()
     {
-        $obj = new FundingInstrument(self::getJson());
+        $obj = new FundingInstrument(self::getData());
         $this->assertNotNull($obj);
         $this->assertNotNull($obj->getStoreCard());
         $this->assertNotNull($obj->getCreditCard());
@@ -44,7 +55,7 @@ class FundingInstrumentTest extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($obj->getEbucks());
         $this->assertNotNull($obj->getEft());
         $this->assertNotNull($obj->getCreditCardToken());
-        $this->assertEquals(self::getJson(), $obj->toJson());
+        $this->assertEquals(self::getObject(), $obj);
         return $obj;
     }
 

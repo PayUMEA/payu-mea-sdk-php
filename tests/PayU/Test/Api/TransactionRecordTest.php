@@ -8,17 +8,28 @@
 
 namespace PayU\Test\Api;
 
-use PayUSdk\Api\TransactionRecord;
+use PayU\Test\Api\Helper;
 
-class TransactionRecordTest extends \PHPUnit_Framework_TestCase
+use PayUSdk\Model\TransactionRecord;
+
+class TransactionRecordTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Gets Object Instance with Json data filled in
      * @return TransactionRecord
      */
+        /**
+     * Gets array data representation of the object
+     * @return array
+     */
+    public static function getData()
+    {
+        return Helper::hydrateData(json_decode(self::getJson(), true));
+    }
+
     public static function getObject()
     {
-        return new TransactionRecord(self::getJson());
+        return new TransactionRecord(self::getData());
     }
 
     /**
@@ -36,7 +47,7 @@ class TransactionRecordTest extends \PHPUnit_Framework_TestCase
      */
     public function testSerializationDeserialization()
     {
-        $obj = new TransactionRecord(self::getJson());
+        $obj = new TransactionRecord(self::getData());
         $this->assertNotNull($obj);
         $this->assertNotNull($obj->getRecurrences());
         $this->assertNotNull($obj->getStatementDescription());
@@ -47,7 +58,7 @@ class TransactionRecordTest extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($obj->getDeductionDay());
         $this->assertNotNull($obj->getCallCenterRepIds());
         $this->assertNotNull($obj->getRecurringPaymentToken());
-        $this->assertEquals(self::getJson(), $obj->toJson());
+        $this->assertEquals(self::getObject(), $obj);
         return $obj;
     }
 
@@ -64,7 +75,7 @@ class TransactionRecordTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($obj->getAnonymousUser(), "TestSample");
         $this->assertEquals($obj->getFrequency(), "TestSample");
         $this->assertEquals($obj->getDeductionDay(), "TestSample");
-        $this->assertEquals($obj->getCallCenterRepIds(), "TestSample");
+        $this->assertEquals($obj->getCallCenterRepIds(), ["TestSample"]);
         $this->assertEquals($obj->getRecurringPaymentToken(), "TestSample");
     }
 }

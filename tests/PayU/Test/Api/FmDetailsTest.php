@@ -8,17 +8,28 @@
 
 namespace PayU\Test\Api;
 
-use PayUSdk\Api\FmDetails;
+use PayU\Test\Api\Helper;
 
-class FmDetailsTest extends \PHPUnit_Framework_TestCase
+use PayUSdk\Model\FmDetails;
+
+class FmDetailsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Gets Object Instance with Json data filled in
      * @return FmDetails
      */
+        /**
+     * Gets array data representation of the object
+     * @return array
+     */
+    public static function getData()
+    {
+        return Helper::hydrateData(json_decode(self::getJson(), true));
+    }
+
     public static function getObject()
     {
-        return new FmDetails(self::getJson());
+        return new FmDetails(self::getData());
     }
 
     /**
@@ -36,14 +47,14 @@ class FmDetailsTest extends \PHPUnit_Framework_TestCase
      */
     public function testSerializationDeserialization()
     {
-        $obj = new FmDetails(self::getJson());
+        $obj = new FmDetails(self::getData());
         $this->assertNotNull($obj);
         $this->assertNotNull($obj->getCheckFraudOverride());
         $this->assertNotNull($obj->getMerchantWebsite());
         $this->assertNotNull($obj->getPCFingerPrint());
         $this->assertNotNull($obj->getResultCode());
         $this->assertNotNull($obj->getResultMessage());
-        $this->assertEquals(self::getJson(), $obj->toJson());
+        $this->assertEquals(self::getObject(), $obj);
         return $obj;
     }
 

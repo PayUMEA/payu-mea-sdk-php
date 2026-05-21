@@ -39,7 +39,7 @@ class Item extends PayUModel implements ItemInterface
      */
     public function getQuantity(): int
     {
-        return $this->getData(ItemInterface::QUANTITY);
+        return (int)$this->getData(ItemInterface::QUANTITY);
     }
 
     /**
@@ -47,7 +47,7 @@ class Item extends PayUModel implements ItemInterface
      */
     public function getPrice(): float
     {
-        return $this->getData(ItemInterface::PRICE);
+        return (float)$this->getData(ItemInterface::PRICE);
     }
 
     /**
@@ -55,7 +55,7 @@ class Item extends PayUModel implements ItemInterface
      */
     public function getCostPrice(): float
     {
-        return $this->getData(ItemInterface::COST_PRICE);
+        return (float)$this->getData(ItemInterface::COST_PRICE);
     }
 
     /**
@@ -63,7 +63,7 @@ class Item extends PayUModel implements ItemInterface
      */
     public function getTotal(): float
     {
-        return $this->getData(ItemInterface::TOTAL);
+        return (float)$this->getData(ItemInterface::TOTAL);
     }
 
     /**

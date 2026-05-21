@@ -8,9 +8,11 @@
 
 namespace PayU\Test\Api;
 
-use PayUSdk\Api\ItemList;
+use PayU\Test\Api\Helper;
 
-class ItemListTest extends \PHPUnit_Framework_TestCase
+use PayUSdk\Model\ItemList;
+
+class ItemListTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Gets Json String of Object ItemList
@@ -25,9 +27,18 @@ class ItemListTest extends \PHPUnit_Framework_TestCase
      * Gets Object Instance with Json data filled in
      * @return ItemList
      */
+        /**
+     * Gets array data representation of the object
+     * @return array
+     */
+    public static function getData()
+    {
+        return Helper::hydrateData(json_decode(self::getJson(), true));
+    }
+
     public static function getObject()
     {
-        return new ItemList(self::getJson());
+        return new ItemList(self::getData());
     }
 
 
@@ -37,13 +48,13 @@ class ItemListTest extends \PHPUnit_Framework_TestCase
      */
     public function testSerializationDeserialization()
     {
-        $obj = new ItemList(self::getJson());
+        $obj = new ItemList(self::getData());
         $this->assertNotNull($obj);
         $this->assertNotNull($obj->getItems());
         $this->assertNotNull($obj->getShippingAddress());
         $this->assertNotNull($obj->getShippingMethod());
         $this->assertNotNull($obj->getShippingPhoneNumber());
-        $this->assertEquals(self::getJson(), $obj->toJson());
+        $this->assertEquals(self::getObject(), $obj);
         return $obj;
     }
 
@@ -53,7 +64,7 @@ class ItemListTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetters($obj)
     {
-        $this->assertEquals($obj->getItems(), ItemTest::getObject());
+        $this->assertEquals($obj->getItems(), [ItemTest::getObject()]);
         $this->assertEquals($obj->getShippingAddress(), ShippingAddressTest::getObject());
         $this->assertEquals($obj->getShippingMethod(), "TestSample");
         $this->assertEquals($obj->getShippingPhoneNumber(), "TestSample");

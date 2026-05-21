@@ -8,17 +8,28 @@
 
 namespace PayU\Test\Api;
 
-use PayUSdk\Api\LookupData;
+use PayU\Test\Api\Helper;
 
-class LookupDataTest extends \PHPUnit_Framework_TestCase
+use PayUSdk\Model\LookupData;
+
+class LookupDataTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Gets Object Instance with Json data filled in
      * @return LookupData
      */
+        /**
+     * Gets array data representation of the object
+     * @return array
+     */
+    public static function getData()
+    {
+        return Helper::hydrateData(json_decode(self::getJson(), true));
+    }
+
     public static function getObject()
     {
-        return new LookupData(self::getJson());
+        return new LookupData(self::getData());
     }
 
     /**
@@ -36,10 +47,10 @@ class LookupDataTest extends \PHPUnit_Framework_TestCase
      */
     public function testSerializationDeserialization()
     {
-        $obj = new LookupData(self::getJson());
+        $obj = new LookupData(self::getData());
         $this->assertNotNull($obj);
         $this->assertNotNull($obj->getEntry());
-        $this->assertEquals(self::getJson(), $obj->toJson());
+        $this->assertEquals(self::getObject(), $obj);
         return $obj;
     }
 

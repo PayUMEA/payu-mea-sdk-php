@@ -1,27 +1,27 @@
 <?php
 
-use PayU\Auth\BasicAuth;
-use PayU\Soap\ApiContext;
+use PayUSdk\Framework\Authentication;
+use PayUSdk\Framework\Soap\Context;
 
 /**
  * Test class for ApiContextTest.
  *
  */
-class ApiContextTest extends PHPUnit_Framework_TestCase
+class ApiContextTest extends \PHPUnit\Framework\TestCase
 {
     protected $username = '100032';
     protected $password = 'PypWWegU';
     protected $safekey = '{CE62CE80-0EFD-4035-87C1-8824C5C46E7F}';
 
     /**
-     * @var ApiContext
+     * @var Context
      */
     public $apiContext;
 
-    public function setUp()
+    public function setUp(): void
     {
-        $this->apiContext = new ApiContext(
-            new BasicAuth(
+        $this->apiContext = new Context(
+            new Authentication(
             $this->username,
             $this->password,
             $this->safekey

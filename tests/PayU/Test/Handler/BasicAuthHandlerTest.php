@@ -2,19 +2,19 @@
 
 namespace PayU\Test\Handler;
 
-use PayU\Auth\BasicAuth;
-use PayUSdk\Handler\BasicAuthHandler;
-use PayU\Http\Config;
-use PayU\Soap\ApiContext;
+use PayUSdk\Framework\Authentication;
+use PayUSdk\Handler\GatewayConfigHandler;
+use PayUSdk\Framework\Gateway\Config;
+use PayUSdk\Framework\Soap\Context;
 
-class BasicAuthHandlerTest extends \PHPUnit_Framework_TestCase
+class BasicAuthHandlerTest extends \PHPUnit\Framework\TestCase
 {
     protected $username = '100032';
     protected $password = 'PypWWegU';
     protected $safekey = '{CE62CE80-0EFD-4035-87C1-8824C5C46E7F}';
 
     /**
-     * @var BasicAuthHandler
+     * @var GatewayConfigHandler
      */
     public $handler;
 
@@ -24,7 +24,7 @@ class BasicAuthHandlerTest extends \PHPUnit_Framework_TestCase
     public $httpConfig;
 
     /**
-     * @var ApiContext
+     * @var Context
      */
     public $apiContext;
 
@@ -33,10 +33,10 @@ class BasicAuthHandlerTest extends \PHPUnit_Framework_TestCase
      */
     public $config;
 
-    public function setUp()
+    public function setUp(): void
     {
-        $this->apiContext = new ApiContext(
-            new BasicAuth(
+        $this->apiContext = new Context(
+            new Authentication(
                 $this->username,
                 $this->password,
                 $this->safekey
@@ -65,8 +65,12 @@ class BasicAuthHandlerTest extends \PHPUnit_Framework_TestCase
             'http.headers.header1' => 'header1value'
         );
         $this->apiContext->setConfig($config);
-        $this->httpConfig = new Config(null, 'POST', $config);
-        $this->handler = new BasicAuthHandler($this->apiContext);
-        $this->handler->handle($this->httpConfig, null, $this->config);
+        $this->httpConfig = new Config(null, 'doTransaction', $config);
+        $this->handler = new GatewayConfigHandler($this->apiContext);
+        $this->handler->handle($this->httpConfig);
+
+        $this->assertNotEmpty($this->httpConfig->getHeaders());
+        $this->assertNotEmpty($this->httpConfig->getGatewayUrl());
     }
 }
+

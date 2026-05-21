@@ -57,7 +57,14 @@ class CustomerDetail extends PayUModel implements CustomerDetailInterface
      */
     public function getPhone(): PhoneInterface
     {
-        return $this->getData(CustomerDetailInterface::PHONE);
+        $phone = $this->getData(CustomerDetailInterface::PHONE);
+        if ($phone === null) {
+            return new Phone();
+        }
+        if (is_string($phone)) {
+            return new Phone(['national_number' => $phone]);
+        }
+        return $phone;
     }
 
     /**
@@ -73,7 +80,14 @@ class CustomerDetail extends PayUModel implements CustomerDetailInterface
      */
     public function getAddress(): AddressInterface
     {
-        return $this->getData(CustomerDetailInterface::ADDRESS);
+        $address = $this->getData(CustomerDetailInterface::ADDRESS);
+        if ($address === null) {
+            return new Address();
+        }
+        if (is_string($address)) {
+            return new Address(['line1' => $address]);
+        }
+        return $address;
     }
 
     /**

@@ -8,17 +8,28 @@
 
 namespace PayU\Test\Api;
 
-use PayUSdk\Api\RecurringDetails;
+use PayU\Test\Api\Helper;
 
-class RecurringDetailsTest extends \PHPUnit_Framework_TestCase
+use PayUSdk\Model\RecurringDetails;
+
+class RecurringDetailsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Gets Object Instance with Json data filled in
      * @return RecurringDetails
      */
+        /**
+     * Gets array data representation of the object
+     * @return array
+     */
+    public static function getData()
+    {
+        return Helper::hydrateData(json_decode(self::getJson(), true));
+    }
+
     public static function getObject()
     {
-        return new RecurringDetails(self::getJson());
+        return new RecurringDetails(self::getData());
     }
 
     /**
@@ -36,7 +47,7 @@ class RecurringDetailsTest extends \PHPUnit_Framework_TestCase
      */
     public function testSerializationDeserialization()
     {
-        $obj = new RecurringDetails(self::getJson());
+        $obj = new RecurringDetails(self::getData());
         $this->assertNotNull($obj);
         $this->assertNotNull($obj->getRecurrences());
         $this->assertNotNull($obj->getStatementDescription());
@@ -47,7 +58,7 @@ class RecurringDetailsTest extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($obj->getDeductionDay());
         $this->assertNotNull($obj->getCallCenterRepIds());
         $this->assertNotNull($obj->getRecurringPaymentToken());
-        $this->assertEquals(self::getJson(), $obj->toJson());
+        $this->assertEquals(self::getObject(), $obj);
         return $obj;
     }
 

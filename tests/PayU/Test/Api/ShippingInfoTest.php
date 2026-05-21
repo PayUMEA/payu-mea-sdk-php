@@ -8,17 +8,28 @@
 
 namespace PayU\Test\Api;
 
-use PayUSdk\Api\ShippingInfo;
+use PayU\Test\Api\Helper;
 
-class ShippingInfoTest extends \PHPUnit_Framework_TestCase
+use PayUSdk\Model\ShippingInfo;
+
+class ShippingInfoTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Gets Object Instance with Json data filled in
      * @return ShippingInfo
      */
+        /**
+     * Gets array data representation of the object
+     * @return array
+     */
+    public static function getData()
+    {
+        return Helper::hydrateData(json_decode(self::getJson(), true));
+    }
+
     public static function getObject()
     {
-        return new ShippingInfo(self::getJson());
+        return new ShippingInfo(self::getData());
     }
 
     /**
@@ -36,7 +47,7 @@ class ShippingInfoTest extends \PHPUnit_Framework_TestCase
      */
     public function testSerializationDeserialization()
     {
-        $obj = new ShippingInfo(self::getJson());
+        $obj = new ShippingInfo(self::getData());
         $this->assertNotNull($obj);
         $this->assertNotNull($obj->getId());
         $this->assertNotNull($obj->getFirstName());
@@ -47,7 +58,7 @@ class ShippingInfoTest extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($obj->getMethod());
         $this->assertNotNull($obj->getShippingAddress());
         $this->assertNotNull($obj->getShippingCost());
-        $this->assertEquals(self::getJson(), $obj->toJson());
+        $this->assertEquals(self::getObject(), $obj);
         return $obj;
     }
 

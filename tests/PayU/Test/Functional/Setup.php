@@ -2,10 +2,10 @@
 
 namespace PayU\Test\Functional;
 
-use PayU\Auth\BasicAuth;
-use PayU\Core\ConfigManager;
-use PayU\Core\CredentialManager;
-use PayU\Soap\ApiContext;
+use PayUSdk\Framework\Authentication as BasicAuth;
+use PayUSdk\Framework\Core\ConfigManager;
+use PayUSdk\Framework\Core\CredentialManager;
+use PayUSdk\Framework\Soap\Context as ApiContext;
 use PayU\Test\Constants;
 
 class Setup
@@ -13,7 +13,7 @@ class Setup
 
     public static $mode = 'mock';
 
-    public static function SetUpForFunctionalTests(\PHPUnit_Framework_TestCase &$test)
+    public static function SetUpForFunctionalTests(\PHPUnit\Framework\TestCase &$test)
     {
         $configs = array(
             'mode' => 'sandbox',

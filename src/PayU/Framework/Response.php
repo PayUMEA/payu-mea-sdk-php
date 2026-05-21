@@ -37,7 +37,18 @@ class Response extends AbstractModel implements ResponseInterface
      */
     public function getSuccessful(): ?bool
     {
-        return $this->getData('successful');
+        $val = $this->getData('successful');
+        if ($val === null || $val === '') {
+            return null;
+        }
+        if (is_string($val)) {
+            $res = filter_var($val, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+            if ($res === null) {
+                return (bool)$val;
+            }
+            return $res;
+        }
+        return (bool)$val;
     }
 
     /**
@@ -165,7 +176,7 @@ class Response extends AbstractModel implements ResponseInterface
      */
     public function getRedirect(): BaseEft
     {
-        $eft = $this->getData('eft') ?? [];
+        $eft = $this->getData('eft') ?? $this->getData('redirect') ?? [];
 
         return new BaseEft($eft);
     }

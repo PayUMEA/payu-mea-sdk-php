@@ -10,3 +10,5 @@ phpstan*
 !phpstan.neon
 .phpunit.result.cache
 .php-cs-fixer.cache
+.antigravitycli/
+

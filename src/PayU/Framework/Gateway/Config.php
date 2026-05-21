@@ -84,7 +84,7 @@ class Config
         foreach ($configs as $k => $v) {
             // Check if it startsWith
             if (str_starts_with($k, $prefix)) {
-                $newKey = ltrim($k, $prefix);
+                $newKey = substr($k, strlen($prefix));
                 if (defined($newKey)) {
                     $arr[constant($newKey)] = $v;
                 }

@@ -1,9 +1,9 @@
 <?php
 namespace PayU\Test\Validation;
 
-use PayU\Validation\JsonValidator;
+use PayUSdk\Framework\Validation\JsonValidator;
 
-class JsonValidatorTest extends \PHPUnit_Framework_TestCase
+class JsonValidatorTest extends \PHPUnit\Framework\TestCase
 {
 
     public static function positiveProvider()
@@ -39,10 +39,10 @@ class JsonValidatorTest extends \PHPUnit_Framework_TestCase
     /**
      *
      * @dataProvider invalidProvider
-     * @expectedException \InvalidArgumentException
      */
     public function testInvalidJson($input)
     {
+        $this->expectException(\InvalidArgumentException::class);
         JsonValidator::validate($input);
     }
 
