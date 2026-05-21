@@ -26,4 +26,15 @@ class InvalidCredentialException extends \Exception
     {
         parent::__construct($message ?? "", $code);
     }
+
+    /**
+     * prints error message
+     *
+     * @return string
+     */
+    public function errorMessage(): string
+    {
+        return 'Error in line ' . $this->getLine() . ' in ' . $this->getFile()
+            . ': <b>' . $this->getMessage() . '</b>';
+    }
 }

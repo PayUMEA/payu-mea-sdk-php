@@ -1,9 +1,9 @@
 <?php
 namespace PayU\Test\Validation;
 
-use PayU\Validation\ArgumentValidator;
+use PayUSdk\Framework\Validation\ArgumentValidator;
 
-class ArgumentValidatorTest extends \PHPUnit_Framework_TestCase
+class ArgumentValidatorTest extends \PHPUnit\Framework\TestCase
 {
 
     public static function positiveProvider()
@@ -41,10 +41,10 @@ class ArgumentValidatorTest extends \PHPUnit_Framework_TestCase
     /**
      *
      * @dataProvider invalidProvider
-     * @expectedException \InvalidArgumentException
      */
     public function testInvalidDataValidate($input)
     {
+        $this->expectException(\InvalidArgumentException::class);
         $this->assertTrue(ArgumentValidator::validate($input, "Name"));
     }
 }

@@ -2,13 +2,13 @@
 
 namespace PayU\Test\Http;
 
-use PayU\Http\Config;
+use PayUSdk\Framework\Gateway\Config;
 
 /**
  * Test class for ConfigTest.
  *
  */
-class ConfigTest extends \PHPUnit_Framework_TestCase
+class ConfigTest extends \PHPUnit\Framework\TestCase
 {
 
     protected $object;
@@ -22,7 +22,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
     }
 
@@ -30,7 +30,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
     }
 
@@ -106,7 +106,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('me', $soapOpts['proxy_login']);
         $this->assertEquals('secret', $soapOpts['proxy_password']);
 
-        $this->setExpectedException('PayU\Exception\ConfigurationException');
+        $this->expectException(\PayUSdk\Framework\Exception\ConfigurationException::class);
         $o->setHttpProxy('invalid string');
     }
 }

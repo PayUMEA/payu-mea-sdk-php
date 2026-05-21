@@ -33,6 +33,14 @@ class TotalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @return string
+     */
+    public static function getJson()
+    {
+        return '{"currency":' . CurrencyTest::getJson() . ',"amount":"12.34"}';
+    }
+
+    /**
      * Tests for Serialization and Deserialization Issues
      * @return Total
      */

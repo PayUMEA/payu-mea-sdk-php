@@ -65,6 +65,15 @@ class Transaction extends AbstractModel implements TransactionInterface
     }
 
     /**
+     * @return TotalInterface|null
+     */
+    public function getAmount(): ?TotalInterface
+    {
+        $total = $this->getTotal();
+        return $total instanceof TotalInterface ? $total : null;
+    }
+
+    /**
      * @return ?FraudServiceInterface
      */
     public function getFraudService(): ?FraudServiceInterface
@@ -134,12 +143,38 @@ class Transaction extends AbstractModel implements TransactionInterface
     }
 
     /**
+     * @param TotalInterface $amount
+     * @return $this
+     */
+    public function setAmount(TotalInterface $amount): static
+    {
+        return $this->setTotal($amount);
+    }
+
+    /**
      * @param FraudServiceInterface $fraudService
      * @return $this
      */
     public function setFraudService(FraudServiceInterface $fraudService): static
     {
         return $this->setData(TransactionInterface::FRAUD_SERVICE, $fraudService);
+    }
+
+    /**
+     * @return ?FraudServiceInterface
+     */
+    public function getFraudManagement(): ?FraudServiceInterface
+    {
+        return $this->getFraudService();
+    }
+
+    /**
+     * @param FraudServiceInterface $fraudService
+     * @return $this
+     */
+    public function setFraudManagement(FraudServiceInterface $fraudService): static
+    {
+        return $this->setFraudService($fraudService);
     }
 
     /**

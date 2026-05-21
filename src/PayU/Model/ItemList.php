@@ -44,7 +44,11 @@ class ItemList extends AbstractModel
      */
     public function getItems(): ?array
     {
-        return $this->getData('items');
+        $items = $this->getData('items');
+        if ($items === null) {
+            return null;
+        }
+        return is_array($items) ? $items : [$items];
     }
 
     /**

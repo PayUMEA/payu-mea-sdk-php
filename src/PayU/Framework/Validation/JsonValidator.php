@@ -25,15 +25,22 @@ class JsonValidator
      * @param bool $silent Flag to not throw \InvalidArgumentException
      * @return bool
      */
-    public static function validate(string $string, bool $silent = false): bool
+    public static function validate(mixed $string, bool $silent = false): bool
     {
+        if ($string === null || $string === '') {
+            return true;
+        }
+
+        if (!is_string($string)) {
+            if ($silent === false) {
+                throw new InvalidArgumentException("Invalid JSON String");
+            }
+            return false;
+        }
+
         @json_decode($string);
 
         if (json_last_error() != JSON_ERROR_NONE) {
-            if ($string === '') {
-                return true;
-            }
-
             if ($silent === false) {
                 //Throw an Exception for string or array
                 throw new InvalidArgumentException("Invalid JSON String");

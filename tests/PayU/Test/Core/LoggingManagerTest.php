@@ -1,11 +1,13 @@
 <?php
-use PayU\Core\LoggingManager;
+
+namespace PayU\Test\Core;
+
+use PayUSdk\Framework\Core\LoggingManager;
 
 /**
  * Test class for LoggingManager.
- *
  */
-class LoggingManagerTest extends \PHPUnit_Framework_TestCase
+class LoggingManagerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var LoggingManager
@@ -16,7 +18,7 @@ class LoggingManagerTest extends \PHPUnit_Framework_TestCase
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = LoggingManager::getInstance('PaymentTest');
     }
@@ -25,8 +27,16 @@ class LoggingManagerTest extends \PHPUnit_Framework_TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
+    }
+
+    /**
+     * @test
+     */
+    public function testGetInstance()
+    {
+        $this->assertInstanceOf(LoggingManager::class, $this->object);
     }
 
     /**
@@ -35,6 +45,7 @@ class LoggingManagerTest extends \PHPUnit_Framework_TestCase
     public function testError()
     {
         $this->object->error('Test Error Message');
+        $this->expectNotToPerformAssertions();
     }
 
     /**
@@ -43,6 +54,7 @@ class LoggingManagerTest extends \PHPUnit_Framework_TestCase
     public function testWarning()
     {
         $this->object->warning('Test Warning Message');
+        $this->expectNotToPerformAssertions();
     }
 
     /**
@@ -51,6 +63,7 @@ class LoggingManagerTest extends \PHPUnit_Framework_TestCase
     public function testInfo()
     {
         $this->object->info('Test info Message');
+        $this->expectNotToPerformAssertions();
     }
 
     /**
@@ -59,5 +72,6 @@ class LoggingManagerTest extends \PHPUnit_Framework_TestCase
     public function testFine()
     {
         $this->object->fine('Test fine Message');
+        $this->expectNotToPerformAssertions();
     }
 }

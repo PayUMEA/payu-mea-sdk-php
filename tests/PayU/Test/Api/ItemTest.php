@@ -8,9 +8,11 @@
 
 namespace PayU\Test\Api;
 
-use PayUSdk\Api\Item;
+use PayU\Test\Api\Helper;
 
-class ItemTest extends \PHPUnit_Framework_TestCase
+use PayUSdk\Model\Item;
+
+class ItemTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Gets Json String of Object Item
@@ -25,9 +27,18 @@ class ItemTest extends \PHPUnit_Framework_TestCase
      * Gets Object Instance with Json data filled in
      * @return Item
      */
+        /**
+     * Gets array data representation of the object
+     * @return array
+     */
+    public static function getData()
+    {
+        return Helper::hydrateData(json_decode(self::getJson(), true));
+    }
+
     public static function getObject()
     {
-        return new Item(self::getJson());
+        return new Item(self::getData());
     }
 
 
@@ -37,7 +48,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
      */
     public function testSerializationDeserialization()
     {
-        $obj = new Item(self::getJson());
+        $obj = new Item(self::getData());
         $this->assertNotNull($obj);
         $this->assertNotNull($obj->getSku());
         $this->assertNotNull($obj->getName());
@@ -46,7 +57,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($obj->getPrice());
         $this->assertNotNull($obj->getCurrency());
         $this->assertNotNull($obj->getTax());
-        $this->assertEquals(self::getJson(), $obj->toJson());
+        $this->assertEquals(self::getObject(), $obj);
         return $obj;
     }
 
@@ -59,8 +70,8 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($obj->getSku(), "TestSample");
         $this->assertEquals($obj->getName(), "TestSample");
         $this->assertEquals($obj->getDescription(), "TestSample");
-        $this->assertEquals($obj->getQuantity(), "12.34");
-        $this->assertEquals($obj->getPrice(), "12.34");
+        $this->assertEquals($obj->getQuantity(), 12);
+        $this->assertEquals($obj->getPrice(), 12.34);
         $this->assertEquals($obj->getCurrency(), "TestSample");
         $this->assertEquals($obj->getTax(), "12.34");
     }

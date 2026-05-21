@@ -8,9 +8,11 @@
 
 namespace PayU\Test\Api;
 
-use PayUSdk\Api\RedirectUrls;
+use PayU\Test\Api\Helper;
 
-class RedirectUrlsTest extends \PHPUnit_Framework_TestCase
+use PayUSdk\Model\RedirectUrls;
+
+class RedirectUrlsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Gets Json String of Object RedirectUrls
@@ -25,9 +27,18 @@ class RedirectUrlsTest extends \PHPUnit_Framework_TestCase
      * Gets Object Instance with Json data filled in
      * @return RedirectUrls
      */
+        /**
+     * Gets array data representation of the object
+     * @return array
+     */
+    public static function getData()
+    {
+        return Helper::hydrateData(json_decode(self::getJson(), true));
+    }
+
     public static function getObject()
     {
-        return new RedirectUrls(self::getJson());
+        return new RedirectUrls(self::getData());
     }
 
 
@@ -37,12 +48,12 @@ class RedirectUrlsTest extends \PHPUnit_Framework_TestCase
      */
     public function testSerializationDeserialization()
     {
-        $obj = new RedirectUrls(self::getJson());
+        $obj = new RedirectUrls(self::getData());
         $this->assertNotNull($obj);
         $this->assertNotNull($obj->getNotifyUrl());
         $this->assertNotNull($obj->getReturnUrl());
         $this->assertNotNull($obj->getCancelUrl());
-        $this->assertEquals(self::getJson(), $obj->toJson());
+        $this->assertEquals(self::getObject(), $obj);
         return $obj;
     }
 
@@ -57,32 +68,26 @@ class RedirectUrlsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($obj->getCancelUrl(), "http://www.google.com");
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage NotifyUrl is not a fully qualified URL
-     */
     public function testUrlValidationForNotifyUrl()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage("NotificationUrl is not a fully qualified URL");
         $obj = new RedirectUrls();
         $obj->setNotifyUrl(null);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage ReturnUrl is not a fully qualified URL
-     */
     public function testUrlValidationForReturnUrl()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage("ResponseUrl is not a fully qualified URL");
         $obj = new RedirectUrls();
         $obj->setReturnUrl(null);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage CancelUrl is not a fully qualified URL
-     */
     public function testUrlValidationForCancelUrl()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage("CancelUrl is not a fully qualified URL");
         $obj = new RedirectUrls();
         $obj->setCancelUrl(null);
     }

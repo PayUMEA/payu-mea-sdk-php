@@ -2,9 +2,9 @@
 
 namespace PayU\Test\Functional\Api;
 
-use PayUSdk\Api\Capture;
-use PayUSdk\Api\Reserve;
-use PayUSdk\Api\Transaction;
+use PayUSdk\Model\Capture;
+use PayUSdk\Model\Reserve;
+use PayUSdk\Model\Transaction;
 use PayUSdk\Model\ResourceModel;
 use PayU\Test\Functional\Setup;
 
@@ -27,7 +27,7 @@ class ReserveFunctionalTest extends \PHPUnit\Framework\TestCase
     public function setUp(): void
     {
         $className = $this->getClassName();
-        $testName = $this->getName();
+        $testName = method_exists($this, 'name') ? $this->name() : (method_exists($this, 'getName') ? $this->getName() : '');
         $operationString = file_get_contents(__DIR__ . "/../resources/$className/$testName.json");
         $this->operation = json_decode($operationString, true);
         $this->response = true;

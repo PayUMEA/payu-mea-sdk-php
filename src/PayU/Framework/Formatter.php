@@ -35,13 +35,16 @@ class Formatter
      *
      * Defaults to no decimal places
      *
-     * @param float $amount
+     * @param mixed $amount
      * @param int $decimals
-     * @return int
+     * @return ?int
      */
-    public static function formatToInteger(float $amount, int $decimals = 2): int
+    public static function formatToInteger(mixed $amount, int $decimals = 2): ?int
     {
-        return (int)(number_format($amount, $decimals, '.', '') * 100);
+        if ($amount === null || (is_string($amount) && trim($amount) === '')) {
+            return null;
+        }
+        return (int)(number_format((float)$amount, $decimals, '.', '') * 100);
     }
 
     /**
@@ -50,29 +53,35 @@ class Formatter
      * It covers the cases where certain currencies does not accept decimal values. We will be adding
      * any specific currency level rules as required here.
      *
-     * @param float $amount
+     * @param mixed $amount
      * @param string|null $currency
      * @return ?string
      */
-    public static function formatToPrice(float $amount, $currency = null): ?string
+    public static function formatToPrice(mixed $amount, $currency = null): ?string
     {
+        if ($amount === null || (is_string($amount) && trim($amount) === '')) {
+            return null;
+        }
         $decimals = 2;
         $currencyDecimals = ['JPY' => 0, 'TWD' => 0];
-        $value = sprintf("%.3f", $amount);
+        $amountStr = (string)$amount;
+        $amountFloat = (float)$amount;
+
+        $value = sprintf("%.3f", $amountFloat);
 
         if ($currency && array_key_exists($currency, $currencyDecimals)) {
-            if (str_contains($value, ".") && (floor($amount) != $amount)) {
+            if (str_contains($amountStr, ".") && (floor($amountFloat) != $amountFloat)) {
                 //throw exception if it has decimal values for JPY and TWD which does not ends with .00
                 throw new InvalidArgumentException("value cannot have decimals for $currency currency");
             }
 
             $decimals = $currencyDecimals[$currency];
-        } elseif (!str_contains($value, ".")) {
+        } elseif (!str_contains($amountStr, ".")) {
             // Check if value has decimal values. If not no need to assign 2 decimals with .00 at the end
             $decimals = 0;
         }
 
-        return self::formatToDecimal($amount, $decimals);
+        return self::formatToDecimal($amountFloat, $decimals);
     }
 
     /**
@@ -80,12 +89,15 @@ class Formatter
      *
      * Defaults to 2 decimal places
      *
-     * @param float $value
+     * @param mixed $value
      * @param int $decimals
      * @return null|string
      */
-    public static function formatToDecimal(float $value, int $decimals = 2): ?string
+    public static function formatToDecimal(mixed $value, int $decimals = 2): ?string
     {
-        return number_format($value, $decimals, '.', '');
+        if ($value === null || (is_string($value) && trim($value) === '')) {
+            return null;
+        }
+        return number_format((float)$value, $decimals, '.', '');
     }
 }

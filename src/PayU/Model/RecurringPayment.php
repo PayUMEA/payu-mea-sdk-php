@@ -80,7 +80,11 @@ class RecurringPayment extends AbstractModel implements RecurringPaymentInterfac
      */
     public function getCallCenterRepIds(): ?array
     {
-        return $this->getData(RecurringPaymentInterface::REPRESENTATIVE_IDS);
+        $ids = $this->getData(RecurringPaymentInterface::REPRESENTATIVE_IDS);
+        if ($ids === null) {
+            return null;
+        }
+        return is_array($ids) ? $ids : [$ids];
     }
 
     /**

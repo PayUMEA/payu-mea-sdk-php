@@ -1,11 +1,11 @@
 <?php
 namespace PayU\Test\Model;
 
-use PayUSdk\Api\Payment;
-use PayU\Core\ConfigManager;
+use PayUSdk\Framework\Core\ConfigManager;
+use PayUSdk\Model\Payment;
 use PayUSdk\Model\PayUModel;
 
-class ModelTest extends \PHPUnit_Framework_TestCase
+class ModelTest extends \PHPUnit\Framework\TestCase
 {
 
     public function testSimpleClassConversion()
@@ -49,12 +49,10 @@ class ModelTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($obj->getDescription());
     }
 
-    /**
-     * @expectedException        \InvalidArgumentException
-     * @expectedExceptionMessage Invalid JSON String
-     */
     public function testConstructorInvalidInput()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage("Invalid JSON String");
         new SimpleClass("Something that is not even correct");
     }
 
@@ -98,11 +96,11 @@ class ModelTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("test", $obj->getName());
         $this->assertEquals("description", $obj->getDescription());
         $resultJson = $obj->toJSON();
-        $this->assertContains("unknown", $resultJson);
-        $this->assertContains("id", $resultJson);
-        $this->assertContains("object", $resultJson);
-        $this->assertContains("123", $resultJson);
-        $this->assertContains("456", $resultJson);
+        $this->assertStringContainsString("unknown", $resultJson);
+        $this->assertStringContainsString("id", $resultJson);
+        $this->assertStringContainsString("object", $resultJson);
+        $this->assertStringContainsString("123", $resultJson);
+        $this->assertStringContainsString("456", $resultJson);
         ConfigManager::getInstance()->addConfigs(array('validation.level' => 'strict'));
     }
 
@@ -120,11 +118,11 @@ class ModelTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("test", $obj->getName());
         $this->assertEquals("description", $obj->getDescription());
         $resultJson = $obj->toJSON();
-        $this->assertContains("unknown", $resultJson);
-        $this->assertContains("id", $resultJson);
-        $this->assertContains("object", $resultJson);
-        $this->assertContains("123", $resultJson);
-        $this->assertContains("456", $resultJson);
+        $this->assertStringContainsString("unknown", $resultJson);
+        $this->assertStringContainsString("id", $resultJson);
+        $this->assertStringContainsString("object", $resultJson);
+        $this->assertStringContainsString("123", $resultJson);
+        $this->assertStringContainsString("456", $resultJson);
         ConfigManager::getInstance()->addConfigs(array('validation.level' => 'strict'));
     }
 
@@ -133,7 +131,7 @@ class ModelTest extends \PHPUnit_Framework_TestCase
         $json = '{"id":"PAY-5DW86196ER176274EKT3AEYA","return":{"lookupData":{"lookupDataEntry":[]}}}';
         $payment = new Payment($json);
         $result = $payment->toJSON();
-        $this->assertContains('"lookupDataEntry":[]', $result);
+        $this->assertStringContainsString('"lookupDataEntry":[]', $result);
         $this->assertNotNull($result);
     }
 
@@ -142,13 +140,13 @@ class ModelTest extends \PHPUnit_Framework_TestCase
         $json = '{"id":"PAY-5DW86196ER176274EKT3AEYA","return":{"lookupData":{"lookupDataEntry":[[],[]]}}}';
         $payment = new Payment($json);
         $result = $payment->toJSON();
-        $this->assertContains('"lookupDataEntry":[[],[]]', $result);
+        $this->assertStringContainsString('"lookupDataEntry":[[],[]]', $result);
         $this->assertNotNull($result);
     }
 
     public function testSetterMagicMethod()
     {
-        $obj = new PayUModel();
+        $obj = new SimpleClass();
         $obj->something = "other";
         $obj->else = array();
         $obj->there = null;

@@ -52,7 +52,7 @@ class GatewayConfigHandler implements HandlerInterface
         $headers = $this->apiContext->getRequestHeaders();
 
         foreach ($headers as $key => $value) {
-            $config->addHeader($key, $value);
+            $config->addHeader((string)$key, $value);
         }
     }
 

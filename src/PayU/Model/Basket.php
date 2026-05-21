@@ -24,7 +24,7 @@ class Basket extends AbstractModel implements BasketInterface
      */
     public function getAmountInCents(): string
     {
-        return $this->getData(BasketInterface::AMOUNT_IN_CENTS);
+        return (string)$this->getData(BasketInterface::AMOUNT_IN_CENTS);
     }
 
     /**
@@ -32,7 +32,7 @@ class Basket extends AbstractModel implements BasketInterface
      */
     public function getCurrencyCode(): string
     {
-        return $this->getData(BasketInterface::CURRENCY_CODE);
+        return (string)$this->getData(BasketInterface::CURRENCY_CODE);
     }
 
     /**
@@ -42,7 +42,7 @@ class Basket extends AbstractModel implements BasketInterface
      */
     public function getDescription(): string
     {
-        return $this->getData(BasketInterface::DESCRIPTION);
+        return (string)$this->getData(BasketInterface::DESCRIPTION);
     }
 
     /**

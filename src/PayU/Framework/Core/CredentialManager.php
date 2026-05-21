@@ -67,53 +67,52 @@ class CredentialManager
      */
     private function initCredential(array $config): void
     {
-        $suffix = 1;
-        $prefix = "account";
-
         $accountConfig = [];
+        $accounts = [];
 
         foreach ($config as $k => $v) {
-            if (strstr($k, $prefix)) {
+            if (strstr((string)$k, "acct") || strstr((string)$k, "account")) {
                 $accountConfig[$k] = $v;
             }
         }
 
         $credentials = $accountConfig;
-        $accounts = [];
 
         foreach ($config as $key => $value) {
-            $dot = strpos($key, '.');
+            $dot = strpos((string)$key, '.');
 
-            if (str_contains($key, "account")) {
-                $accounts[] = substr($key, 0, $dot === false ? null : $dot);
+            if (str_contains((string)$key, "acct") || str_contains((string)$key, "account")) {
+                $accounts[] = substr((string)$key, 0, $dot === false ? null : $dot);
             }
         }
 
         $uniqueAccounts = array_unique($accounts);
 
-        $key = $prefix . $suffix;
-        $account = null;
-
-        while (in_array($key, $uniqueAccounts)) {
+        foreach ($uniqueAccounts as $key) {
             if (isset($credentials[$key . ".username"]) && isset($credentials[$key . ".password"]) && isset($credentials[$key . ".safekey"])) {
-                $account = $key;
-                $this->credentialHashmap[$account] = new Authentication(
+                $auth = new Authentication(
                     $credentials[$key . ".username"],
                     $credentials[$key . ".password"],
                     $credentials[$key . ".safekey"]
                 );
-            }
 
-            if ($account && $this->defaultAccountName == null) {
+                $this->credentialHashmap[$key] = $auth;
+
+                $storeId = null;
                 if (array_key_exists($key . '.store_id', $credentials)) {
-                    $this->defaultAccountName = $credentials[$key . '.store_id'];
-                } else {
-                    $this->defaultAccountName = $key;
+                    $storeId = $credentials[$key . '.store_id'];
+                } elseif (array_key_exists($key . '.storeId', $credentials)) {
+                    $storeId = $credentials[$key . '.storeId'];
+                }
+
+                if ($storeId !== null) {
+                    $this->credentialHashmap[$storeId] = $auth;
+                }
+
+                if ($this->defaultAccountName === '') {
+                    $this->defaultAccountName = $storeId ?? $key;
                 }
             }
-
-            $suffix++;
-            $key = $prefix . $suffix;
         }
     }
 

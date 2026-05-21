@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-namespace PayUSdk\Api;
+namespace PayUSdk\Model;
 
 use PayUSdk\Model\PayUModel;
 

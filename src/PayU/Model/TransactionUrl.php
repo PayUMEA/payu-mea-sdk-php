@@ -22,34 +22,34 @@ use PayUSdk\Framework\Validation\UrlValidator;
 class TransactionUrl extends AbstractModel implements TransactionUrlInterface
 {
     /**
-     * @return string
+     * @return string|null
      */
-    public function getResponseUrl(): string
+    public function getResponseUrl(): ?string
     {
         return $this->getData(TransactionUrlInterface::RESPONSE_URL);
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getCancelUrl(): string
+    public function getCancelUrl(): ?string
     {
         return $this->getData(TransactionUrlInterface::CANCEL_URL);
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getNotificationUrl(): string
+    public function getNotificationUrl(): ?string
     {
         return $this->getData(TransactionUrlInterface::NOTIFICATION_URL);
     }
 
     /**
-     * @param string $responseUrl
+     * @param string|null $responseUrl
      * @return $this
      */
-    public function setResponseUrl(string $responseUrl): static
+    public function setResponseUrl(?string $responseUrl): static
     {
         UrlValidator::validate($responseUrl, "ResponseUrl");
 
@@ -57,11 +57,11 @@ class TransactionUrl extends AbstractModel implements TransactionUrlInterface
     }
 
     /**
-     * @param string $cancelUrl
+     * @param string|null $cancelUrl
      * @return $this
      * @throws InvalidArgumentException
      */
-    public function setCancelUrl(string $cancelUrl): static
+    public function setCancelUrl(?string $cancelUrl): static
     {
         UrlValidator::validate($cancelUrl, "CancelUrl");
 
@@ -69,11 +69,11 @@ class TransactionUrl extends AbstractModel implements TransactionUrlInterface
     }
 
     /**
-     * @param string $notificationUrl
+     * @param string|null $notificationUrl
      * @return $this
      * @throws InvalidArgumentException
      */
-    public function setNotificationUrl(string $notificationUrl): static
+    public function setNotificationUrl(?string $notificationUrl): static
     {
         UrlValidator::validate($notificationUrl, "NotificationUrl");
 
